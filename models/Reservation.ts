@@ -1,84 +1,81 @@
-const mongoose = require('mongoose');
+import mongoose, { Schema } from "mongoose";
 
-const ReservationShema = mongoose.Schema({
+const ReservationShema = new Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'users'
+    ref: "users",
   },
 
   station: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'stations'
+    ref: "stations",
   },
 
-
   carName: {
-    type: String
+    type: String,
   },
 
   carRegistration: {
-    type: String
+    type: String,
   },
   stationName: {
-    type: String
+    type: String,
   },
 
   stationCountry: {
-    type: String
+    type: String,
   },
 
   stationCity: {
-    type: String
+    type: String,
   },
 
   stationStreet: {
-    type: String
+    type: String,
   },
 
   ownerPhone: {
-    type: String
+    type: String,
   },
 
   ownerName: {
-    type: String
+    type: String,
   },
-
 
   userPhone: {
-    type: String
+    type: String,
   },
   userName: {
-    type: String
+    type: String,
   },
-
 
   date: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
 
   timeStampFrom: {
-    type: Number
+    type: Number,
   },
   timeStampTo: {
-    type: Number
+    type: Number,
   },
 
   owner: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'users'
+    ref: "users",
   },
   fullPrice: {
-    type: Number
+    type: Number,
   },
   isOwnerAccepted: {
     type: Boolean,
-    default: false
+    default: false,
   },
   isOwnerRejected: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 });
 
-module.exports = mongoose.model('reservation', ReservationShema);
+module.exports = mongoose.model("reservation", ReservationShema);
