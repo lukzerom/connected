@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import config from "config";
-import { Router } from "express";
+import { Request, Response, Router } from "express";
 import { check, validationResult } from "express-validator";
 import jwt from "jsonwebtoken";
 import { auth } from "../middleware/auth";
@@ -12,9 +12,9 @@ const router = Router();
 // @desc Get logged in user
 // @access Private
 
-router.get("/", auth, async (req, res) => {
+router.get("/", auth, async (req: Request, res: Response) => {
   try {
-    const user = await User.findById(req.user.id).select("-password");
+    const user = await User.findById(req.body.user.id).select("-password");
     res.json(user);
   } catch (err) {
     console.error(err.message);
@@ -32,7 +32,7 @@ router.post(
     check("email", "Please put a valid email").isEmail(),
     check("password", "Password is required").exists(),
   ],
-  async (req, res) => {
+  async (req: Request, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({

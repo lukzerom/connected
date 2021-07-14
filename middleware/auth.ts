@@ -1,16 +1,7 @@
 import config from "config";
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-
-type JwtUser = {
-  id: string;
-};
-
-type JwtPayload = {
-  user: JwtUser;
-  iat: number;
-  exp: number;
-};
+import { JwtPayload } from "../contracts/User";
 
 export const auth = async (req: Request, res: Response, next: NextFunction) => {
   // Get token from header
