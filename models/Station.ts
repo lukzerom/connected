@@ -67,4 +67,4 @@ const StationShema = new Schema({
   },
 });
 
-module.exports = mongoose.model("station", StationShema);
+export const Station = mongoose.model("station", StationShema);

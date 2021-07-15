@@ -78,4 +78,4 @@ const ReservationShema = new Schema({
   },
 });
 
-module.exports = mongoose.model("reservation", ReservationShema);
+export const Reservation = mongoose.model("reservation", ReservationShema);
