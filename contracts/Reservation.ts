@@ -1,8 +1,9 @@
+import { StationType } from "./Station";
 import { UserType } from "./User";
 
 type ReservationType = {
   user: UserType;
-  station: string;
+  station: StationType;
   carName: string;
   carRegistration: string;
   stationName: string;
