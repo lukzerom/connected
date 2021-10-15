@@ -1,23 +1,23 @@
-import React, { useReducer } from "react";
 import axios from "axios";
-import StationContext from "./stationContext";
-import stationReducer from "./stationReducer";
+import React, { useReducer } from "react";
 import {
-  GET_ALL_STATIONS,
-  GET_STATION,
-  STATION_ERROR,
-  SET_POSITION,
-  SET_MAP_ZOOM,
-  SET_CURRENT_STATION,
-  GET_USER_STATIONS,
-  SET_MARKER_POSITION,
   ADD_STATION,
-  SET_EDIT_STATION,
-  EDIT_STATION,
   DELETE_STATION,
+  EDIT_STATION,
+  GET_ALL_STATIONS,
   GET_AVAIABLE_STATIONS,
   GET_LATLANG,
+  GET_STATION,
+  GET_USER_STATIONS,
+  SET_CURRENT_STATION,
+  SET_EDIT_STATION,
+  SET_MAP_ZOOM,
+  SET_MARKER_POSITION,
+  SET_POSITION,
+  STATION_ERROR,
 } from "../types";
+import StationContext from "./stationContext";
+import stationReducer from "./stationReducer";
 
 const StationState = (props) => {
   const initialState = {
@@ -42,7 +42,7 @@ const StationState = (props) => {
       const res = await axios.get("/api/stations");
       dispatch({ type: GET_ALL_STATIONS, payload: res.data });
     } catch (err) {
-      dispatch({ type: STATION_ERROR, payload: err.res.msg });
+      dispatch({ type: STATION_ERROR, payload: err.res });
     }
   };
 

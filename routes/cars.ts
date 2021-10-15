@@ -179,4 +179,4 @@ router.get("/:id", auth, async (req: Request, res: Response) => {
   }
 });
 
-module.exports = router;
+export default router;

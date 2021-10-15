@@ -1,6 +1,12 @@
 import express from "express";
 import path from "path";
 import { connectDB } from "./config/db";
+import auth from "./routes/auth";
+import cars from "./routes/cars";
+import reservations from "./routes/reservations";
+import stations from "./routes/stations";
+import users from "./routes/users";
+
 require("dotenv").config();
 const app = express();
 
@@ -18,11 +24,11 @@ app.use(
 
 // Define routes
 
-app.use("/api/users", require("./routes/users"));
-app.use("/api/auth", require("./routes/auth"));
-app.use("/api/stations", require("./routes/stations"));
-app.use("/api/cars", require("./routes/cars"));
-app.use("/api/reservations", require("./routes/reservations"));
+app.use("/api/users", users);
+app.use("/api/auth", auth);
+app.use("/api/stations", stations);
+app.use("/api/cars", cars);
+app.use("/api/reservations", reservations);
 
 // Serve static assets in production
 

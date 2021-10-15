@@ -3,7 +3,7 @@ import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { JwtPayload } from "../contracts/User";
 
-export const auth = async (req: Request, res: Response, next: NextFunction) => {
+const auth = async (req: Request, res: Response, next: NextFunction) => {
   // Get token from header
 
   const token = req.header("x-auth-token");
@@ -28,3 +28,5 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
     });
   }
 };
+
+export { auth };

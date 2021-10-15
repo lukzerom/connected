@@ -1,31 +1,31 @@
-import React from "react";
-import "./App.css";
-import Nav from "./components/layout/Nav";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { MuiPickersUtilsProvider } from "@material-ui/pickers";
-import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import MomentUtils from "@date-io/moment";
-import Main from "./components/pages/Main";
-import Register from "./components/pages/Register";
-import Login from "./components/pages/Login";
-import Dashboard from "./components/pages/Dashboard";
-import StationState from "./context/stations/StationState";
-import AuthState from "./context/auth/AuthState";
-import AlertState from "./context/alert/AlertState";
-import ReservationState from "./context/reservations/ReservationState";
-import CarState from "./context/cars/CarState";
+import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import "./App.css";
 import Alerts from "./components/layout/Alerts";
-import setAuthToken from "./utils/setAuthToken";
-import PrivateRoute from "./components/routing/PrivateRoute";
-import MyVehicles from "./components/pages/MyVehicles";
-import MyStations from "./components/pages/MyStations";
-import MyReservations from "./components/pages/MyReservations";
-import ChargersMap from "./components/pages/ChargersMap";
-import AddStation from "./components/pages/AddStation";
-import EditStation from "./components/pages/EditStation";
-import AddVehicle from "./components/pages/AddVehicle";
-import EditVehicle from "./components/pages/EditVehicle";
 import Footer from "./components/layout/Footer";
+import Nav from "./components/layout/Nav";
+import AddStation from "./components/pages/AddStation";
+import AddVehicle from "./components/pages/AddVehicle";
+import ChargersMap from "./components/pages/ChargersMap";
+import Dashboard from "./components/pages/Dashboard";
+import EditStation from "./components/pages/EditStation";
+import EditVehicle from "./components/pages/EditVehicle";
+import Login from "./components/pages/Login";
+import Main from "./components/pages/Main";
+import MyReservations from "./components/pages/MyReservations";
+import MyStations from "./components/pages/MyStations";
+import MyVehicles from "./components/pages/MyVehicles";
+import Register from "./components/pages/Register";
+import PrivateRoute from "./components/routing/PrivateRoute";
+import AlertState from "./context/alert/AlertState";
+import AuthState from "./context/auth/AuthState";
+import CarState from "./context/cars/CarState";
+import ReservationState from "./context/reservations/ReservationState";
+import StationState from "./context/stations/StationState";
+import setAuthToken from "./utils/setAuthToken";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -39,13 +39,10 @@ const theme = createMuiTheme({
     secondary: {
       main: "#e7305b",
     },
-    blue: {
-      main: "#127681",
-    },
   },
 });
 
-function App() {
+const App = () => {
   return (
     <div className="App">
       <MuiThemeProvider theme={theme}>
@@ -107,6 +104,6 @@ function App() {
       </MuiThemeProvider>
     </div>
   );
-}
+};
 
 export default App;

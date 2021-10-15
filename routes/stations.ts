@@ -2,7 +2,7 @@ import axios from "axios";
 import { Request, Response, Router } from "express";
 import { check, validationResult } from "express-validator";
 import Moment from "moment";
-import MomentRange from "moment-range";
+import { extendMoment } from "moment-range";
 import { ReservationType } from "../contracts/Reservation";
 import { StationType } from "../contracts/Station";
 import { auth } from "../middleware/auth";
@@ -11,7 +11,7 @@ import { Station } from "../models/Station";
 
 const router = Router();
 
-const moment = MomentRange.extendMoment(Moment as any);
+const moment = extendMoment(Moment as any);
 
 // @route PUT api/stations/:id
 // @desc Edit station details
@@ -328,4 +328,4 @@ router.delete("/:id", auth, async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
