@@ -4,7 +4,6 @@ import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
-import Alerts from "./components/layout/Alerts";
 import Footer from "./components/layout/Footer";
 import Nav from "./components/layout/Nav";
 import AddStation from "./components/pages/AddStation";
@@ -20,7 +19,7 @@ import MyStations from "./components/pages/MyStations";
 import MyVehicles from "./components/pages/MyVehicles";
 import Register from "./components/pages/Register";
 import PrivateRoute from "./components/routing/PrivateRoute";
-import AlertState from "./context/alert/AlertState";
+import { AlertProvider } from "./context/alert/AlertContext";
 import AuthState from "./context/auth/AuthState";
 import CarState from "./context/cars/CarState";
 import ReservationState from "./context/reservations/ReservationState";
@@ -48,13 +47,13 @@ const App = () => {
       <MuiThemeProvider theme={theme}>
         <AuthState>
           <MuiPickersUtilsProvider utils={MomentUtils}>
-            <AlertState>
+            <AlertProvider>
               <ReservationState>
                 <StationState>
                   <CarState>
                     <Router>
                       <Nav />
-                      <Alerts />
+
                       <Switch>
                         <PrivateRoute path="/dashboard" component={Dashboard} />
                         <PrivateRoute exact path="/" component={Main} />
@@ -98,7 +97,7 @@ const App = () => {
                   </CarState>
                 </StationState>
               </ReservationState>
-            </AlertState>
+            </AlertProvider>
           </MuiPickersUtilsProvider>
         </AuthState>
       </MuiThemeProvider>

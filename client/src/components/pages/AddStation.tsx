@@ -1,28 +1,56 @@
-import React, { useEffect, useContext, useState } from "react";
-import AuthContext from "../../context/auth/authContext";
-import setAuthToken from "../../utils/setAuthToken";
-import StationContext from "../../context/stations/stationContext";
-import AlertContext from "../../context/alert/alertContext";
-import AddCircleIcon from "@material-ui/icons/AddCircle";
 import {
   Box,
-  Grid,
-  Paper,
-  TextField,
-  Typography,
+  Button,
+  Checkbox,
   Divider,
-  Select,
-  MenuItem,
-  InputLabel,
   FormControl,
   FormControlLabel,
-  Checkbox,
-  Button,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Paper,
+  Select,
+  TextField,
+  Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import AddStationMap from "../layout/AddStationMap";
+import AddCircleIcon from "@material-ui/icons/AddCircle";
 import MapIcon from "@material-ui/icons/Map";
+import React, {
+  ChangeEvent,
+  FunctionComponent,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { useHistory } from "react-router-dom";
 import utf8 from "utf8";
+import { AlertType, useAlert } from "../../context/alert/AlertContext";
+import AuthContext from "../../context/auth/authContext";
+import StationContext from "../../context/stations/stationContext";
+import { Station } from "../../types/Station";
+import setAuthToken from "../../utils/setAuthToken";
+import AddStationMap from "../layout/AddStationMap";
+
+const defaultStation = {
+  name: "",
+  country: "",
+  city: "",
+  streetName: "",
+  streetNumber: "",
+  pictureUrl: "",
+  longitude: 0,
+  latitude: 0,
+  price: 0,
+  plugin: "",
+  extras: [],
+  drive: false,
+  bed: false,
+  bike: false,
+  coffee: false,
+  bus: false,
+  errors: false,
+};
 
 const useStyles = makeStyles((theme) => ({
   stationsWrapper: {
@@ -65,14 +93,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AddStation = (props) => {
+const AddStation: FunctionComponent = () => {
   const authContext = useContext(AuthContext);
   const stationContext = useContext(StationContext);
-  const alertContext = useContext(AlertContext);
+
   const classes = useStyles();
 
   const { token } = authContext;
-  const { setAlert } = alertContext;
+  const { setAlert } = useAlert();
   const {
     getUserStations,
     markerPosition,
@@ -80,31 +108,14 @@ const AddStation = (props) => {
     getLatLang,
   } = stationContext;
 
+  const history = useHistory();
+
   useEffect(() => {
     authContext.loadUser();
     getUserStations();
-    //eslint-disable-next-line
   }, []);
 
-  const [state, setState] = useState({
-    name: "",
-    country: "",
-    city: "",
-    streetName: "",
-    streetNumber: "",
-    pictureUrl: "",
-    longitude: 0,
-    latitude: 0,
-    price: 0,
-    plugin: "",
-    extras: [],
-    drive: false,
-    bed: false,
-    bike: false,
-    coffee: false,
-    bus: false,
-    errors: false,
-  });
+  const [state, setState] = useState<Station>(defaultStation);
 
   const {
     name,
@@ -123,17 +134,17 @@ const AddStation = (props) => {
     errors,
   } = state;
 
-  const onChange = (e) => {
+  const onChange = (e: ChangeEvent<any>) => {
     setState({
       ...state,
       [e.target.name]: e.target.value,
     });
   };
 
-  const onExtrasChange = (e) => {
+  const onExtrasChange = (event: ChangeEvent<any>) => {
     setState({
       ...state,
-      [e.target.name]: e.target.checked,
+      [event.target.name]: event.target.checked,
     });
   };
 
@@ -164,7 +175,7 @@ const AddStation = (props) => {
       !plugin
     ) {
       setState({ ...state, errors: true });
-      return setAlert("Please provide required informations", "error");
+      return setAlert("Please provide required informations", AlertType.ERROR);
     }
 
     const station = {
@@ -183,25 +194,8 @@ const AddStation = (props) => {
 
     addStation(station);
 
-    props.history.push("/my-stations");
-    setState({
-      name: "",
-      country: "",
-      city: "",
-      streetName: "",
-      streetNumber: "",
-      pictureUrl: "",
-      longitude: 0,
-      latitude: 0,
-      price: 0,
-      plugin: "",
-      extras: [],
-      drive: false,
-      bed: false,
-      bike: false,
-      coffee: false,
-      bus: false,
-    });
+    history.push("/my-stations");
+    setState(defaultStation);
   };
 
   return (

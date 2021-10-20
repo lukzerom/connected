@@ -1,8 +1,9 @@
-import React from "react";
+import { Typography } from "@material-ui/core";
+import React, { ReactNode } from "react";
 import American from "../../assets/AMERICAN_STANDARD.png";
-import Euro from "../../assets/EURO_STANDARD.png";
 import CHAdeMO from "../../assets/CHAdeMO.png";
 import DB_T from "../../assets/DB_T.png";
+import Euro from "../../assets/EURO_STANDARD.png";
 import GB_T_DC from "../../assets/GB_T_DC.png";
 import Tesla from "../../assets/Tesla_supercharger.png";
 import Type1_CSS_Combo1 from "../../assets/type1_CSS_Combo1.png";
@@ -10,14 +11,13 @@ import Type1_J1772 from "../../assets/type1_J1772.png";
 import Type2_css_combo2 from "../../assets/Type2_css_combo2.png";
 import Type2_Mennekes from "../../assets/Type2_Mennekes.png";
 
-import { Typography } from "@material-ui/core";
-const imgStyle = {
+const imgStyle: { width: string; height: string; objectFit: any } = {
   width: "100%",
   height: "80%",
   objectFit: "contain",
 };
 
-const ChargerIcon = ({ plugin }) => {
+const chargerIcon = (plugin: string): ReactNode => {
   switch (plugin) {
     case "American_Standard":
       return (
@@ -119,4 +119,4 @@ const ChargerIcon = ({ plugin }) => {
   }
 };
 
-export default ChargerIcon;
+export { chargerIcon };
