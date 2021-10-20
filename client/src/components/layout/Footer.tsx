@@ -1,6 +1,6 @@
-import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
+import React, { FunctionComponent } from "react";
 
 const useStyles = makeStyles((theme) => ({
   footer: {
@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Footer = () => {
+const Footer: FunctionComponent = () => {
   const classes = useStyles();
   return (
     <Typography

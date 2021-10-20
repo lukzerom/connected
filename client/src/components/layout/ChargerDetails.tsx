@@ -1,25 +1,24 @@
-import React, { useContext } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import LocationCityIcon from "@material-ui/icons/LocationCity";
-import LocationOnIcon from "@material-ui/icons/LocationOn";
-import StationContext from "../../context/stations/stationContext";
-import ReservationContext from "../../context/reservations/reservationContext";
-import ChargerIcon from "./ChargerIcon";
-import Extras from "../layout/Extras";
-import EvStationIcon from "@material-ui/icons/EvStation";
-import moment from "moment";
-
 import {
+  Box,
   Button,
-  Typography,
   Card,
-  CardContent,
   CardActions,
+  CardContent,
   CardMedia,
   Divider,
   Grid,
-  Box,
+  Typography,
 } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import EvStationIcon from "@material-ui/icons/EvStation";
+import LocationCityIcon from "@material-ui/icons/LocationCity";
+import LocationOnIcon from "@material-ui/icons/LocationOn";
+import moment from "moment";
+import React, { FunctionComponent, useContext } from "react";
+import ReservationContext from "../../context/reservations/reservationContext";
+import StationContext from "../../context/stations/stationContext";
+import Extras from "./Extras";
+import { chargerIcon } from "./utils";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -72,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ChargerDetails = () => {
+const ChargerDetails: FunctionComponent = () => {
   const stationContext = useContext(StationContext);
   const reservationContext = useContext(ReservationContext);
   const {
@@ -141,7 +140,6 @@ const ChargerDetails = () => {
                   variant="subtitle2"
                   color="textSecondary"
                   gutterBottom
-                  fontWeight="fontWeightBold"
                   align="center"
                 >
                   <LocationCityIcon className={classes.icon} />
@@ -154,7 +152,6 @@ const ChargerDetails = () => {
                   color="textSecondary"
                   variant="subtitle2"
                   gutterBottom
-                  fontWeight="fontWeightBold"
                   align="center"
                 >
                   <LocationOnIcon className={classes.icon} />
@@ -164,15 +161,14 @@ const ChargerDetails = () => {
             </Grid>
             <Divider variant="middle" className={classes.divider} />
             <Grid container spacing={3}>
-              <Grid item xs={6} align="center" className={classes.plugin}>
-                <ChargerIcon plugin={station.plugin} />
+              <Grid item xs={6} className={classes.plugin}>
+                {chargerIcon(station.plugin)}
               </Grid>
-              <Grid item xs={6} align="center">
+              <Grid item xs={6}>
                 <Typography
                   color="textSecondary"
                   variant="h4"
                   gutterBottom
-                  fontWeight="fontWeightBold"
                   className={classes.price}
                 >
                   {station.price} EUR / h
@@ -184,7 +180,7 @@ const ChargerDetails = () => {
               Extras:
             </Typography>
             <Box className={classes.extrasBox}>
-              {station.additives.map((extra, index) => {
+              {station.additives.map((extra: string, index: number) => {
                 return <Extras key={index} extra={extra} />;
               })}
             </Box>
@@ -196,7 +192,6 @@ const ChargerDetails = () => {
                   variant="subtitle2"
                   color="textSecondary"
                   gutterBottom
-                  fontWeight="fontWeightBold"
                   align="center"
                 >
                   From: {from}
@@ -208,7 +203,6 @@ const ChargerDetails = () => {
                   variant="subtitle2"
                   color="textSecondary"
                   gutterBottom
-                  fontWeight="fontWeightBold"
                   align="center"
                 >
                   To: {to}
@@ -220,7 +214,6 @@ const ChargerDetails = () => {
                   variant="subtitle2"
                   color="textSecondary"
                   gutterBottom
-                  fontWeight="fontWeightBold"
                   align="center"
                 >
                   Total hours: {durationHours}
@@ -229,7 +222,7 @@ const ChargerDetails = () => {
             </Grid>
           </CardContent>
           <CardActions>
-            <Grid item xs={12} align="center" className={classes.buttons}>
+            <Grid item xs={12} className={classes.buttons}>
               <Button variant="contained" size="large" onClick={handleModal}>
                 Change time
               </Button>

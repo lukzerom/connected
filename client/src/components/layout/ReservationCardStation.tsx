@@ -1,18 +1,19 @@
-import React, { useContext, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import ReservationContext from "../../context/reservations/reservationContext";
-import CardContent from "@material-ui/core/CardContent";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
+import Button from "@material-ui/core/Button";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
 import Divider from "@material-ui/core/Divider";
-import EvStationIcon from "@material-ui/icons/EvStation";
-import moment from "moment";
-import UpdateIcon from "@material-ui/icons/Update";
+import Grid from "@material-ui/core/Grid";
+import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
 import CancelIcon from "@material-ui/icons/Cancel";
 import CheckIcon from "@material-ui/icons/Check";
+import EvStationIcon from "@material-ui/icons/EvStation";
+import UpdateIcon from "@material-ui/icons/Update";
+import moment from "moment";
+import React, { FunctionComponent, useContext, useEffect } from "react";
+import ReservationContext from "../../context/reservations/reservationContext";
+import { ReservationType } from "../../types/Reservation";
 
 const useStyles = makeStyles({
   root: {
@@ -83,7 +84,13 @@ const useStyles = makeStyles({
   },
 });
 
-const ReservationCard = ({ reservation }) => {
+type ReservationCardProps = {
+  reservation: ReservationType;
+};
+
+const ReservationCard: FunctionComponent<ReservationCardProps> = ({
+  reservation,
+}) => {
   const classes = useStyles();
   const reservationContext = useContext(ReservationContext);
 
@@ -94,7 +101,7 @@ const ReservationCard = ({ reservation }) => {
 
   useEffect(() => {});
 
-  const verification = (accepted, rejected) => {
+  const verification = (accepted: boolean, rejected: boolean) => {
     if (!accepted && !rejected) {
       return (
         <Box className={classes.acceptance}>
@@ -120,7 +127,7 @@ const ReservationCard = ({ reservation }) => {
     }
   };
 
-  const handleAccept = (reservation) => {
+  const handleAccept = (reservation: ReservationType) => {
     const changedReservation = {
       ...reservation,
       isOwnerAccepted: true,
@@ -129,7 +136,7 @@ const ReservationCard = ({ reservation }) => {
     confirmReservation(changedReservation);
   };
 
-  const handleReject = (reservation) => {
+  const handleReject = (reservation: ReservationType) => {
     const changedReservation = {
       ...reservation,
       isOwnerRejected: true,
@@ -138,7 +145,7 @@ const ReservationCard = ({ reservation }) => {
     rejectReservation(changedReservation);
   };
 
-  const buttons = (reservation) => {
+  const buttons = (reservation: ReservationType) => {
     if (!reservation.isOwnerAccepted && !reservation.isOwnerRejected) {
       return (
         <>
@@ -244,7 +251,7 @@ const ReservationCard = ({ reservation }) => {
               </Grid>
             </Grid>
             <Divider className={classes.divider} />
-            <Grid container xs={12} className={classes.buttons} align="center">
+            <Grid container xs={12} className={classes.buttons}>
               {buttons(reservation)}
             </Grid>
           </CardContent>

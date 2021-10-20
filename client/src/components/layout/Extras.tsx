@@ -1,8 +1,8 @@
-import React from "react";
+import { Typography } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import { makeStyles } from "@material-ui/core/styles";
 import StarsIcon from "@material-ui/icons/Stars";
-import { Typography } from "@material-ui/core";
+import React, { FunctionComponent } from "react";
 
 const useStyles = makeStyles((theme) => ({
   extra: {
@@ -23,7 +23,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Extras = ({ extra }) => {
+type ExtrasProps = {
+  extra: string;
+};
+
+const Extras: FunctionComponent<ExtrasProps> = ({ extra }) => {
   const classes = useStyles();
   return (
     <Box className={classes.extra} justifyItems="center">

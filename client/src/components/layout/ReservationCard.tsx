@@ -1,18 +1,19 @@
-import React, { useContext } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import ReservationContext from "../../context/reservations/reservationContext";
-import StationContext from "../../context/stations/stationContext";
-import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
 import Divider from "@material-ui/core/Divider";
-import EmojiTransportationIcon from "@material-ui/icons/EmojiTransportation";
-import moment from "moment";
-import UpdateIcon from "@material-ui/icons/Update";
+import Grid from "@material-ui/core/Grid";
+import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
 import CancelIcon from "@material-ui/icons/Cancel";
 import CheckIcon from "@material-ui/icons/Check";
+import EmojiTransportationIcon from "@material-ui/icons/EmojiTransportation";
+import UpdateIcon from "@material-ui/icons/Update";
+import moment from "moment";
+import React, { FunctionComponent, useContext } from "react";
+import ReservationContext from "../../context/reservations/reservationContext";
+import StationContext from "../../context/stations/stationContext";
+import { ReservationType } from "../../types/Reservation";
 
 const useStyles = makeStyles({
   root: {
@@ -78,7 +79,13 @@ const useStyles = makeStyles({
   },
 });
 
-const ReservationCard = ({ reservation }) => {
+type ReservationCardProps = {
+  reservation: ReservationType;
+};
+
+const ReservationCard: FunctionComponent<ReservationCardProps> = ({
+  reservation,
+}) => {
   const classes = useStyles();
   const reservationContext = useContext(ReservationContext);
   const stationContext = useContext(StationContext);
@@ -87,12 +94,10 @@ const ReservationCard = ({ reservation }) => {
 
   const { deleteReservation, toggleMapModal } = reservationContext;
 
-  //   getCar(reservation.car);
-
   let from = moment(reservation.timeStampFrom).format("YYYY-MM-DD HH:00");
   let to = moment(reservation.timeStampTo).format("YYYY-MM-DD HH:00");
 
-  const verification = (accepted, rejected) => {
+  const verification = (accepted: boolean, rejected: boolean) => {
     if (!accepted && !rejected) {
       return (
         <Typography display="inline" className={classes.acceptance}>
@@ -118,11 +123,11 @@ const ReservationCard = ({ reservation }) => {
     }
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = (id: string) => {
     deleteReservation(id);
   };
 
-  const handleMapModal = async (id) => {
+  const handleMapModal = async (id: string) => {
     toggleMapModal(true);
     await getStation(id);
   };
@@ -169,7 +174,7 @@ const ReservationCard = ({ reservation }) => {
                 </Typography>
               </Grid>
               <Grid xs={6} item>
-                <Grid align="center">
+                <Grid>
                   <Typography display="inline">Verification: </Typography>
 
                   {verification(

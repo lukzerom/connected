@@ -1,13 +1,13 @@
-import React, { useContext, Fragment } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
+import Button from "@material-ui/core/Button";
+import { makeStyles } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import NearMeIcon from "@material-ui/icons/NearMe";
+import React, { Fragment, FunctionComponent, useContext } from "react";
 import { Link } from "react-router-dom";
 import AuthContext from "../../context/auth/authContext";
-import NearMeIcon from "@material-ui/icons/NearMe";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Nav = () => {
+const Nav: FunctionComponent = () => {
   const authContext = useContext(AuthContext);
 
   const { isAuthenticated, logout } = authContext;

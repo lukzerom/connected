@@ -1,8 +1,9 @@
-import React, { useContext } from "react";
-import { Map, TileLayer, Marker } from "react-leaflet";
-import StationContext from "../../context/stations/stationContext";
+import L, { LatLngTuple, LeafletMouseEvent } from "leaflet";
+import React, { useContext, useState } from "react";
+import { Map, Marker, TileLayer, Viewport } from "react-leaflet";
 import bolt from "../../assets/bolt.svg";
-import L from "leaflet";
+import StationContext from "../../context/stations/stationContext";
+import { Station } from "../../types/Station";
 
 const myIcon = L.icon({
   iconUrl: bolt,
@@ -10,24 +11,20 @@ const myIcon = L.icon({
   iconAnchor: [25, 50],
   popupAnchor: [-3, -76],
 });
-// Z powodu problemów z animacją Leaflet - dodałem taką flagę aby animowane było tylko przeskakiwanie po stacjach i rozwiązałem problem :)
+
 let animateflag = false;
 
 const ChargerMap = () => {
-  const stationContext = useContext(StationContext);
-  const {
-    position,
-    setPosition,
-    setZoom,
-    zoom,
-    setStation,
-    avaiableStations,
-  } = stationContext;
+  const [zoom, setZoom] = useState<number>(0);
+  const [position, setPosition] = useState<LatLngTuple>([0, 0]);
 
-  const changePosition = (e) => {
+  const stationContext = useContext(StationContext);
+  const { setStation, avaiableStations } = stationContext;
+
+  const changePosition = (e: LeafletMouseEvent) => {
     animateflag = true;
     let pickedStation = avaiableStations.filter(
-      (station) => station._id === e.target.options.id
+      (station: Station) => station._id === e.target.options.id
     );
 
     let lat = Number(pickedStation[0].latitude);
@@ -42,9 +39,9 @@ const ChargerMap = () => {
     zoom: zoom,
   };
 
-  const onViewportChanged = (viewport) => {
-    setZoom(viewport.zoom);
-    setPosition(viewport.center);
+  const onViewportChanged = (viewport: Viewport): void => {
+    if (viewport.zoom) setZoom(viewport.zoom);
+    if (viewport.center) setPosition(viewport.center);
     animateflag = false;
   };
 
@@ -65,7 +62,7 @@ const ChargerMap = () => {
         />
 
         {avaiableStations !== null
-          ? avaiableStations.map((station) => {
+          ? avaiableStations.map((station: Station) => {
               return (
                 <Marker
                   key={station._id}

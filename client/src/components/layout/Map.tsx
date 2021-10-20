@@ -1,8 +1,9 @@
-import React, { useContext, useEffect } from "react";
-import { Map, TileLayer, Marker, Popup } from "react-leaflet";
-import StationContext from "../../context/stations/stationContext";
-import bolt from "../../assets/bolt.svg";
 import L from "leaflet";
+import React, { FunctionComponent, useContext, useEffect } from "react";
+import { Map, Marker, Popup, TileLayer } from "react-leaflet";
+import bolt from "../../assets/bolt.svg";
+import StationContext from "../../context/stations/stationContext";
+import { Station } from "../../types/Station";
 
 const myIcon = L.icon({
   iconUrl: bolt,
@@ -11,12 +12,11 @@ const myIcon = L.icon({
   popupAnchor: [-3, -76],
 });
 
-const ChargerMap = () => {
+const ChargerMap: FunctionComponent = () => {
   const stationContext = useContext(StationContext);
 
   useEffect(() => {
     getStations();
-    //eslint-disable-next-line
   }, []);
 
   const { stations, getStations } = stationContext;
@@ -29,7 +29,7 @@ const ChargerMap = () => {
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />
         {stations !== null
-          ? stations.map((station) => {
+          ? stations.map((station: Station) => {
               return (
                 <Marker
                   key={station._id}

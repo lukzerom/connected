@@ -1,10 +1,10 @@
-import React, { useContext } from "react";
-import { Map, TileLayer, Marker } from "react-leaflet";
-import StationContext from "../../context/stations/stationContext";
-import bolt from "../../assets/bolt.svg";
-import L from "leaflet";
-import { makeStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import L from "leaflet";
+import React, { FunctionComponent, useContext } from "react";
+import { Map, Marker, TileLayer } from "react-leaflet";
+import bolt from "../../assets/bolt.svg";
+import StationContext from "../../context/stations/stationContext";
 
 const useStyles = makeStyles((theme) => ({
   map: { width: "100%", height: "100%" },
@@ -17,7 +17,7 @@ const myIcon = L.icon({
   popupAnchor: [-3, -76],
 });
 
-const ShowStationMap = () => {
+const ShowStationMap: FunctionComponent = () => {
   const stationContext = useContext(StationContext);
   const classes = useStyles();
 

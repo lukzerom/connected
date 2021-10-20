@@ -1,4 +1,5 @@
 export type Station = {
+  _id?: string;
   name: string;
   country: string;
   city: string;

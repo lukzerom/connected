@@ -1,12 +1,12 @@
-import React, { useContext } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { Box, DialogActions, DialogContent } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
-import { DialogActions, DialogContent, Box } from "@material-ui/core";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import IconButton from "@material-ui/core/IconButton";
-import CloseIcon from "@material-ui/icons/Close";
+import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
+import CloseIcon from "@material-ui/icons/Close";
+import React, { FunctionComponent, useContext } from "react";
 import ReservationContext from "../../context/reservations/reservationContext";
 import ShowStationMap from "./ShowStationMap";
 
@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MapDialog = () => {
+const MapDialog: FunctionComponent = () => {
   const reservationContext = useContext(ReservationContext);
 
   const { isMapModalOpen, toggleMapModal } = reservationContext;
@@ -55,9 +55,6 @@ const MapDialog = () => {
 
   return (
     <div>
-      {/* <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Open dialog
-      </Button> */}
       <Dialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"

@@ -1,11 +1,17 @@
-import React, { useEffect, useContext } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
+import { makeStyles } from "@material-ui/core/styles";
+import React, {
+  ChangeEvent,
+  FunctionComponent,
+  useContext,
+  useEffect,
+} from "react";
 import CarContext from "../../context/cars/carContext";
 import ReservationContext from "../../context/reservations/reservationContext";
+import { VehicleType } from "../../types/Vehicle";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -17,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CarSelect = () => {
+const CarSelect: FunctionComponent = () => {
   const classes = useStyles();
   const carContext = useContext(CarContext);
   const reservationContext = useContext(ReservationContext);
@@ -26,9 +32,9 @@ const CarSelect = () => {
 
   useEffect(() => {
     getCars();
-  });
+  }, []);
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<any>) => {
     setReservationCar(e.target.value);
   };
 
@@ -41,7 +47,7 @@ const CarSelect = () => {
         onChange={handleChange}
         value={carId}
       >
-        {cars.map((car) => {
+        {cars.map((car: VehicleType) => {
           return (
             <MenuItem value={car._id} key={String(car._id)}>
               {car.brand} {car.model}

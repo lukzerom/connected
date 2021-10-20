@@ -1,15 +1,16 @@
-import React, { useContext } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import Box from "@material-ui/core/Box";
+import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
-import ChargerIcon from "../layout/ChargerIcon";
-import Extras from "../layout/Extras";
-import StationContext from "../../context/stations/stationContext";
+import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import React, { FunctionComponent, useContext } from "react";
 import { Link } from "react-router-dom";
+import StationContext from "../../context/stations/stationContext";
+import { Station } from "../../types/Station";
+import Extras from "./Extras";
+import { chargerIcon } from "./utils";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -52,13 +53,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const UserStation = ({ station }) => {
+type UserStationProps = {
+  station: Station;
+};
+
+const UserStation: FunctionComponent<UserStationProps> = ({ station }) => {
   const classes = useStyles();
   const stationContext = useContext(StationContext);
   const { setEditStation, userstations, deleteStation } = stationContext;
 
-  const handleEdit = (id) => {
-    let station = userstations.filter((station) => {
+  const handleEdit = (id?: string) => {
+    let station = userstations.filter((station: Station) => {
       return station._id === id;
     });
 
@@ -67,7 +72,7 @@ const UserStation = ({ station }) => {
     setEditStation(pickedStation);
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = (id?: string) => {
     deleteStation(id);
   };
 
@@ -78,17 +83,17 @@ const UserStation = ({ station }) => {
           <Card className={classes.card}>
             <CardContent className={classes.content}>
               <Grid item xs={2}>
-                <ChargerIcon plugin={station.plugin} />
+                {chargerIcon(station.plugin)}
               </Grid>
               <Grid item xs={6}>
                 <Box className={classes.adressBox}>
                   <Typography variant="h6">{station.name}</Typography>
                   <Typography variant="caption">
-                    {station.country} {station.city} {station.street}{" "}
+                    {station.country} {station.city} {station.streetName}{" "}
                     {station.streetNumber}
                   </Typography>
                   <Box className={classes.extras}>
-                    {station.additives.map((extra, index) => (
+                    {station.extras.map((extra, index) => (
                       <Extras key={index} extra={extra} />
                     ))}
                   </Box>

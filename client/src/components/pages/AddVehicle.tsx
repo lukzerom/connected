@@ -15,17 +15,18 @@ import { makeStyles } from "@material-ui/core/styles";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import AddToPhotosIcon from "@material-ui/icons/AddToPhotos";
 import React, {
+  ChangeEvent,
   FunctionComponent,
   useContext,
   useEffect,
   useState,
 } from "react";
 import { useHistory } from "react-router-dom";
-import { AlertType, useAlert } from "../../context/alert/alertContext";
+import { AlertType, useAlert } from "../../context/alert/AlertContext";
 import AuthContext from "../../context/auth/authContext";
 import CarContext from "../../context/cars/carContext";
 import { VehicleType } from "../../types/Vehicle";
-import { chargerIcon } from "../layout/ChargerIcon";
+import { chargerIcon } from "../layout/utils";
 
 const defaultVehicle: VehicleType = {
   brand: "",
@@ -106,7 +107,7 @@ const AddVehicle: FunctionComponent = () => {
 
   const { brand, model, registration, plugins, errors, plugin } = state;
 
-  const onChange = (e) => {
+  const onChange = (e: ChangeEvent<any>) => {
     setState({
       ...state,
       [e.target.name]: e.target.value,

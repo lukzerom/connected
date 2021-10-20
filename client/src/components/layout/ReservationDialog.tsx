@@ -1,19 +1,24 @@
-import React, { useState, useContext, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import Divider from "@material-ui/core/Divider";
-import Dialog from "@material-ui/core/Dialog";
 import { DialogActions, DialogContent } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
-import IconButton from "@material-ui/core/IconButton";
-import CloseIcon from "@material-ui/icons/Close";
-import Typography from "@material-ui/core/Typography";
+import Divider from "@material-ui/core/Divider";
 import Grid from "@material-ui/core/Grid";
+import IconButton from "@material-ui/core/IconButton";
+import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import CloseIcon from "@material-ui/icons/Close";
 import Alert from "@material-ui/lab/Alert";
+import moment from "moment";
+import React, {
+  FunctionComponent,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import ReservationContext from "../../context/reservations/reservationContext";
 import StationContext from "../../context/stations/stationContext";
-import CarSelect from "../layout/CarSelect";
-import moment from "moment";
+import CarSelect from "./CarSelect";
 
 const useStyles = makeStyles((theme) => ({
   stationsWrapper: {
@@ -44,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ReservationDialog = () => {
+const ReservationDialog: FunctionComponent = () => {
   const [alert, setAlert] = useState(false);
   const reservationContext = useContext(ReservationContext);
   const stationContext = useContext(StationContext);
@@ -131,10 +136,10 @@ const ReservationDialog = () => {
           </Grid>
           <Divider className={classes.divider} />
           <Grid container>
-            <Grid xs={4} item align="center">
+            <Grid xs={4} item>
               <CarSelect />
             </Grid>
-            <Grid xs={8} item className={classes.price} align="center">
+            <Grid xs={8} item className={classes.price}>
               <Typography align="center">
                 {station === undefined
                   ? null

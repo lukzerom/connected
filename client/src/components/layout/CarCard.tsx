@@ -1,16 +1,17 @@
-import React, { useContext } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CarContext from "../../context/cars/carContext";
-import CardContent from "@material-ui/core/CardContent";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
+import Button from "@material-ui/core/Button";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
 import Divider from "@material-ui/core/Divider";
+import Grid from "@material-ui/core/Grid";
+import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
 import DriveEtaIcon from "@material-ui/icons/DriveEta";
-import ChargerIcon from "./ChargerIcon";
+import React, { FunctionComponent, useContext } from "react";
 import { Link } from "react-router-dom";
+import CarContext from "../../context/cars/carContext";
+import { VehicleType } from "../../types/Vehicle";
+import { chargerIcon } from "./utils";
 
 const useStyles = makeStyles({
   root: {
@@ -63,17 +64,21 @@ const useStyles = makeStyles({
   },
 });
 
-const CarCard = ({ car }) => {
+type CarCardProps = {
+  car: VehicleType;
+};
+
+const CarCard: FunctionComponent<CarCardProps> = ({ car }) => {
   const classes = useStyles();
   const carContext = useContext(CarContext);
 
   const { deleteCar, setCar, getCars } = carContext;
 
-  const handleDelete = (id) => {
-    deleteCar(id);
+  const handleDelete = (_id?: string) => {
+    deleteCar(_id);
   };
 
-  const handleEdit = (car) => {
+  const handleEdit = (car: VehicleType) => {
     setCar(car);
     getCars();
   };
@@ -110,7 +115,7 @@ const CarCard = ({ car }) => {
                     className={classes.pluginIcon}
                     key={`${car.id}_${index}`}
                   >
-                    <ChargerIcon plugin={plugin} />
+                    {chargerIcon(plugin)}
                   </Box>
                 );
               })}
@@ -132,7 +137,7 @@ const CarCard = ({ car }) => {
                   size="small"
                   color="secondary"
                   className={classes.button}
-                  onClick={() => handleDelete(car._id)}
+                  onClick={() => handleDelete(car.id)}
                 >
                   Delete
                 </Button>
