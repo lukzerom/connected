@@ -1,13 +1,14 @@
-import React, { useContext, useEffect } from "react";
+import { Divider, Grid, Typography } from "@material-ui/core";
+import Box from "@material-ui/core/Box";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { makeStyles } from "@material-ui/core/styles";
+import React, { FunctionComponent, useContext, useEffect } from "react";
 import AuthContext from "../../context/auth/authContext";
 import ReservationContext from "../../context/reservations/reservationContext";
-import { makeStyles } from "@material-ui/core/styles";
-import Box from "@material-ui/core/Box";
-import { Typography, Divider, Grid } from "@material-ui/core";
+import { ReservationType } from "../../types/Reservation";
+import MapDialog from "../layout/MapDialog";
 import ReservationCard from "../layout/ReservationCard";
 import ReservationCardStation from "../layout/ReservationCardStation";
-import MapDialog from "../layout/MapDialog";
-import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
   vehiclesWrapper: {
@@ -39,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MyReservations = () => {
+const MyReservations: FunctionComponent = () => {
   const authContext = useContext(AuthContext);
   const reservationContext = useContext(ReservationContext);
   const classes = useStyles();
@@ -56,7 +57,6 @@ const MyReservations = () => {
     authContext.loadUser();
     getUserReservationsAsDriver();
     getUserReservationsAsStation();
-    //eslint-disable-next-line
   }, []);
 
   return (
@@ -92,14 +92,16 @@ const MyReservations = () => {
                     You dont have any reservations for trip
                   </Typography>
                 ) : (
-                  userReservationsAsDriver.map((reservation) => {
-                    return (
-                      <ReservationCard
-                        key={reservation._id}
-                        reservation={reservation}
-                      />
-                    );
-                  })
+                  userReservationsAsDriver.map(
+                    (reservation: ReservationType) => {
+                      return (
+                        <ReservationCard
+                          key={reservation._id}
+                          reservation={reservation}
+                        />
+                      );
+                    }
+                  )
                 )}
               </Box>
             )}
@@ -123,14 +125,16 @@ const MyReservations = () => {
                     You dont have any reservations of your stations
                   </Typography>
                 ) : (
-                  userReservationsAsStation.map((reservation) => {
-                    return (
-                      <ReservationCardStation
-                        key={reservation._id}
-                        reservation={reservation}
-                      />
-                    );
-                  })
+                  userReservationsAsStation.map(
+                    (reservation: ReservationType) => {
+                      return (
+                        <ReservationCardStation
+                          key={reservation._id}
+                          reservation={reservation}
+                        />
+                      );
+                    }
+                  )
                 )}
               </Box>
             )}

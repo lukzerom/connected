@@ -1,9 +1,9 @@
-import React from "react";
-import ChargerMap from "../layout/Map";
-import car from "../../assets/car.svg";
 import Typography from "@material-ui/core/Typography";
+import React, { FunctionComponent } from "react";
+import car from "../../assets/car.svg";
+import ChargerMap from "../layout/Map";
 
-const Main = () => {
+const Main: FunctionComponent = () => {
   return (
     <div>
       <section className="main">

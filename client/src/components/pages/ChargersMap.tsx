@@ -1,15 +1,21 @@
-import React, { useContext, useEffect, useState } from "react";
+import { Grid } from "@material-ui/core";
+import Snackbar from "@material-ui/core/Snackbar";
 import { makeStyles } from "@material-ui/core/styles";
+import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
+import React, {
+  FunctionComponent,
+  SyntheticEvent,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import AuthContext from "../../context/auth/authContext";
 import ReservationContext from "../../context/reservations/reservationContext";
 import StationContext from "../../context/stations/stationContext";
-import ProtectedMap from "../layout/ProtectedMap";
 import ChargerDetails from "../layout/ChargerDetails";
-import { Grid } from "@material-ui/core";
 import DatePickerDialog from "../layout/DatePickerDialog";
+import ProtectedMap from "../layout/ProtectedMap";
 import ReservationDialog from "../layout/ReservationDialog";
-import Snackbar from "@material-ui/core/Snackbar";
-import MuiAlert from "@material-ui/lab/Alert";
 
 const useStyles = makeStyles((theme) => ({
   bg: {
@@ -18,11 +24,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Alert(props) {
+function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-const ChargersMap = () => {
+const ChargersMap: FunctionComponent = () => {
   const authContext = useContext(AuthContext);
   const stationContext = useContext(StationContext);
   const reservationContext = useContext(ReservationContext);
@@ -38,18 +44,12 @@ const ChargersMap = () => {
     //eslint-disable-next-line
   }, []);
 
-  const handleCloseError = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
+  const handleCloseError = (event: SyntheticEvent<Element, Event>) => {
     setOpenError(false);
     setError(null);
   };
 
-  const handleCloseSuccess = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
+  const handleCloseSuccess = (event: SyntheticEvent<Element, Event>) => {
     setOpenSuccess(false);
     setSuccess(null);
   };

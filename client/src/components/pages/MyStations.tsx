@@ -1,13 +1,14 @@
-import React, { useContext, useEffect } from "react";
+import { Button, Divider, Grid, Typography } from "@material-ui/core";
+import Box from "@material-ui/core/Box";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { makeStyles } from "@material-ui/core/styles";
+import AddToPhotosIcon from "@material-ui/icons/AddToPhotos";
+import React, { FunctionComponent, useContext, useEffect } from "react";
+import { Link } from "react-router-dom";
 import AuthContext from "../../context/auth/authContext";
 import StationContext from "../../context/stations/stationContext";
+import { Station } from "../../types/Station";
 import UserStation from "../layout/UserStation";
-import { makeStyles } from "@material-ui/core/styles";
-import Box from "@material-ui/core/Box";
-import { Typography, Divider, Button, Grid } from "@material-ui/core";
-import AddToPhotosIcon from "@material-ui/icons/AddToPhotos";
-import { Link } from "react-router-dom";
-import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles(() => ({
   stationsWrapper: {
@@ -28,7 +29,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const MyStations = () => {
+const MyStations: FunctionComponent = () => {
   const classes = useStyles();
   const authContext = useContext(AuthContext);
   const stationContext = useContext(StationContext);
@@ -39,7 +40,6 @@ const MyStations = () => {
   useEffect(() => {
     loadUser();
     getUserStations();
-    //eslint-disable-next-line
   }, []);
 
   return (
@@ -70,7 +70,7 @@ const MyStations = () => {
               Add your first station :)
             </Typography>
           ) : (
-            userstations.map((userstation) => {
+            userstations.map((userstation: Station) => {
               return (
                 <UserStation key={userstation._id} station={userstation} />
               );

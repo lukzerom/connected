@@ -1,24 +1,31 @@
-import React, { useEffect, useContext, useState } from "react";
-import AuthContext from "../../context/auth/authContext";
-import CarContext from "../../context/cars/carContext";
-import AlertContext from "../../context/alert/alertContext";
 import {
   Box,
+  Button,
+  Divider,
+  FormControl,
   Grid,
+  InputLabel,
+  MenuItem,
   Paper,
+  Select,
   TextField,
   Typography,
-  Divider,
-  Select,
-  MenuItem,
-  InputLabel,
-  FormControl,
-  Button,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import ChargerIcon from "../layout/ChargerIcon";
 import AddToPhotosIcon from "@material-ui/icons/AddToPhotos";
 import EditIcon from "@material-ui/icons/Edit";
+import React, {
+  ChangeEvent,
+  FunctionComponent,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { useHistory } from "react-router-dom";
+import { AlertType, useAlert } from "../../context/alert/AlertContext";
+import AuthContext from "../../context/auth/authContext";
+import CarContext from "../../context/cars/carContext";
+import { chargerIcon } from "../layout/utils";
 
 const useStyles = makeStyles((theme) => ({
   stationsWrapper: {
@@ -72,18 +79,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AddVehicle = (props) => {
+const AddVehicle: FunctionComponent = () => {
   const authContext = useContext(AuthContext);
-  const alertContext = useContext(AlertContext);
+
   const carContext = useContext(CarContext);
   const classes = useStyles();
 
-  const { setAlert } = alertContext;
+  const { setAlert } = useAlert();
   const { updateCar, editedCar } = carContext;
+
+  const history = useHistory();
 
   useEffect(() => {
     authContext.loadUser();
-    //eslint-disable-next-line
   }, []);
 
   const [state, setState] = useState({
@@ -97,7 +105,7 @@ const AddVehicle = (props) => {
 
   const { brand, model, registration, plugins, errors, plugin } = state;
 
-  const onChange = (e) => {
+  const onChange = (e: ChangeEvent<any>) => {
     setState({
       ...state,
       [e.target.name]: e.target.value,
@@ -107,7 +115,7 @@ const AddVehicle = (props) => {
   const handleSubmit = () => {
     if (!brand || !model || !registration || plugins.length <= 0) {
       setState({ ...state, errors: true });
-      return setAlert("Please provide required informations", "error");
+      return setAlert("Please provide required informations", AlertType.ERROR);
     }
 
     const car = {
@@ -121,7 +129,7 @@ const AddVehicle = (props) => {
 
     updateCar(car);
 
-    props.history.push("/my-vehicles");
+    history.push("/my-vehicles");
     setState({
       brand: "",
       model: "",
@@ -137,7 +145,10 @@ const AddVehicle = (props) => {
       return;
     }
     if (plugins.length >= 2) {
-      return setAlert("Your vehicle can have maximum 2 plugins", "error");
+      return setAlert(
+        "Your vehicle can have maximum 2 plugins",
+        AlertType.ERROR
+      );
     }
 
     let pluginsPush = plugins;
@@ -270,13 +281,13 @@ const AddVehicle = (props) => {
                   className={classes.miniPluginWrapper}
                   justifyContent="center"
                 >
-                  {plugins.map((plugin, i) => {
+                  {plugins.map((plugin: string, i: number) => {
                     return (
                       <Box
                         className={classes.miniPlugin}
                         key={`${editedCar._id}_${i}`}
                       >
-                        <ChargerIcon plugin={plugin} />
+                        {chargerIcon(plugin)}
                       </Box>
                     );
                   })}

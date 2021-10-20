@@ -1,28 +1,36 @@
-import React, { useEffect, useContext, useState } from "react";
-import AuthContext from "../../context/auth/authContext";
-import setAuthToken from "../../utils/setAuthToken";
-import StationContext from "../../context/stations/stationContext";
-import AlertContext from "../../context/alert/alertContext";
 import {
   Box,
-  Grid,
-  Paper,
-  TextField,
-  Typography,
+  Button,
+  Checkbox,
   Divider,
-  Select,
-  MenuItem,
-  InputLabel,
   FormControl,
   FormControlLabel,
-  Checkbox,
-  Button,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Paper,
+  Select,
+  TextField,
+  Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import AddStationMap from "../layout/AddStationMap";
-import MapIcon from "@material-ui/icons/Map";
 import EditIcon from "@material-ui/icons/Edit";
+import MapIcon from "@material-ui/icons/Map";
+import React, {
+  ChangeEvent,
+  FunctionComponent,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { useHistory } from "react-router-dom";
 import utf8 from "utf8";
+import { AlertType, useAlert } from "../../context/alert/AlertContext";
+import AuthContext from "../../context/auth/authContext";
+import StationContext from "../../context/stations/stationContext";
+import { Station } from "../../types/Station";
+import setAuthToken from "../../utils/setAuthToken";
+import AddStationMap from "../layout/AddStationMap";
 
 const useStyles = makeStyles((theme) => ({
   stationsWrapper: {
@@ -65,14 +73,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EditStation = (props) => {
+const EditStation: FunctionComponent = () => {
   const authContext = useContext(AuthContext);
   const stationContext = useContext(StationContext);
-  const alertContext = useContext(AlertContext);
+
   const classes = useStyles();
 
   const { token } = authContext;
-  const { setAlert } = alertContext;
+  const { setAlert } = useAlert();
   const {
     getUserStations,
     markerPosition,
@@ -86,10 +94,11 @@ const EditStation = (props) => {
     authContext.loadUser();
     getUserStations();
     setMarkerPosition([editStation.latitude, editStation.longitude]);
-    //eslint-disable-next-line
   }, []);
 
-  const [state, setState] = useState({
+  const history = useHistory();
+
+  const [state, setState] = useState<Station>({
     id: editStation._id,
     name: editStation.name,
     country: editStation.country,
@@ -128,14 +137,14 @@ const EditStation = (props) => {
     errors,
   } = state;
 
-  const onChange = (e) => {
+  const onChange = (e: ChangeEvent<any>) => {
     setState({
       ...state,
       [e.target.name]: e.target.value,
     });
   };
 
-  const onExtrasChange = (e) => {
+  const onExtrasChange = (e: ChangeEvent<any>) => {
     setState({
       ...state,
       [e.target.name]: e.target.checked,
@@ -161,7 +170,7 @@ const EditStation = (props) => {
 
     if (!name || !country || !city || !streetName || !streetNumber || !plugin) {
       setState({ ...state, errors: true });
-      return setAlert("Please provide required informations", "error");
+      return setAlert("Please provide required informations", AlertType.ERROR);
     }
 
     const station = {
@@ -181,7 +190,8 @@ const EditStation = (props) => {
 
     updateStation(station);
 
-    props.history.push("/my-stations");
+    history.push("/my-stations");
+
     setState({
       name: "",
       country: "",

@@ -1,18 +1,25 @@
-import React, { useState, useContext, useEffect } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-import Grid from "@material-ui/core/Grid";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import AlertContext from "../../context/alert/alertContext";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Grid from "@material-ui/core/Grid";
+import { makeStyles } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import React, {
+  ChangeEvent,
+  FunctionComponent,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { Link, useHistory } from "react-router-dom";
+import { AlertType, useAlert } from "../../context/alert/AlertContext";
 import AuthContext from "../../context/auth/authContext";
-import { Link } from "react-router-dom";
+import { UserType } from "../../types/User";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -34,26 +41,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Register = (props) => {
+const Register: FunctionComponent = () => {
   const authContext = useContext(AuthContext);
-  const alertContext = useContext(AlertContext);
-  const { setAlert } = alertContext;
+
+  const { setAlert } = useAlert();
   const { register, error, clearErrors, isAuthenticated } = authContext;
   const classes = useStyles();
+  const history = useHistory();
 
   useEffect(() => {
     if (isAuthenticated) {
-      props.history.push("/");
+      history.push("/");
     }
 
     if (error === "User already exist") {
-      setAlert(error, "error");
+      setAlert(error, AlertType.ERROR);
       clearErrors();
     }
-    //eslint-disable-next-line
-  }, [error, isAuthenticated, props.history]);
+  }, [error, isAuthenticated, history]);
 
-  const [user, setUser] = useState({
+  const [user, setUser] = useState<UserType>({
     name: "",
     surname: "",
     email: "",
@@ -63,15 +70,15 @@ const Register = (props) => {
 
   const { name, surname, email, password, phone } = user;
 
-  const onChange = (e) => {
+  const onChange = (e: ChangeEvent<any>) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = (e: ChangeEvent<any>) => {
     e.preventDefault();
 
     if (name === "" || surname === "" || email === "" || password === "") {
-      setAlert("Please enter all required fields", "error");
+      setAlert("Please enter all required fields", AlertType.ERROR);
     } else {
       register({
         name,

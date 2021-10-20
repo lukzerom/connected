@@ -1,13 +1,14 @@
-import React, { useContext, useEffect } from "react";
+import { Button, Divider, Grid, Typography } from "@material-ui/core";
+import Box from "@material-ui/core/Box";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { makeStyles } from "@material-ui/core/styles";
+import AddToPhotosIcon from "@material-ui/icons/AddToPhotos";
+import React, { FunctionComponent, useContext, useEffect } from "react";
+import { Link } from "react-router-dom";
 import AuthContext from "../../context/auth/authContext";
 import CarContext from "../../context/cars/carContext";
-import { makeStyles } from "@material-ui/core/styles";
-import Box from "@material-ui/core/Box";
-import { Typography, Divider, Button, Grid } from "@material-ui/core";
-import AddToPhotosIcon from "@material-ui/icons/AddToPhotos";
-import { Link } from "react-router-dom";
+import { VehicleType } from "../../types/Vehicle";
 import CarCard from "../layout/CarCard";
-import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
   vehiclesWrapper: {
@@ -35,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MyVehicles = () => {
+const MyVehicles: FunctionComponent = () => {
   const authContext = useContext(AuthContext);
   const carContext = useContext(CarContext);
   const classes = useStyles();
@@ -45,7 +46,6 @@ const MyVehicles = () => {
   useEffect(() => {
     authContext.loadUser();
     getCars();
-    //eslint-disable-next-line
   }, []);
 
   return (
@@ -80,7 +80,7 @@ const MyVehicles = () => {
               Add your first vehicle :)
             </Typography>
           ) : (
-            cars.map((car) => {
+            cars.map((car: VehicleType) => {
               return <CarCard key={car._id} car={car} />;
             })
           )}

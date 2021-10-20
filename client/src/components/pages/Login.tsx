@@ -1,16 +1,16 @@
-import React, { useState, useContext, useEffect } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
-import Grid from "@material-ui/core/Grid";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Grid from "@material-ui/core/Grid";
+import { makeStyles } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import React, { ChangeEvent, useContext, useEffect, useState } from "react";
+import { Link, useHistory } from "react-router-dom";
+import { AlertType, useAlert } from "../../context/alert/AlertContext";
 import AuthContext from "../../context/auth/authContext";
-import AlertContext from "../../context/alert/alertContext";
-import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -35,26 +35,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Login = (props) => {
+const Login = () => {
   const classes = useStyles();
-  const alertContext = useContext(AlertContext);
+
   const authContext = useContext(AuthContext);
 
-  const { setAlert } = alertContext;
+  const { setAlert } = useAlert();
+  const history = useHistory();
 
   const { login, error, clearErrors, isAuthenticated } = authContext;
 
   useEffect(() => {
     if (isAuthenticated) {
-      props.history.push("/");
+      history.push("/");
     }
 
     if (error === "Invalid credentials") {
-      setAlert(error, "error");
+      setAlert(error, AlertType.ERROR);
       clearErrors();
     }
-    //eslint-disable-next-line
-  }, [error, isAuthenticated, props.history]);
+  }, [error, isAuthenticated, history]);
 
   const [user, setUser] = useState({
     email: "",
@@ -63,15 +63,15 @@ const Login = (props) => {
 
   const { email, password } = user;
 
-  const onChange = (e) => {
+  const onChange = (e: ChangeEvent<any>) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = (e: ChangeEvent<any>) => {
     e.preventDefault();
 
     if (email === "" || password === "") {
-      setAlert("Please set all fields", "error");
+      setAlert("Please set all fields", AlertType.ERROR);
     } else {
       login({
         email,
@@ -129,7 +129,6 @@ const Login = (props) => {
             <Grid item>
               <Link
                 to="/register"
-                variant="body2"
                 style={{ textDecoration: "none", color: "inherit" }}
               >
                 {"Don't have an account? Sign Up"}
