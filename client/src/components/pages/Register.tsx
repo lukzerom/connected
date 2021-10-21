@@ -12,13 +12,12 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import React, {
   ChangeEvent,
   FunctionComponent,
-  useContext,
   useEffect,
   useState,
 } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { AlertType, useAlert } from "../../context/alert/AlertContext";
-import AuthContext from "../../context/auth/authContext";
+import { useAuth } from "../../context/auth/AuthContext";
 import { UserType } from "../../types/User";
 
 const useStyles = makeStyles((theme) => ({
@@ -42,10 +41,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Register: FunctionComponent = () => {
-  const authContext = useContext(AuthContext);
-
   const { setAlert } = useAlert();
-  const { register, error, clearErrors, isAuthenticated } = authContext;
+  const { register, error, clearErrors, isAuthenticated } = useAuth();
   const classes = useStyles();
   const history = useHistory();
 

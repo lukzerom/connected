@@ -5,7 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import AddToPhotosIcon from "@material-ui/icons/AddToPhotos";
 import React, { FunctionComponent, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
-import AuthContext from "../../context/auth/authContext";
+import { useAuth } from "../../context/auth/AuthContext";
 import CarContext from "../../context/cars/carContext";
 import { VehicleType } from "../../types/Vehicle";
 import CarCard from "../layout/CarCard";
@@ -37,14 +37,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MyVehicles: FunctionComponent = () => {
-  const authContext = useContext(AuthContext);
   const carContext = useContext(CarContext);
   const classes = useStyles();
 
   const { getCars, cars, loading } = carContext;
 
+  const { loadUser } = useAuth();
+
   useEffect(() => {
-    authContext.loadUser();
+    loadUser();
     getCars();
   }, []);
 

@@ -20,7 +20,7 @@ import MyVehicles from "./components/pages/MyVehicles";
 import Register from "./components/pages/Register";
 import PrivateRoute from "./components/routing/PrivateRoute";
 import { AlertProvider } from "./context/alert/AlertContext";
-import AuthState from "./context/auth/AuthState";
+import { AuthProvider } from "./context/auth/AuthContext";
 import CarState from "./context/cars/CarState";
 import ReservationState from "./context/reservations/ReservationState";
 import StationState from "./context/stations/StationState";
@@ -45,7 +45,7 @@ const App = () => {
   return (
     <div className="App">
       <MuiThemeProvider theme={theme}>
-        <AuthState>
+        <AuthProvider>
           <MuiPickersUtilsProvider utils={MomentUtils}>
             <AlertProvider>
               <ReservationState>
@@ -99,7 +99,7 @@ const App = () => {
               </ReservationState>
             </AlertProvider>
           </MuiPickersUtilsProvider>
-        </AuthState>
+        </AuthProvider>
       </MuiThemeProvider>
     </div>
   );

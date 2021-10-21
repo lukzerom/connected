@@ -9,7 +9,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import AuthContext from "../../context/auth/authContext";
+import { useAuth } from "../../context/auth/AuthContext";
 import ReservationContext from "../../context/reservations/reservationContext";
 import StationContext from "../../context/stations/stationContext";
 import ChargerDetails from "../layout/ChargerDetails";
@@ -29,7 +29,6 @@ function Alert(props: AlertProps) {
 }
 
 const ChargersMap: FunctionComponent = () => {
-  const authContext = useContext(AuthContext);
   const stationContext = useContext(StationContext);
   const reservationContext = useContext(ReservationContext);
   const [openError, setOpenError] = useState(false);
@@ -38,10 +37,11 @@ const ChargersMap: FunctionComponent = () => {
   const { error, success, setError, setSuccess } = reservationContext;
   const { getAvailableStations } = stationContext;
 
+  const { loadUser } = useAuth();
+
   useEffect(() => {
-    authContext.loadUser();
+    loadUser();
     getAvailableStations();
-    //eslint-disable-next-line
   }, []);
 
   const handleCloseError = (event: SyntheticEvent<Element, Event>) => {

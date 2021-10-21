@@ -1,17 +1,18 @@
 import React, { FunctionComponent, useContext, useEffect } from "react";
-import AuthContext from "../../context/auth/authContext";
+import { useAuth } from "../../context/auth/AuthContext";
 import StationContext from "../../context/stations/stationContext";
 
 const Dashboard: FunctionComponent = () => {
-  const authContext = useContext(AuthContext);
   const stationContext = useContext(StationContext);
   const { getUserStations } = stationContext;
+
+  const { loadUser, user } = useAuth();
+
   useEffect(() => {
-    authContext.loadUser();
+    loadUser();
     getUserStations();
   }, []);
 
-  const { user } = authContext;
   return (
     <div>
       <h1>Witaj przybyszu {user && user.name}</h1>

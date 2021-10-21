@@ -5,9 +5,9 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import NearMeIcon from "@material-ui/icons/NearMe";
-import React, { Fragment, FunctionComponent, useContext } from "react";
+import React, { Fragment, FunctionComponent } from "react";
 import { Link } from "react-router-dom";
-import AuthContext from "../../context/auth/authContext";
+import { useAuth } from "../../context/auth/AuthContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,9 +22,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Nav: FunctionComponent = () => {
-  const authContext = useContext(AuthContext);
-
-  const { isAuthenticated, logout } = authContext;
+  const { isAuthenticated, logout } = useAuth();
 
   const onLogout = () => {
     logout();

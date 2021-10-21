@@ -23,7 +23,7 @@ import React, {
 } from "react";
 import { useHistory } from "react-router-dom";
 import { AlertType, useAlert } from "../../context/alert/AlertContext";
-import AuthContext from "../../context/auth/authContext";
+import { useAuth } from "../../context/auth/AuthContext";
 import CarContext from "../../context/cars/carContext";
 import { chargerIcon } from "../layout/utils";
 
@@ -80,18 +80,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AddVehicle: FunctionComponent = () => {
-  const authContext = useContext(AuthContext);
-
   const carContext = useContext(CarContext);
   const classes = useStyles();
 
   const { setAlert } = useAlert();
+
+  const { loadUser } = useAuth();
+
   const { updateCar, editedCar } = carContext;
 
   const history = useHistory();
 
   useEffect(() => {
-    authContext.loadUser();
+    loadUser();
   }, []);
 
   const [state, setState] = useState({

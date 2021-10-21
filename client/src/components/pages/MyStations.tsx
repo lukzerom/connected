@@ -5,7 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import AddToPhotosIcon from "@material-ui/icons/AddToPhotos";
 import React, { FunctionComponent, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
-import AuthContext from "../../context/auth/authContext";
+import { useAuth } from "../../context/auth/AuthContext";
 import StationContext from "../../context/stations/stationContext";
 import { Station } from "../../types/Station";
 import UserStation from "../layout/UserStation";
@@ -31,10 +31,10 @@ const useStyles = makeStyles(() => ({
 
 const MyStations: FunctionComponent = () => {
   const classes = useStyles();
-  const authContext = useContext(AuthContext);
+
   const stationContext = useContext(StationContext);
 
-  const { loadUser } = authContext;
+  const { loadUser } = useAuth();
   const { userstations, getUserStations, loading } = stationContext;
 
   useEffect(() => {

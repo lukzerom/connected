@@ -26,7 +26,7 @@ import React, {
 import { useHistory } from "react-router-dom";
 import utf8 from "utf8";
 import { AlertType, useAlert } from "../../context/alert/AlertContext";
-import AuthContext from "../../context/auth/authContext";
+import { useAuth } from "../../context/auth/AuthContext";
 import StationContext from "../../context/stations/stationContext";
 import { Station } from "../../types/Station";
 import setAuthToken from "../../utils/setAuthToken";
@@ -74,12 +74,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const EditStation: FunctionComponent = () => {
-  const authContext = useContext(AuthContext);
   const stationContext = useContext(StationContext);
 
   const classes = useStyles();
 
-  const { token } = authContext;
+  const { token, loadUser } = useAuth();
   const { setAlert } = useAlert();
   const {
     getUserStations,
@@ -91,7 +90,7 @@ const EditStation: FunctionComponent = () => {
   } = stationContext;
 
   useEffect(() => {
-    authContext.loadUser();
+    loadUser();
     getUserStations();
     setMarkerPosition([editStation.latitude, editStation.longitude]);
   }, []);

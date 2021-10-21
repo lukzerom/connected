@@ -7,10 +7,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import React, { ChangeEvent, useContext, useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { AlertType, useAlert } from "../../context/alert/AlertContext";
-import AuthContext from "../../context/auth/authContext";
+import { useAuth } from "../../context/auth/AuthContext";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -38,12 +38,10 @@ const useStyles = makeStyles((theme) => ({
 const Login = () => {
   const classes = useStyles();
 
-  const authContext = useContext(AuthContext);
-
   const { setAlert } = useAlert();
   const history = useHistory();
 
-  const { login, error, clearErrors, isAuthenticated } = authContext;
+  const { login, error, clearErrors, isAuthenticated } = useAuth();
 
   useEffect(() => {
     if (isAuthenticated) {
