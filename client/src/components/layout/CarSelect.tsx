@@ -9,7 +9,7 @@ import React, {
   useContext,
   useEffect,
 } from "react";
-import CarContext from "../../context/cars/carContext";
+import { useCars } from "../../context/cars/CarContext";
 import ReservationContext from "../../context/reservations/reservationContext";
 import { VehicleType } from "../../types/Vehicle";
 
@@ -25,9 +25,9 @@ const useStyles = makeStyles((theme) => ({
 
 const CarSelect: FunctionComponent = () => {
   const classes = useStyles();
-  const carContext = useContext(CarContext);
+
   const reservationContext = useContext(ReservationContext);
-  const { getCars, cars } = carContext;
+  const { getCars, cars } = useCars();
   const { setReservationCar, carId } = reservationContext;
 
   useEffect(() => {

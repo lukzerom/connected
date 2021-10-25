@@ -7,9 +7,9 @@ import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import DriveEtaIcon from "@material-ui/icons/DriveEta";
-import React, { FunctionComponent, useContext } from "react";
+import React, { FunctionComponent } from "react";
 import { Link } from "react-router-dom";
-import CarContext from "../../context/cars/carContext";
+import { useCars } from "../../context/cars/CarContext";
 import { VehicleType } from "../../types/Vehicle";
 import { chargerIcon } from "./utils";
 
@@ -70,12 +70,11 @@ type CarCardProps = {
 
 const CarCard: FunctionComponent<CarCardProps> = ({ car }) => {
   const classes = useStyles();
-  const carContext = useContext(CarContext);
 
-  const { deleteCar, setCar, getCars } = carContext;
+  const { deleteCar, setCar, getCars } = useCars();
 
   const handleDelete = (_id?: string) => {
-    deleteCar(_id);
+    if (_id) deleteCar(_id);
   };
 
   const handleEdit = (car: VehicleType) => {
@@ -109,7 +108,7 @@ const CarCard: FunctionComponent<CarCardProps> = ({ car }) => {
             </Grid>
             <Divider className={classes.divider} />
             <Grid container className={classes.footer}>
-              {car.plugins.map((plugin, index) => {
+              {car.plugins?.map((plugin, index) => {
                 return (
                   <Box
                     className={classes.pluginIcon}

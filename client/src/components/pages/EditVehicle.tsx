@@ -17,14 +17,13 @@ import EditIcon from "@material-ui/icons/Edit";
 import React, {
   ChangeEvent,
   FunctionComponent,
-  useContext,
   useEffect,
   useState,
 } from "react";
 import { useHistory } from "react-router-dom";
 import { AlertType, useAlert } from "../../context/alert/AlertContext";
 import { useAuth } from "../../context/auth/AuthContext";
-import CarContext from "../../context/cars/carContext";
+import { useCars } from "../../context/cars/CarContext";
 import { chargerIcon } from "../layout/utils";
 
 const useStyles = makeStyles((theme) => ({
@@ -80,14 +79,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AddVehicle: FunctionComponent = () => {
-  const carContext = useContext(CarContext);
   const classes = useStyles();
 
   const { setAlert } = useAlert();
 
   const { loadUser } = useAuth();
 
-  const { updateCar, editedCar } = carContext;
+  const { updateCar, editedCar } = useCars();
 
   const history = useHistory();
 
@@ -96,11 +94,11 @@ const AddVehicle: FunctionComponent = () => {
   }, [loadUser]);
 
   const [state, setState] = useState({
-    brand: editedCar.brand,
-    model: editedCar.model,
-    registration: editedCar.registration,
+    brand: editedCar?.brand || "",
+    model: editedCar?.model || "",
+    registration: editedCar?.registration || "",
     plugin: "",
-    plugins: editedCar.plugins,
+    plugins: editedCar?.plugins || [],
     errors: false,
   });
 
@@ -114,13 +112,13 @@ const AddVehicle: FunctionComponent = () => {
   };
 
   const handleSubmit = () => {
-    if (!brand || !model || !registration || plugins.length <= 0) {
+    if (!brand || !model || !registration || plugins?.length <= 0) {
       setState({ ...state, errors: true });
       return setAlert("Please provide required informations", AlertType.ERROR);
     }
 
     const car = {
-      id: editedCar._id,
+      id: editedCar?._id,
       brand,
       model,
       registration,
@@ -286,7 +284,7 @@ const AddVehicle: FunctionComponent = () => {
                     return (
                       <Box
                         className={classes.miniPlugin}
-                        key={`${editedCar._id}_${i}`}
+                        key={`${editedCar?._id}_${i}`}
                       >
                         {chargerIcon(plugin)}
                       </Box>

@@ -78,7 +78,7 @@ const EditStation: FunctionComponent = () => {
 
   const classes = useStyles();
 
-  const { token, loadUser } = useAuth();
+  const { token } = useAuth();
   const { setAlert } = useAlert();
   const {
     getUserStations,
@@ -90,10 +90,9 @@ const EditStation: FunctionComponent = () => {
   } = stationContext;
 
   useEffect(() => {
-    loadUser();
     getUserStations();
     setMarkerPosition([editStation.latitude, editStation.longitude]);
-  }, []);
+  }, [getUserStations, setMarkerPosition, editStation]);
 
   const history = useHistory();
 

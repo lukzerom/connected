@@ -6,12 +6,11 @@ const Dashboard: FunctionComponent = () => {
   const stationContext = useContext(StationContext);
   const { getUserStations } = stationContext;
 
-  const { loadUser, user } = useAuth();
+  const { user } = useAuth();
 
   useEffect(() => {
-    loadUser();
     getUserStations();
-  }, [loadUser, getUserStations]);
+  }, [getUserStations]);
 
   return (
     <div>

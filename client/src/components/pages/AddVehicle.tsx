@@ -14,17 +14,10 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import AddToPhotosIcon from "@material-ui/icons/AddToPhotos";
-import React, {
-  ChangeEvent,
-  FunctionComponent,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import React, { ChangeEvent, FunctionComponent, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { AlertType, useAlert } from "../../context/alert/AlertContext";
-import { useAuth } from "../../context/auth/AuthContext";
-import CarContext from "../../context/cars/carContext";
+import { useCars } from "../../context/cars/CarContext";
 import { VehicleType } from "../../types/Vehicle";
 import { chargerIcon } from "../layout/utils";
 
@@ -90,18 +83,11 @@ const useStyles = makeStyles(() => ({
 }));
 
 const AddVehicle: FunctionComponent = () => {
-  const carContext = useContext(CarContext);
   const classes = useStyles();
 
   const { setAlert } = useAlert();
-  const { addCar } = carContext;
+  const { addCar } = useCars();
   const history = useHistory();
-
-  const { loadUser } = useAuth();
-
-  useEffect(() => {
-    loadUser();
-  }, [loadUser]);
 
   const [state, setState] = useState<VehicleType>(defaultVehicle);
 
@@ -115,7 +101,7 @@ const AddVehicle: FunctionComponent = () => {
   };
 
   const handleSubmit = () => {
-    if (!brand || !model || !registration || plugins.length === 0) {
+    if (!brand || !model || !registration || plugins?.length === 0) {
       setState({ ...state, errors: true });
       return setAlert("Please provide required informations", AlertType.ERROR);
     }
@@ -150,7 +136,7 @@ const AddVehicle: FunctionComponent = () => {
     }
 
     let pluginsPush = plugins;
-    pluginsPush.push(plugin);
+    if (plugin) pluginsPush.push(plugin);
     setState({ ...state, plugins: pluginsPush, plugin: "" });
   };
 

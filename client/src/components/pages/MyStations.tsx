@@ -5,7 +5,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import AddToPhotosIcon from "@material-ui/icons/AddToPhotos";
 import React, { FunctionComponent, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from "../../context/auth/AuthContext";
 import StationContext from "../../context/stations/stationContext";
 import { Station } from "../../types/Station";
 import UserStation from "../layout/UserStation";
@@ -34,13 +33,11 @@ const MyStations: FunctionComponent = () => {
 
   const stationContext = useContext(StationContext);
 
-  const { loadUser } = useAuth();
   const { userstations, getUserStations, loading } = stationContext;
 
   useEffect(() => {
-    loadUser();
     getUserStations();
-  }, [loadUser, getUserStations]);
+  }, [getUserStations]);
 
   return (
     <Box className={classes.stationsWrapper}>
