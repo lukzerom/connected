@@ -93,7 +93,7 @@ const AddVehicle: FunctionComponent = () => {
 
   useEffect(() => {
     loadUser();
-  }, []);
+  }, [loadUser]);
 
   const [state, setState] = useState({
     brand: editedCar.brand,

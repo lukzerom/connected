@@ -55,7 +55,7 @@ const Register: FunctionComponent = () => {
       setAlert(error, AlertType.ERROR);
       clearErrors();
     }
-  }, [error, isAuthenticated, history]);
+  }, [error, isAuthenticated, history, setAlert, clearErrors]);
 
   const [user, setUser] = useState<UserType>({
     name: "",

@@ -94,7 +94,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AddStation: FunctionComponent = () => {
-
   const stationContext = useContext(StationContext);
 
   const classes = useStyles();
@@ -111,9 +110,8 @@ const AddStation: FunctionComponent = () => {
   const history = useHistory();
 
   useEffect(() => {
-    loadUser();
     getUserStations();
-  }, []);
+  }, [loadUser, getUserStations]);
 
   const [state, setState] = useState<Station>(defaultStation);
 

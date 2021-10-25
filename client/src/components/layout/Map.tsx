@@ -14,12 +14,11 @@ const myIcon = L.icon({
 
 const ChargerMap: FunctionComponent = () => {
   const stationContext = useContext(StationContext);
+  const { stations, getStations } = stationContext;
 
   useEffect(() => {
     getStations();
-  }, []);
-
-  const { stations, getStations } = stationContext;
+  }, [getStations]);
 
   return (
     <div className="map-container">

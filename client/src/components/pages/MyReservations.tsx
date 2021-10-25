@@ -57,7 +57,7 @@ const MyReservations: FunctionComponent = () => {
     loadUser();
     getUserReservationsAsDriver();
     getUserReservationsAsStation();
-  }, []);
+  }, [loadUser, getUserReservationsAsDriver, getUserReservationsAsStation]);
 
   return (
     <>

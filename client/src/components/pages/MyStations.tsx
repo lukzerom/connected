@@ -40,7 +40,7 @@ const MyStations: FunctionComponent = () => {
   useEffect(() => {
     loadUser();
     getUserStations();
-  }, []);
+  }, [loadUser, getUserStations]);
 
   return (
     <Box className={classes.stationsWrapper}>

@@ -1,4 +1,4 @@
-import { IconButton, Snackbar } from "@material-ui/core";
+import { IconButton, Snackbar, SnackbarContent } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import React, {
   createContext,
@@ -38,15 +38,21 @@ export const useAlert = () => {
 
 export const AlertProvider = ({ children }: AlertProviderProps) => {
   const [alerts, setAlerts] = useState<Array<Alert>>([]);
-  const id = uuid.v4();
 
-  const setAlert = useCallback((msg: string, type: AlertType) => {
-    setAlerts([...alerts, { msg, type, id }]);
-  }, []);
+  const clearAlert = useCallback(
+    (id: string) => {
+      setAlerts(alerts.filter((alert) => alert.id !== id));
+    },
+    [alerts]
+  );
 
-  const clearAlert = useCallback((id: string) => {
-    setAlerts(alerts.filter((alert) => alert.id !== id));
-  }, []);
+  const setAlert = useCallback(
+    (msg: string, type: AlertType) => {
+      const id = uuid.v4();
+      setAlerts([...alerts, { msg, type, id }]);
+    },
+    [alerts]
+  );
 
   const value: AlertContextType = {
     setAlert,
@@ -56,24 +62,28 @@ export const AlertProvider = ({ children }: AlertProviderProps) => {
   return (
     <AlertContext.Provider value={value}>
       {children}
-      {alerts.map((alert) => {
+      {alerts.map((alert, index) => {
         return (
-          <Snackbar
-            open={true}
-            autoHideDuration={6000}
-            message={alert.msg}
-            action={
-              <Fragment>
-                <IconButton
-                  aria-label="close"
-                  color="inherit"
-                  onClick={() => clearAlert(alert.id)}
-                >
-                  <CloseIcon />
-                </IconButton>
-              </Fragment>
-            }
-          />
+          <Snackbar open key={index} style={{ bottom: index * 72 + 24 }}>
+            <SnackbarContent
+              message={alert.msg}
+              style={{
+                backgroundColor:
+                  alert.type === AlertType.ERROR ? "#ff3333" : "#4BB543",
+              }}
+              action={
+                <Fragment>
+                  <IconButton
+                    aria-label="close"
+                    color="inherit"
+                    onClick={() => clearAlert(alert.id)}
+                  >
+                    <CloseIcon />
+                  </IconButton>
+                </Fragment>
+              }
+            />
+          </Snackbar>
         );
       })}
     </AlertContext.Provider>

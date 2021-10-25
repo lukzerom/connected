@@ -32,7 +32,7 @@ const CarSelect: FunctionComponent = () => {
 
   useEffect(() => {
     getCars();
-  }, []);
+  }, [getCars]);
 
   const handleChange = (e: ChangeEvent<any>) => {
     setReservationCar(e.target.value);

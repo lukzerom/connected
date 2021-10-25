@@ -52,7 +52,7 @@ const Login = () => {
       setAlert(error, AlertType.ERROR);
       clearErrors();
     }
-  }, [error, isAuthenticated, history]);
+  }, [error, isAuthenticated, history, clearErrors, setAlert]);
 
   const [user, setUser] = useState({
     email: "",

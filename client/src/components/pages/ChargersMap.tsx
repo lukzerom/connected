@@ -42,7 +42,7 @@ const ChargersMap: FunctionComponent = () => {
   useEffect(() => {
     loadUser();
     getAvailableStations();
-  }, []);
+  }, [getAvailableStations, loadUser]);
 
   const handleCloseError = (event: SyntheticEvent<Element, Event>) => {
     setOpenError(false);

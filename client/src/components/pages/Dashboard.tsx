@@ -11,7 +11,7 @@ const Dashboard: FunctionComponent = () => {
   useEffect(() => {
     loadUser();
     getUserStations();
-  }, []);
+  }, [loadUser, getUserStations]);
 
   return (
     <div>

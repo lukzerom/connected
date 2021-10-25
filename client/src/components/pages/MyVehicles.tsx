@@ -47,7 +47,7 @@ const MyVehicles: FunctionComponent = () => {
   useEffect(() => {
     loadUser();
     getCars();
-  }, []);
+  }, [loadUser, getCars]);
 
   return (
     <Box className={classes.vehiclesWrapper}>
