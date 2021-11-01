@@ -10,8 +10,13 @@ import CheckIcon from "@material-ui/icons/Check";
 import EmojiTransportationIcon from "@material-ui/icons/EmojiTransportation";
 import UpdateIcon from "@material-ui/icons/Update";
 import moment from "moment";
-import React, { FunctionComponent, useContext } from "react";
-import ReservationContext from "../../context/reservations/reservationContext";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useContext,
+  useState,
+} from "react";
+import { useReservations } from "../../context/reservations/ReservationContext";
 import StationContext from "../../context/stations/stationContext";
 import { ReservationType } from "../../types/Reservation";
 
@@ -86,13 +91,19 @@ type ReservationCardProps = {
 const ReservationCard: FunctionComponent<ReservationCardProps> = ({
   reservation,
 }) => {
+  const [mapModal, setMapModal] = useState(false);
+
   const classes = useStyles();
-  const reservationContext = useContext(ReservationContext);
+
   const stationContext = useContext(StationContext);
 
   const { getStation } = stationContext;
 
-  const { deleteReservation, toggleMapModal } = reservationContext;
+  const toggleMapModal = useCallback(() => {
+    setMapModal(!mapModal);
+  }, [mapModal, setMapModal]);
+
+  const { deleteReservation } = useReservations();
 
   let from = moment(reservation.timeStampFrom).format("YYYY-MM-DD HH:00");
   let to = moment(reservation.timeStampTo).format("YYYY-MM-DD HH:00");
@@ -128,7 +139,7 @@ const ReservationCard: FunctionComponent<ReservationCardProps> = ({
   };
 
   const handleMapModal = async (id: string) => {
-    toggleMapModal(true);
+    toggleMapModal();
     await getStation(id);
   };
 

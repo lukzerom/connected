@@ -15,7 +15,6 @@ import LocationCityIcon from "@material-ui/icons/LocationCity";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import moment from "moment";
 import React, { FunctionComponent, useContext } from "react";
-import ReservationContext from "../../context/reservations/reservationContext";
 import StationContext from "../../context/stations/stationContext";
 import Extras from "./Extras";
 import { chargerIcon } from "./utils";
@@ -71,17 +70,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ChargerDetails: FunctionComponent = () => {
+type ChargerDetailsProps = {
+  toggleModal: () => void;
+  toggleReservationModal: () => void;
+  dateFrom: number;
+  dateTo: number;
+};
+
+const ChargerDetails: FunctionComponent<ChargerDetailsProps> = ({
+  toggleModal,
+  toggleReservationModal,
+  dateFrom,
+  dateTo,
+}) => {
   const stationContext = useContext(StationContext);
-  const reservationContext = useContext(ReservationContext);
-  const {
-    dateFrom,
-    dateTo,
-    toggleModal,
-    isModalOpen,
-    isReservationModalOpen,
-    toggleReservationModal,
-  } = reservationContext;
 
   const { station } = stationContext;
   const classes = useStyles();
@@ -91,14 +93,6 @@ const ChargerDetails: FunctionComponent = () => {
 
   const duration = moment.duration(moment(dateTo).diff(moment(dateFrom)));
   const durationHours = Math.round(duration.asHours());
-
-  const handleModal = () => {
-    toggleModal(!isModalOpen);
-  };
-
-  const handleReservationModal = () => {
-    toggleReservationModal(!isReservationModalOpen);
-  };
 
   return (
     <Card className={classes.card}>
@@ -223,14 +217,14 @@ const ChargerDetails: FunctionComponent = () => {
           </CardContent>
           <CardActions>
             <Grid item xs={12} className={classes.buttons}>
-              <Button variant="contained" size="large" onClick={handleModal}>
+              <Button variant="contained" size="large" onClick={toggleModal}>
                 Change time
               </Button>
               <Button
                 variant="contained"
                 size="large"
                 color="primary"
-                onClick={handleReservationModal}
+                onClick={toggleReservationModal}
               >
                 Book
               </Button>

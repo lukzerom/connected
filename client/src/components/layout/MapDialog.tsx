@@ -6,8 +6,7 @@ import IconButton from "@material-ui/core/IconButton";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
-import React, { FunctionComponent, useContext } from "react";
-import ReservationContext from "../../context/reservations/reservationContext";
+import React, { FunctionComponent, useState } from "react";
 import ShowStationMap from "./ShowStationMap";
 
 const useStyles = makeStyles((theme) => ({
@@ -43,14 +42,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MapDialog: FunctionComponent = () => {
-  const reservationContext = useContext(ReservationContext);
-
-  const { isMapModalOpen, toggleMapModal } = reservationContext;
+  const [mapModalOpen, setMapModalOpen] = useState(false);
 
   const classes = useStyles();
 
   const handleClose = () => {
-    toggleMapModal(false);
+    setMapModalOpen(false);
   };
 
   return (
@@ -58,7 +55,7 @@ const MapDialog: FunctionComponent = () => {
       <Dialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
-        open={isMapModalOpen}
+        open={mapModalOpen}
         fullWidth
       >
         <MuiDialogTitle disableTypography>

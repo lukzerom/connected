@@ -11,8 +11,8 @@ import CheckIcon from "@material-ui/icons/Check";
 import EvStationIcon from "@material-ui/icons/EvStation";
 import UpdateIcon from "@material-ui/icons/Update";
 import moment from "moment";
-import React, { FunctionComponent, useContext, useEffect } from "react";
-import ReservationContext from "../../context/reservations/reservationContext";
+import React, { FunctionComponent, useEffect } from "react";
+import { useReservations } from "../../context/reservations/ReservationContext";
 import { ReservationType } from "../../types/Reservation";
 
 const useStyles = makeStyles({
@@ -92,12 +92,11 @@ const ReservationCard: FunctionComponent<ReservationCardProps> = ({
   reservation,
 }) => {
   const classes = useStyles();
-  const reservationContext = useContext(ReservationContext);
 
   let from = moment(reservation.timeStampFrom).format("YYYY-MM-DD HH:00");
   let to = moment(reservation.timeStampTo).format("YYYY-MM-DD HH:00");
 
-  const { confirmReservation, rejectReservation } = reservationContext;
+  const { confirmReservation, rejectReservation } = useReservations();
 
   useEffect(() => {});
 

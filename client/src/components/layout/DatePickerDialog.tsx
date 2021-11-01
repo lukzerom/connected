@@ -8,8 +8,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import Alert from "@material-ui/lab/Alert";
-import React, { FunctionComponent, useContext, useState } from "react";
-import ReservationContext from "../../context/reservations/reservationContext";
+import React, {
+  Dispatch,
+  FunctionComponent,
+  useContext,
+  useState,
+} from "react";
 import StationContext from "../../context/stations/stationContext";
 import DatePicker from "./DatePicker";
 
@@ -37,19 +41,32 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const DatePickerDialog: FunctionComponent = () => {
+type DatePickerDialogProps = {
+  toggleModal: () => void;
+  modalOpen: boolean;
+  setDateTo: Dispatch<React.SetStateAction<number>>;
+  setDateFrom: Dispatch<React.SetStateAction<number>>;
+  dateFrom: number;
+  dateTo: number;
+};
+const DatePickerDialog: FunctionComponent<DatePickerDialogProps> = ({
+  toggleModal,
+  modalOpen,
+  setDateFrom,
+  setDateTo,
+  dateFrom,
+  dateTo,
+}) => {
   const [alert, setAlert] = useState(false);
-  const reservationContext = useContext(ReservationContext);
-  const stationContext = useContext(StationContext);
 
-  const { dateFrom, dateTo, isModalOpen, toggleModal } = reservationContext;
+  const stationContext = useContext(StationContext);
 
   const { getAvailableStations } = stationContext;
 
   const classes = useStyles();
 
   const handleClose = () => {
-    toggleModal(false);
+    toggleModal();
   };
 
   const handleSearch = () => {
@@ -62,7 +79,7 @@ const DatePickerDialog: FunctionComponent = () => {
       return;
     }
     getAvailableStations(dateFrom, dateTo);
-    toggleModal(false);
+    toggleModal();
   };
 
   return (
@@ -70,7 +87,7 @@ const DatePickerDialog: FunctionComponent = () => {
       <Dialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
-        open={isModalOpen}
+        open={modalOpen}
       >
         <MuiDialogTitle disableTypography>
           <Typography variant="h6">
@@ -86,7 +103,12 @@ const DatePickerDialog: FunctionComponent = () => {
           </IconButton>
         </MuiDialogTitle>
         <DialogContent dividers>
-          <DatePicker />
+          <DatePicker
+            setDateFrom={setDateFrom}
+            setDateTo={setDateTo}
+            dateFrom={dateFrom}
+            dateTo={dateTo}
+          />
           <Divider className={classes.divider} />
           <Typography>
             if you select the hours you are interested in, the application will

@@ -2,6 +2,7 @@ import { UserType } from "./User";
 
 export type ReservationType = {
   _id?: string;
+  id?: string;
   user: UserType;
   station: string;
   carName: string;

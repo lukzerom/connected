@@ -2,9 +2,9 @@ import { Divider, Grid, Typography } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles } from "@material-ui/core/styles";
-import React, { FunctionComponent, useContext, useEffect } from "react";
+import React, { FunctionComponent, useEffect } from "react";
 import { useAuth } from "../../context/auth/AuthContext";
-import ReservationContext from "../../context/reservations/reservationContext";
+import { useReservations } from "../../context/reservations/ReservationContext";
 import { ReservationType } from "../../types/Reservation";
 import MapDialog from "../layout/MapDialog";
 import ReservationCard from "../layout/ReservationCard";
@@ -41,7 +41,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MyReservations: FunctionComponent = () => {
-  const reservationContext = useContext(ReservationContext);
   const classes = useStyles();
   const { loadUser } = useAuth();
 
@@ -51,7 +50,7 @@ const MyReservations: FunctionComponent = () => {
     userReservationsAsDriver,
     userReservationsAsStation,
     loadingUserTrips,
-  } = reservationContext;
+  } = useReservations();
 
   useEffect(() => {
     loadUser();

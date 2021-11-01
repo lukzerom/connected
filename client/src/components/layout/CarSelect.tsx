@@ -3,14 +3,9 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import { makeStyles } from "@material-ui/core/styles";
-import React, {
-  ChangeEvent,
-  FunctionComponent,
-  useContext,
-  useEffect,
-} from "react";
+import React, { ChangeEvent, FunctionComponent, useEffect } from "react";
 import { useCars } from "../../context/cars/CarContext";
-import ReservationContext from "../../context/reservations/reservationContext";
+import { useReservations } from "../../context/reservations/ReservationContext";
 import { VehicleType } from "../../types/Vehicle";
 
 const useStyles = makeStyles((theme) => ({
@@ -26,9 +21,8 @@ const useStyles = makeStyles((theme) => ({
 const CarSelect: FunctionComponent = () => {
   const classes = useStyles();
 
-  const reservationContext = useContext(ReservationContext);
   const { getCars, cars } = useCars();
-  const { setReservationCar, carId } = reservationContext;
+  const { setReservationCar, carId } = useReservations();
 
   useEffect(() => {
     getCars();

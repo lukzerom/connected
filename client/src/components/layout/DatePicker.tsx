@@ -2,8 +2,7 @@ import Box from "@material-ui/core/Box";
 import { makeStyles } from "@material-ui/core/styles";
 import { DateTimePicker } from "@material-ui/pickers";
 import moment, { MomentInput } from "moment";
-import React, { FunctionComponent, useContext } from "react";
-import ReservationContext from "../../context/reservations/reservationContext";
+import React, { Dispatch, FunctionComponent } from "react";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -18,11 +17,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const DatePicker: FunctionComponent = () => {
-  const classes = useStyles();
-  const reservationContext = useContext(ReservationContext);
+type DatePickerProps = {
+  setDateTo: Dispatch<React.SetStateAction<number>>;
+  setDateFrom: Dispatch<React.SetStateAction<number>>;
+  dateFrom: number;
+  dateTo: number;
+};
 
-  const { dateFrom, dateTo, setDateFrom, setDateTo } = reservationContext;
+const DatePicker: FunctionComponent<DatePickerProps> = ({
+  setDateFrom,
+  setDateTo,
+  dateFrom,
+  dateTo,
+}) => {
+  const classes = useStyles();
 
   const handleDateFrom = (e: MomentInput) => {
     const time = moment(e).toDate();

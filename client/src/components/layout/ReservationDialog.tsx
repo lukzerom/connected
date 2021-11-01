@@ -16,7 +16,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import ReservationContext from "../../context/reservations/reservationContext";
+import { useReservations } from "../../context/reservations/ReservationContext";
 import StationContext from "../../context/stations/stationContext";
 import CarSelect from "./CarSelect";
 
@@ -49,19 +49,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ReservationDialog: FunctionComponent = () => {
+type ReservationDialogProps = {
+  toggleReservationModal: () => void;
+  reservationModalOpen: boolean;
+  dateFrom: number;
+  dateTo: number;
+};
+
+const ReservationDialog: FunctionComponent<ReservationDialogProps> = ({
+  toggleReservationModal,
+  reservationModalOpen,
+  dateFrom,
+  dateTo,
+}) => {
   const [alert, setAlert] = useState(false);
-  const reservationContext = useContext(ReservationContext);
+
   const stationContext = useContext(StationContext);
 
-  const {
-    dateFrom,
-    dateTo,
-    carId,
-    isReservationModalOpen,
-    toggleReservationModal,
-    addReservation,
-  } = reservationContext;
+  const { carId, addReservation } = useReservations();
 
   const { station, getAvailableStations } = stationContext;
 
@@ -75,7 +80,7 @@ const ReservationDialog: FunctionComponent = () => {
   const durationHours = Math.round(duration.asHours());
 
   const handleClose = () => {
-    toggleReservationModal(false);
+    toggleReservationModal();
   };
 
   const handleBook = async () => {
@@ -94,7 +99,7 @@ const ReservationDialog: FunctionComponent = () => {
       }, 5000);
       return;
     }
-    toggleReservationModal(false);
+    toggleReservationModal();
     await addReservation(reservation);
     await getAvailableStations(
       reservation.timeStampFrom,
@@ -107,7 +112,7 @@ const ReservationDialog: FunctionComponent = () => {
       <Dialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
-        open={isReservationModalOpen}
+        open={reservationModalOpen}
       >
         <MuiDialogTitle disableTypography>
           <Typography variant="h6">Confirm data and pick your car</Typography>

@@ -22,7 +22,7 @@ import PrivateRoute from "./components/routing/PrivateRoute";
 import { AlertProvider } from "./context/alert/AlertContext";
 import { AuthProvider } from "./context/auth/AuthContext";
 import { CarProvider } from "./context/cars/CarContext";
-import ReservationState from "./context/reservations/ReservationState";
+import { ReservationsProvider } from "./context/reservations/ReservationContext";
 import StationState from "./context/stations/StationState";
 import setAuthToken from "./utils/setAuthToken";
 
@@ -48,7 +48,7 @@ const App = () => {
         <AuthProvider>
           <MuiPickersUtilsProvider utils={MomentUtils}>
             <AlertProvider>
-              <ReservationState>
+              <ReservationsProvider>
                 <StationState>
                   <CarProvider>
                     <Router>
@@ -96,7 +96,7 @@ const App = () => {
                     </Router>
                   </CarProvider>
                 </StationState>
-              </ReservationState>
+              </ReservationsProvider>
             </AlertProvider>
           </MuiPickersUtilsProvider>
         </AuthProvider>
