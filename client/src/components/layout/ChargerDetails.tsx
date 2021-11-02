@@ -14,8 +14,8 @@ import EvStationIcon from "@material-ui/icons/EvStation";
 import LocationCityIcon from "@material-ui/icons/LocationCity";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import moment from "moment";
-import React, { FunctionComponent, useContext } from "react";
-import StationContext from "../../context/stations/stationContext";
+import React, { FunctionComponent } from "react";
+import { useStations } from "../../context/stations/StationContext";
 import Extras from "./Extras";
 import { chargerIcon } from "./utils";
 
@@ -83,9 +83,7 @@ const ChargerDetails: FunctionComponent<ChargerDetailsProps> = ({
   dateFrom,
   dateTo,
 }) => {
-  const stationContext = useContext(StationContext);
-
-  const { station } = stationContext;
+  const { pickedStation } = useStations();
   const classes = useStyles();
 
   const from = moment(dateFrom).format("YYYY-MM-DD HH:00");
@@ -96,7 +94,7 @@ const ChargerDetails: FunctionComponent<ChargerDetailsProps> = ({
 
   return (
     <Card className={classes.card}>
-      {station === undefined ? (
+      {pickedStation === undefined ? (
         <CardContent>
           <Typography
             className={classes.title}
@@ -111,14 +109,14 @@ const ChargerDetails: FunctionComponent<ChargerDetailsProps> = ({
         <>
           <CardContent>
             <Typography className={classes.title} variant="h6" align="center">
-              {station.name}
+              {pickedStation?.name}
             </Typography>
 
             <Divider variant="middle" className={classes.divider} />
-            {station.picture ? (
+            {pickedStation?.picture ? (
               <CardMedia
                 className={classes.media}
-                image={station.picture}
+                image={pickedStation?.picture}
                 title="Station picture"
                 component="img"
               />
@@ -137,7 +135,7 @@ const ChargerDetails: FunctionComponent<ChargerDetailsProps> = ({
                   align="center"
                 >
                   <LocationCityIcon className={classes.icon} />
-                  {station.city}
+                  {pickedStation?.city}
                 </Typography>
               </Grid>
               <Grid item xs={6}>
@@ -149,14 +147,14 @@ const ChargerDetails: FunctionComponent<ChargerDetailsProps> = ({
                   align="center"
                 >
                   <LocationOnIcon className={classes.icon} />
-                  Al. {station.street} {station.streetNumber}
+                  Al. {pickedStation?.street} {pickedStation?.streetNumber}
                 </Typography>
               </Grid>
             </Grid>
             <Divider variant="middle" className={classes.divider} />
             <Grid container spacing={3}>
               <Grid item xs={6} className={classes.plugin}>
-                {chargerIcon(station.plugin)}
+                {chargerIcon(pickedStation?.plugin)}
               </Grid>
               <Grid item xs={6}>
                 <Typography
@@ -165,7 +163,7 @@ const ChargerDetails: FunctionComponent<ChargerDetailsProps> = ({
                   gutterBottom
                   className={classes.price}
                 >
-                  {station.price} EUR / h
+                  {pickedStation?.price} EUR / h
                 </Typography>
               </Grid>
             </Grid>
@@ -174,9 +172,11 @@ const ChargerDetails: FunctionComponent<ChargerDetailsProps> = ({
               Extras:
             </Typography>
             <Box className={classes.extrasBox}>
-              {station.additives.map((extra: string, index: number) => {
-                return <Extras key={index} extra={extra} />;
-              })}
+              {pickedStation &&
+                pickedStation.extras &&
+                pickedStation.extras.map((extra: string, index: number) => {
+                  return <Extras key={index} extra={extra} />;
+                })}
             </Box>
             <Divider variant="middle" className={classes.divider} />
             <Grid container spacing={3}>

@@ -23,7 +23,7 @@ import { AlertProvider } from "./context/alert/AlertContext";
 import { AuthProvider } from "./context/auth/AuthContext";
 import { CarProvider } from "./context/cars/CarContext";
 import { ReservationsProvider } from "./context/reservations/ReservationContext";
-import StationState from "./context/stations/StationState";
+import { StationProvider } from "./context/stations/StationContext";
 import setAuthToken from "./utils/setAuthToken";
 
 if (localStorage.token) {
@@ -49,7 +49,7 @@ const App = () => {
           <MuiPickersUtilsProvider utils={MomentUtils}>
             <AlertProvider>
               <ReservationsProvider>
-                <StationState>
+                <StationProvider>
                   <CarProvider>
                     <Router>
                       <Nav />
@@ -95,7 +95,7 @@ const App = () => {
                       <Footer />
                     </Router>
                   </CarProvider>
-                </StationState>
+                </StationProvider>
               </ReservationsProvider>
             </AlertProvider>
           </MuiPickersUtilsProvider>

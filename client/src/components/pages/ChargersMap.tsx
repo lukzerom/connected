@@ -3,12 +3,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import React, {
   FunctionComponent,
   useCallback,
-  useContext,
   useEffect,
   useState,
 } from "react";
 import { useAuth } from "../../context/auth/AuthContext";
-import StationContext from "../../context/stations/stationContext";
+import { useStations } from "../../context/stations/StationContext";
 import ChargerDetails from "../layout/ChargerDetails";
 import DatePickerDialog from "../layout/DatePickerDialog";
 import ProtectedMap from "../layout/ProtectedMap";
@@ -22,15 +21,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ChargersMap: FunctionComponent = () => {
-  const stationContext = useContext(StationContext);
-
   const [dateFrom, setDateFrom] = useState(new Date().setMinutes(0));
   const [dateTo, setDateTo] = useState(new Date().setMinutes(0));
 
   const [modalOpen, setModalOpen] = useState(false);
   const [reservationModalOpen, setReservationModalOpen] = useState(false);
 
-  const { getAvailableStations } = stationContext;
+  const { getAvailableStations } = useStations();
 
   const { loadUser } = useAuth();
 

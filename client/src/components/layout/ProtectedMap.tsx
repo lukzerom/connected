@@ -1,8 +1,8 @@
 import L, { LatLngTuple, LeafletMouseEvent } from "leaflet";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Map, Marker, TileLayer, Viewport } from "react-leaflet";
 import bolt from "../../assets/bolt.svg";
-import StationContext from "../../context/stations/stationContext";
+import { useStations } from "../../context/stations/StationContext";
 import { Station } from "../../types/Station";
 
 const myIcon = L.icon({
@@ -18,8 +18,7 @@ const ChargerMap = () => {
   const [zoom, setZoom] = useState<number>(0);
   const [position, setPosition] = useState<LatLngTuple>([0, 0]);
 
-  const stationContext = useContext(StationContext);
-  const { setStation, avaiableStations } = stationContext;
+  const { setStation, avaiableStations } = useStations();
 
   const changePosition = (e: LeafletMouseEvent) => {
     animateflag = true;

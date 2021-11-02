@@ -17,7 +17,7 @@ const imgStyle: { width: string; height: string; objectFit: any } = {
   objectFit: "contain",
 };
 
-const chargerIcon = (plugin: string): ReactNode => {
+const chargerIcon = (plugin?: string): ReactNode => {
   switch (plugin) {
     case "American_Standard":
       return (

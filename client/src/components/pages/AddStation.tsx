@@ -19,7 +19,6 @@ import MapIcon from "@material-ui/icons/Map";
 import React, {
   ChangeEvent,
   FunctionComponent,
-  useContext,
   useEffect,
   useState,
 } from "react";
@@ -27,7 +26,7 @@ import { useHistory } from "react-router-dom";
 import utf8 from "utf8";
 import { AlertType, useAlert } from "../../context/alert/AlertContext";
 import { useAuth } from "../../context/auth/AuthContext";
-import StationContext from "../../context/stations/stationContext";
+import { useStations } from "../../context/stations/StationContext";
 import { Station } from "../../types/Station";
 import setAuthToken from "../../utils/setAuthToken";
 import AddStationMap from "../layout/AddStationMap";
@@ -36,7 +35,7 @@ const defaultStation = {
   name: "",
   country: "",
   city: "",
-  streetName: "",
+  street: "",
   streetNumber: "",
   pictureUrl: "",
   longitude: 0,
@@ -94,8 +93,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AddStation: FunctionComponent = () => {
-  const stationContext = useContext(StationContext);
-
   const classes = useStyles();
 
   const { token, loadUser } = useAuth();
@@ -105,7 +102,7 @@ const AddStation: FunctionComponent = () => {
     markerPosition,
     addStation,
     getLatLang,
-  } = stationContext;
+  } = useStations();
 
   const history = useHistory();
 
@@ -119,7 +116,7 @@ const AddStation: FunctionComponent = () => {
     name,
     country,
     city,
-    streetName,
+    street,
     streetNumber,
     pictureUrl,
     price,
@@ -147,7 +144,7 @@ const AddStation: FunctionComponent = () => {
   };
 
   const getLatLangLocal = async () => {
-    const adress = `${streetName}+${streetNumber}+${city}+${country}`;
+    const adress = `${street}+${streetNumber}+${city}+${country}`;
     const cleanAdress = utf8.encode(adress.replace("/", "+"));
 
     getLatLang(cleanAdress);
@@ -167,7 +164,7 @@ const AddStation: FunctionComponent = () => {
       !name ||
       !country ||
       !city ||
-      !streetName ||
+      !street ||
       !streetNumber ||
       !price ||
       !plugin
@@ -180,7 +177,7 @@ const AddStation: FunctionComponent = () => {
       name,
       country,
       city,
-      street: streetName,
+      street: street,
       streetNumber,
       picture: pictureUrl,
       price,
@@ -254,11 +251,11 @@ const AddStation: FunctionComponent = () => {
                 <Box className={classes.inputs}>
                   <TextField
                     required
-                    error={errors && !streetName}
+                    error={errors && !street}
                     id="outlined-required"
                     label="Street Name"
                     name="streetName"
-                    value={streetName}
+                    value={street}
                     onChange={onChange}
                     variant="outlined"
                   />

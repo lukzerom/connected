@@ -10,14 +10,9 @@ import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import Alert from "@material-ui/lab/Alert";
 import moment from "moment";
-import React, {
-  FunctionComponent,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import { useReservations } from "../../context/reservations/ReservationContext";
-import StationContext from "../../context/stations/stationContext";
+import { useStations } from "../../context/stations/StationContext";
 import CarSelect from "./CarSelect";
 
 const useStyles = makeStyles((theme) => ({
@@ -64,11 +59,9 @@ const ReservationDialog: FunctionComponent<ReservationDialogProps> = ({
 }) => {
   const [alert, setAlert] = useState(false);
 
-  const stationContext = useContext(StationContext);
-
   const { carId, addReservation } = useReservations();
 
-  const { station, getAvailableStations } = stationContext;
+  const { pickedStation, getAvailableStations } = useStations();
 
   useEffect(() => {});
 
@@ -88,7 +81,7 @@ const ReservationDialog: FunctionComponent<ReservationDialogProps> = ({
       timeStampFrom: dateFrom,
       timeStampTo: dateTo,
       carId,
-      id: station._id,
+      id: pickedStation?._id || "",
     };
 
     if (dateFrom === dateTo) {
@@ -100,7 +93,7 @@ const ReservationDialog: FunctionComponent<ReservationDialogProps> = ({
       return;
     }
     toggleReservationModal();
-    await addReservation(reservation);
+    addReservation(reservation);
     await getAvailableStations(
       reservation.timeStampFrom,
       reservation.timeStampTo
@@ -146,10 +139,11 @@ const ReservationDialog: FunctionComponent<ReservationDialogProps> = ({
             </Grid>
             <Grid xs={8} item className={classes.price}>
               <Typography align="center">
-                {station === undefined
-                  ? null
-                  : `Total : ${durationHours} h * ${station.price} EUR = appx
-              ${durationHours * station.price} EUR`}
+                {pickedStation &&
+                  `Total : ${durationHours} h * ${
+                    pickedStation?.price
+                  } EUR = appx
+              ${durationHours * pickedStation.price} EUR`}
               </Typography>
             </Grid>
           </Grid>

@@ -1,10 +1,9 @@
-import React, { FunctionComponent, useContext, useEffect } from "react";
+import React, { FunctionComponent, useEffect } from "react";
 import { useAuth } from "../../context/auth/AuthContext";
-import StationContext from "../../context/stations/stationContext";
+import { useStations } from "../../context/stations/StationContext";
 
 const Dashboard: FunctionComponent = () => {
-  const stationContext = useContext(StationContext);
-  const { getUserStations } = stationContext;
+  const { getUserStations } = useStations();
 
   const { user } = useAuth();
 

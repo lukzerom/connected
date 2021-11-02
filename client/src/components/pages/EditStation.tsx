@@ -11,7 +11,7 @@ import {
   Paper,
   Select,
   TextField,
-  Typography,
+  Typography
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import EditIcon from "@material-ui/icons/Edit";
@@ -19,15 +19,14 @@ import MapIcon from "@material-ui/icons/Map";
 import React, {
   ChangeEvent,
   FunctionComponent,
-  useContext,
   useEffect,
-  useState,
+  useState
 } from "react";
 import { useHistory } from "react-router-dom";
 import utf8 from "utf8";
 import { AlertType, useAlert } from "../../context/alert/AlertContext";
 import { useAuth } from "../../context/auth/AuthContext";
-import StationContext from "../../context/stations/stationContext";
+import { useStations } from "../../context/stations/StationContext";
 import { Station } from "../../types/Station";
 import setAuthToken from "../../utils/setAuthToken";
 import AddStationMap from "../layout/AddStationMap";
@@ -74,8 +73,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const EditStation: FunctionComponent = () => {
-  const stationContext = useContext(StationContext);
-
   const classes = useStyles();
 
   const { token } = useAuth();
@@ -87,17 +84,22 @@ const EditStation: FunctionComponent = () => {
     editStation,
     updateStation,
     getLatLang,
-  } = stationContext;
+  } = useStations();
 
   useEffect(() => {
     getUserStations();
-    setMarkerPosition([editStation.latitude, editStation.longitude]);
+    if (editStation?.latitude && editStation?.longitude) {
+      setMarkerPosition([editStation?.latitude, editStation?.longitude]);
+    }
   }, [getUserStations, setMarkerPosition, editStation]);
 
   const history = useHistory();
 
-  const [state, setState] = useState<Station>({
-    id: editStation._id,
+  const [state, setState] = useState<Station>()
+
+  useEffect(()=>{
+if(editStation){
+  setState({id: editStation._id,
     name: editStation.name,
     country: editStation.country,
     city: editStation.city,
@@ -114,8 +116,10 @@ const EditStation: FunctionComponent = () => {
     bike: editStation.additives.includes("Bike"),
     coffee: editStation.additives.includes("Coffee"),
     bus: editStation.additives.includes("Bus"),
-    errors: false,
-  });
+    errors: false,})  
+
+  },[])
+  
 
   const {
     id,

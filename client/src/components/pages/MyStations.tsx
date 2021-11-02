@@ -3,9 +3,9 @@ import Box from "@material-ui/core/Box";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles } from "@material-ui/core/styles";
 import AddToPhotosIcon from "@material-ui/icons/AddToPhotos";
-import React, { FunctionComponent, useContext, useEffect } from "react";
+import React, { FunctionComponent, useEffect } from "react";
 import { Link } from "react-router-dom";
-import StationContext from "../../context/stations/stationContext";
+import { useStations } from "../../context/stations/StationContext";
 import { Station } from "../../types/Station";
 import UserStation from "../layout/UserStation";
 
@@ -31,9 +31,7 @@ const useStyles = makeStyles(() => ({
 const MyStations: FunctionComponent = () => {
   const classes = useStyles();
 
-  const stationContext = useContext(StationContext);
-
-  const { userstations, getUserStations, loading } = stationContext;
+  const { userstations, getUserStations, loading } = useStations();
 
   useEffect(() => {
     getUserStations();

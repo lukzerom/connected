@@ -5,9 +5,9 @@ import CardContent from "@material-ui/core/CardContent";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import React, { FunctionComponent, useContext } from "react";
+import React, { FunctionComponent } from "react";
 import { Link } from "react-router-dom";
-import StationContext from "../../context/stations/stationContext";
+import { useStations } from "../../context/stations/StationContext";
 import { Station } from "../../types/Station";
 import Extras from "./Extras";
 import { chargerIcon } from "./utils";
@@ -59,8 +59,8 @@ type UserStationProps = {
 
 const UserStation: FunctionComponent<UserStationProps> = ({ station }) => {
   const classes = useStyles();
-  const stationContext = useContext(StationContext);
-  const { setEditStation, userstations, deleteStation } = stationContext;
+
+  const { setEditStation, userstations, deleteStation } = useStations();
 
   const handleEdit = (id?: string) => {
     let station = userstations.filter((station: Station) => {
@@ -73,7 +73,7 @@ const UserStation: FunctionComponent<UserStationProps> = ({ station }) => {
   };
 
   const handleDelete = (id?: string) => {
-    deleteStation(id);
+    if (id) deleteStation(id);
   };
 
   return (
@@ -89,13 +89,15 @@ const UserStation: FunctionComponent<UserStationProps> = ({ station }) => {
                 <Box className={classes.adressBox}>
                   <Typography variant="h6">{station.name}</Typography>
                   <Typography variant="caption">
-                    {station.country} {station.city} {station.streetName}{" "}
+                    {station.country} {station.city} {station.street}{" "}
                     {station.streetNumber}
                   </Typography>
                   <Box className={classes.extras}>
-                    {station.extras.map((extra, index) => (
-                      <Extras key={index} extra={extra} />
-                    ))}
+                    {station &&
+                      station.extras &&
+                      station?.extras.map((extra, index) => (
+                        <Extras key={index} extra={extra} />
+                      ))}
                   </Box>
                 </Box>
               </Grid>

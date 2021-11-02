@@ -8,13 +8,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import Alert from "@material-ui/lab/Alert";
-import React, {
-  Dispatch,
-  FunctionComponent,
-  useContext,
-  useState,
-} from "react";
-import StationContext from "../../context/stations/stationContext";
+import React, { Dispatch, FunctionComponent, useState } from "react";
+import { useStations } from "../../context/stations/StationContext";
 import DatePicker from "./DatePicker";
 
 const useStyles = makeStyles((theme) => ({
@@ -59,9 +54,7 @@ const DatePickerDialog: FunctionComponent<DatePickerDialogProps> = ({
 }) => {
   const [alert, setAlert] = useState(false);
 
-  const stationContext = useContext(StationContext);
-
-  const { getAvailableStations } = stationContext;
+  const { getAvailableStations } = useStations();
 
   const classes = useStyles();
 

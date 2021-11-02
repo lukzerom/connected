@@ -10,14 +10,9 @@ import CheckIcon from "@material-ui/icons/Check";
 import EmojiTransportationIcon from "@material-ui/icons/EmojiTransportation";
 import UpdateIcon from "@material-ui/icons/Update";
 import moment from "moment";
-import React, {
-  FunctionComponent,
-  useCallback,
-  useContext,
-  useState,
-} from "react";
+import React, { FunctionComponent, useCallback, useState } from "react";
 import { useReservations } from "../../context/reservations/ReservationContext";
-import StationContext from "../../context/stations/stationContext";
+import { useStations } from "../../context/stations/StationContext";
 import { ReservationType } from "../../types/Reservation";
 
 const useStyles = makeStyles({
@@ -95,9 +90,7 @@ const ReservationCard: FunctionComponent<ReservationCardProps> = ({
 
   const classes = useStyles();
 
-  const stationContext = useContext(StationContext);
-
-  const { getStation } = stationContext;
+  const { getStation } = useStations();
 
   const toggleMapModal = useCallback(() => {
     setMapModal(!mapModal);

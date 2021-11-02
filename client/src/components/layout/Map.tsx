@@ -1,8 +1,8 @@
 import L from "leaflet";
-import React, { FunctionComponent, useContext, useEffect } from "react";
+import React, { FunctionComponent, useEffect } from "react";
 import { Map, Marker, Popup, TileLayer } from "react-leaflet";
 import bolt from "../../assets/bolt.svg";
-import StationContext from "../../context/stations/stationContext";
+import { useStations } from "../../context/stations/StationContext";
 import { Station } from "../../types/Station";
 
 const myIcon = L.icon({
@@ -13,8 +13,7 @@ const myIcon = L.icon({
 });
 
 const ChargerMap: FunctionComponent = () => {
-  const stationContext = useContext(StationContext);
-  const { stations, getStations } = stationContext;
+  const { stations, getStations } = useStations();
 
   useEffect(() => {
     getStations();
