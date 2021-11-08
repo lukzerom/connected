@@ -10,7 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import Alert from "@material-ui/lab/Alert";
 import moment from "moment";
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, { FunctionComponent, useState } from "react";
 import { useReservations } from "../../context/reservations/ReservationContext";
 import { useStations } from "../../context/stations/StationContext";
 import CarSelect from "./CarSelect";
@@ -62,8 +62,6 @@ const ReservationDialog: FunctionComponent<ReservationDialogProps> = ({
   const { carId, addReservation } = useReservations();
 
   const { pickedStation, getAvailableStations } = useStations();
-
-  useEffect(() => {});
 
   const classes = useStyles();
 

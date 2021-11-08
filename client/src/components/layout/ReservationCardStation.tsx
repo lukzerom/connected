@@ -11,7 +11,7 @@ import CheckIcon from "@material-ui/icons/Check";
 import EvStationIcon from "@material-ui/icons/EvStation";
 import UpdateIcon from "@material-ui/icons/Update";
 import moment from "moment";
-import React, { FunctionComponent, useEffect } from "react";
+import React, { FunctionComponent } from "react";
 import { useReservations } from "../../context/reservations/ReservationContext";
 import { ReservationType } from "../../types/Reservation";
 
@@ -97,8 +97,6 @@ const ReservationCard: FunctionComponent<ReservationCardProps> = ({
   let to = moment(reservation.timeStampTo).format("YYYY-MM-DD HH:00");
 
   const { confirmReservation, rejectReservation } = useReservations();
-
-  useEffect(() => {});
 
   const verification = (accepted: boolean, rejected: boolean) => {
     if (!accepted && !rejected) {

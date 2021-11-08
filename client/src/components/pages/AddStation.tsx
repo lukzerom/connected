@@ -16,13 +16,9 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import MapIcon from "@material-ui/icons/Map";
-import React, {
-  ChangeEvent,
-  FunctionComponent,
-  useEffect,
-  useState,
-} from "react";
+import React, { ChangeEvent, FunctionComponent, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { useEffectOnce } from "react-use";
 import utf8 from "utf8";
 import { AlertType, useAlert } from "../../context/alert/AlertContext";
 import { useAuth } from "../../context/auth/AuthContext";
@@ -95,7 +91,7 @@ const useStyles = makeStyles((theme) => ({
 const AddStation: FunctionComponent = () => {
   const classes = useStyles();
 
-  const { token, loadUser } = useAuth();
+  const { token } = useAuth();
   const { setAlert } = useAlert();
   const {
     getUserStations,
@@ -106,9 +102,9 @@ const AddStation: FunctionComponent = () => {
 
   const history = useHistory();
 
-  useEffect(() => {
+  useEffectOnce(() => {
     getUserStations();
-  }, [loadUser, getUserStations]);
+  });
 
   const [state, setState] = useState<Station>(defaultStation);
 

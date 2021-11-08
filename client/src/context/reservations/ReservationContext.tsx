@@ -68,12 +68,11 @@ const ReservationsProvider: FunctionComponent<ReservationProviderType> = ({
         setState({
           ...state,
           userReservationsAsDriver: response.data,
+          loadingUserTrips: false,
         });
       })
       .catch((error) => {
         setAlert(error.res.msg, AlertType.ERROR);
-      })
-      .finally(() => {
         setState({
           ...state,
           loadingUserTrips: false,
@@ -93,8 +92,6 @@ const ReservationsProvider: FunctionComponent<ReservationProviderType> = ({
       })
       .catch((error) => {
         setAlert(error.res.msg, AlertType.ERROR);
-      })
-      .finally(() => {
         setState({
           ...state,
           loadingUserStations: false,
@@ -124,6 +121,7 @@ const ReservationsProvider: FunctionComponent<ReservationProviderType> = ({
               ...state.userReservationsAsDriver,
               response.data,
             ],
+            loadingUserStations: false,
           });
 
           setAlert("Station booked!", AlertType.SUCCESS);
@@ -131,11 +129,9 @@ const ReservationsProvider: FunctionComponent<ReservationProviderType> = ({
       })
       .catch((error) => {
         setAlert(error.res.msg, AlertType.ERROR);
-      })
-      .finally(() => {
         setState({
           ...state,
-          loading: false,
+          loadingUserStations: false,
         });
       });
   };
@@ -149,12 +145,11 @@ const ReservationsProvider: FunctionComponent<ReservationProviderType> = ({
           userReservationsAsDriver: state.userReservationsAsDriver.filter(
             (reservation) => reservation._id !== response.data._id
           ),
+          loadingUserStations: false,
         });
       })
       .catch((error) => {
         setAlert(error.res.msg, AlertType.ERROR);
-      })
-      .finally(() => {
         setState({ ...state, loading: false });
       });
   };
@@ -178,13 +173,12 @@ const ReservationsProvider: FunctionComponent<ReservationProviderType> = ({
                 : reservation
             ),
           ],
+          loading: false,
         });
       })
       .catch((error) => {
         setAlert(error.res.msg, AlertType.ERROR);
-      })
-      .finally(() => {
-        setState({ ...state, loading: false });
+        setState({ ...state });
       });
   };
 
@@ -210,8 +204,6 @@ const ReservationsProvider: FunctionComponent<ReservationProviderType> = ({
       })
       .catch((error) => {
         setAlert(error.res.msg, AlertType.ERROR);
-      })
-      .finally(() => {
         setState({ ...state, loading: false });
       });
   };

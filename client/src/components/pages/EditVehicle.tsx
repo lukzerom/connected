@@ -14,13 +14,9 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import AddToPhotosIcon from "@material-ui/icons/AddToPhotos";
 import EditIcon from "@material-ui/icons/Edit";
-import React, {
-  ChangeEvent,
-  FunctionComponent,
-  useEffect,
-  useState,
-} from "react";
+import React, { ChangeEvent, FunctionComponent, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { useEffectOnce } from "react-use";
 import { AlertType, useAlert } from "../../context/alert/AlertContext";
 import { useAuth } from "../../context/auth/AuthContext";
 import { useCars } from "../../context/cars/CarContext";
@@ -89,9 +85,9 @@ const AddVehicle: FunctionComponent = () => {
 
   const history = useHistory();
 
-  useEffect(() => {
+  useEffectOnce(() => {
     loadUser();
-  }, [loadUser]);
+  });
 
   const [state, setState] = useState({
     brand: editedCar?.brand || "",

@@ -1,6 +1,7 @@
 import L from "leaflet";
-import React, { FunctionComponent, useEffect } from "react";
+import React, { FunctionComponent } from "react";
 import { Map, Marker, Popup, TileLayer } from "react-leaflet";
+import { useEffectOnce } from "react-use";
 import bolt from "../../assets/bolt.svg";
 import { useStations } from "../../context/stations/StationContext";
 import { Station } from "../../types/Station";
@@ -15,10 +16,10 @@ const myIcon = L.icon({
 const ChargerMap: FunctionComponent = () => {
   const { stations, getStations } = useStations();
 
-  useEffect(() => {
+  useEffectOnce(() => {
     getStations();
-  }, [getStations]);
-
+  });
+  console.log(stations);
   return (
     <div className="map-container">
       <Map center={[50.270873, 16.25341]} zoom={5} scrollWheelZoom={false}>

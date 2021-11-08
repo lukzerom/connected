@@ -1,11 +1,7 @@
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import React, {
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import React, { FunctionComponent, useCallback, useState } from "react";
+import { useEffectOnce } from "react-use";
 import { useAuth } from "../../context/auth/AuthContext";
 import { useStations } from "../../context/stations/StationContext";
 import ChargerDetails from "../layout/ChargerDetails";
@@ -31,10 +27,10 @@ const ChargersMap: FunctionComponent = () => {
 
   const { loadUser } = useAuth();
 
-  useEffect(() => {
+  useEffectOnce(() => {
     loadUser();
     getAvailableStations();
-  }, [getAvailableStations, loadUser]);
+  });
 
   const toggleModal = useCallback(() => {
     setModalOpen(!modalOpen);

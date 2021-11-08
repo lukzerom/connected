@@ -3,8 +3,9 @@ import Box from "@material-ui/core/Box";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles } from "@material-ui/core/styles";
 import AddToPhotosIcon from "@material-ui/icons/AddToPhotos";
-import React, { FunctionComponent, useEffect } from "react";
+import React, { FunctionComponent } from "react";
 import { Link } from "react-router-dom";
+import { useEffectOnce } from "react-use";
 import { useCars } from "../../context/cars/CarContext";
 import { VehicleType } from "../../types/Vehicle";
 import CarCard from "../layout/CarCard";
@@ -40,9 +41,9 @@ const MyVehicles: FunctionComponent = () => {
 
   const { getCars, cars, loading } = useCars();
 
-  useEffect(() => {
+  useEffectOnce(() => {
     getCars();
-  }, [getCars]);
+  });
 
   return (
     <Box className={classes.vehiclesWrapper}>

@@ -22,7 +22,7 @@ const initialState = {
   markerPosition: { lat: 50.270873, lng: 16.25341 },
   editStation: null,
   loading: true,
-  picture: "",
+  pictureUrl: "",
   plugin: "",
 };
 
@@ -74,17 +74,15 @@ const StationProvider: FunctionComponent<StationProviderType> = ({
 }) => {
   const [state, setState] = useState<StationStateType>(initialState);
   const { setAlert } = useAlert();
-
+  console.log("state", state);
   const getStations = async () => {
     axios
       .get("/api/stations")
       .then((response) => {
-        setState({ ...state, stations: response.data });
+        setState({ ...state, stations: response.data, loading: false });
       })
       .catch((error) => {
         setAlert(error.res.msg, AlertType.ERROR);
-      })
-      .finally(() => {
         setState({ ...state, loading: false });
       });
   };
@@ -93,30 +91,26 @@ const StationProvider: FunctionComponent<StationProviderType> = ({
     axios
       .get(`/api/stations/${id}`)
       .then((response) => {
-        setState({ ...state, stationMapModal: response.data });
+        setState({ ...state, stationMapModal: response.data, loading: false });
       })
       .catch((error) => {
         setAlert(error.res.msg, AlertType.ERROR);
-      })
-      .finally(() => {
         setState({ ...state, loading: false });
       });
   };
 
   //Get available stations in picked time range
-  const getAvailableStations = async (from: number, to: number) => {
+  const getAvailableStations = async (from?: number, to?: number) => {
     if (from === null) from = new Date().setMinutes(0);
     if (to === null) to = new Date().setMinutes(0);
 
     axios
       .get(`/api/stations/availablestations/${from}/${to}`)
       .then((response) => {
-        setState({ ...state, avaiableStations: response.data });
+        setState({ ...state, avaiableStations: response.data, loading: false });
       })
       .catch((error) => {
         setAlert(error.res.msg, AlertType.ERROR);
-      })
-      .finally(() => {
         setState({ ...state, loading: false });
       });
   };
@@ -129,12 +123,11 @@ const StationProvider: FunctionComponent<StationProviderType> = ({
         setState({
           ...state,
           markerPosition: { lat: response.data.lat, lng: response.data.lng },
+          loading: false,
         });
       })
       .catch((error) => {
         setAlert(error.res.msg, AlertType.ERROR);
-      })
-      .finally(() => {
         setState({ ...state, loading: false });
       });
   };
@@ -164,12 +157,10 @@ const StationProvider: FunctionComponent<StationProviderType> = ({
     axios
       .get("/api/stations/userstations")
       .then((response) => {
-        setState({ ...state, userstations: response.data });
+        setState({ ...state, userstations: response.data, loading: false });
       })
       .catch((error) => {
         setAlert(error.res.msg, AlertType.ERROR);
-      })
-      .finally(() => {
         setState({ ...state, loading: false });
       });
   };
@@ -202,8 +193,6 @@ const StationProvider: FunctionComponent<StationProviderType> = ({
       })
       .catch((error) => {
         setAlert(error.res.msg, AlertType.ERROR);
-      })
-      .finally(() => {
         setState({ ...state, loading: false });
       });
   };
@@ -227,13 +216,12 @@ const StationProvider: FunctionComponent<StationProviderType> = ({
       })
       .catch((error) => {
         setAlert(error.res.msg, AlertType.ERROR);
-      })
-      .finally(() => {
         setState({ ...state, loading: false });
       });
   };
 
   //Delete station
+
   const deleteStation = async (id: string) => {
     axios
       .delete(`/api/stations/${id}`)
@@ -247,8 +235,6 @@ const StationProvider: FunctionComponent<StationProviderType> = ({
       })
       .catch((error) => {
         setAlert(error.res.msg, AlertType.ERROR);
-      })
-      .finally(() => {
         setState({ ...state, loading: false });
       });
   };
@@ -266,6 +252,8 @@ const StationProvider: FunctionComponent<StationProviderType> = ({
         markerPosition: state.markerPosition,
         editStation: state.editStation,
         loading: state.loading,
+        pictureUrl: state.pictureUrl,
+        plugin: state.plugin,
         getAvailableStations,
         getStations: getStations,
         getStation: getStation,

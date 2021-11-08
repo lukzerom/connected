@@ -11,7 +11,7 @@ import {
   Paper,
   Select,
   TextField,
-  Typography
+  Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import EditIcon from "@material-ui/icons/Edit";
@@ -20,9 +20,10 @@ import React, {
   ChangeEvent,
   FunctionComponent,
   useEffect,
-  useState
+  useState,
 } from "react";
 import { useHistory } from "react-router-dom";
+import { useEffectOnce } from "react-use";
 import utf8 from "utf8";
 import { AlertType, useAlert } from "../../context/alert/AlertContext";
 import { useAuth } from "../../context/auth/AuthContext";
@@ -72,6 +73,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const initialStation = {
+  name: "",
+  country: "",
+  city: "",
+  street: "",
+  streetNumber: "",
+  pictureUrl: "",
+  longitude: 0,
+  latitude: 0,
+  price: 0,
+  plugin: "",
+  extras: [],
+  drive: false,
+  bed: false,
+  bike: false,
+  coffee: false,
+  bus: false,
+};
+
 const EditStation: FunctionComponent = () => {
   const classes = useStyles();
 
@@ -87,46 +107,50 @@ const EditStation: FunctionComponent = () => {
   } = useStations();
 
   useEffect(() => {
-    getUserStations();
     if (editStation?.latitude && editStation?.longitude) {
       setMarkerPosition([editStation?.latitude, editStation?.longitude]);
     }
-  }, [getUserStations, setMarkerPosition, editStation]);
+  }, [editStation, setMarkerPosition]);
+
+  useEffectOnce(() => {
+    getUserStations();
+  });
 
   const history = useHistory();
 
-  const [state, setState] = useState<Station>()
+  const [state, setState] = useState<Station>(initialStation);
 
-  useEffect(()=>{
-if(editStation){
-  setState({id: editStation._id,
-    name: editStation.name,
-    country: editStation.country,
-    city: editStation.city,
-    streetName: editStation.street,
-    streetNumber: editStation.streetNumber,
-    pictureUrl: editStation.picture,
-    longitude: editStation.longitude,
-    latitude: editStation.latitude,
-    price: editStation.price,
-    plugin: editStation.plugin,
-    extras: [],
-    drive: editStation.additives.includes("Drive"),
-    bed: editStation.additives.includes("Bed"),
-    bike: editStation.additives.includes("Bike"),
-    coffee: editStation.additives.includes("Coffee"),
-    bus: editStation.additives.includes("Bus"),
-    errors: false,})  
-
-  },[])
-  
+  useEffect(() => {
+    if (editStation) {
+      setState({
+        id: editStation._id,
+        name: editStation.name,
+        country: editStation.country,
+        city: editStation.city,
+        street: editStation.street,
+        streetNumber: editStation.streetNumber,
+        pictureUrl: editStation.picture,
+        longitude: editStation.longitude,
+        latitude: editStation.latitude,
+        price: editStation.price,
+        plugin: editStation.plugin,
+        extras: [],
+        drive: editStation.extras?.includes("Drive"),
+        bed: editStation.extras?.includes("Bed"),
+        bike: editStation.extras?.includes("Bike"),
+        coffee: editStation.extras?.includes("Coffee"),
+        bus: editStation.extras?.includes("Bus"),
+        errors: false,
+      });
+    }
+  }, [editStation]);
 
   const {
     id,
     name,
     country,
     city,
-    streetName,
+    street,
     streetNumber,
     pictureUrl,
     price,
@@ -154,7 +178,7 @@ if(editStation){
   };
 
   const getLatLangLocal = async () => {
-    const adress = `${streetName}+${streetNumber}+${city}+${country}`;
+    const adress = `${street}+${streetNumber}+${city}+${country}`;
     const cleanAdress = utf8.encode(adress.replace("/", "+"));
 
     getLatLang(cleanAdress);
@@ -170,7 +194,7 @@ if(editStation){
     if (coffee) extras.push("Coffee");
     if (bus) extras.push("Bus");
 
-    if (!name || !country || !city || !streetName || !streetNumber || !plugin) {
+    if (!name || !country || !city || !street || !streetNumber || !plugin) {
       setState({ ...state, errors: true });
       return setAlert("Please provide required informations", AlertType.ERROR);
     }
@@ -180,7 +204,7 @@ if(editStation){
       name,
       country,
       city,
-      street: streetName,
+      street,
       streetNumber,
       picture: pictureUrl,
       price,
@@ -198,7 +222,7 @@ if(editStation){
       name: "",
       country: "",
       city: "",
-      streetName: "",
+      street: "",
       streetNumber: "",
       pictureUrl: "",
       longitude: 0,
@@ -271,11 +295,11 @@ if(editStation){
                 <Box className={classes.inputs}>
                   <TextField
                     required
-                    error={errors && !streetName}
+                    error={errors && !street}
                     id="outlined-required"
                     label="Street Name"
                     name="streetName"
-                    value={streetName}
+                    value={street}
                     onChange={onChange}
                     variant="outlined"
                   />

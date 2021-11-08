@@ -3,8 +3,9 @@ import Box from "@material-ui/core/Box";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles } from "@material-ui/core/styles";
 import AddToPhotosIcon from "@material-ui/icons/AddToPhotos";
-import React, { FunctionComponent, useEffect } from "react";
+import React, { FunctionComponent } from "react";
 import { Link } from "react-router-dom";
+import { useEffectOnce } from "react-use";
 import { useStations } from "../../context/stations/StationContext";
 import { Station } from "../../types/Station";
 import UserStation from "../layout/UserStation";
@@ -33,9 +34,9 @@ const MyStations: FunctionComponent = () => {
 
   const { userstations, getUserStations, loading } = useStations();
 
-  useEffect(() => {
+  useEffectOnce(() => {
     getUserStations();
-  }, [getUserStations]);
+  });
 
   return (
     <Box className={classes.stationsWrapper}>
