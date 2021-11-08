@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 import { useEffectOnce } from "react-use";
-import { useAuth } from "../../context/auth/AuthContext";
-import { useStations } from "../../context/stations/StationContext";
+import { useAuth } from "../../../context/auth/AuthContext";
+import { useStations } from "../../../context/stations/StationContext";
 
 const Dashboard: FunctionComponent = () => {
   const { getUserStations } = useStations();

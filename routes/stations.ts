@@ -102,21 +102,24 @@ router.get("/userstations", auth, async (req: Request, res: Response) => {
 // @access Private
 
 router.get("/getlatlang/:adress", auth, async (req: Request, res: Response) => {
-  try {
-    const { adress } = req.params;
+  const { adress } = req.params;
 
-    const URL = `https://maps.googleapis.com/maps/api/geocode/json?address=${adress}&key=${process.env.GOOGLE_API_KEY}`;
+  const URL = `https://maps.googleapis.com/maps/api/geocode/json?address=${adress}&key=${process.env.GOOGLE_API_KEY}`;
+  console.log(URL);
+  axios
+    .get(URL)
+    .then((response) => {
+      const geocode = response.data;
+      const results = geocode.results[0];
+      const latlang = results.geometry.location;
+      console.log(response);
+      res.json(latlang);
+    })
 
-    const response = await axios.get(URL);
-
-    const geocode = response.data;
-    const results = geocode.results[0];
-    const latlang = results.geometry.location;
-
-    res.json(latlang);
-  } catch (err) {
-    res.status(500).send("Server error");
-  }
+    .catch((error) => {
+      console.log(error);
+      // res.status(500).send(error);
+    });
 });
 
 // @route GET api/stations/:id

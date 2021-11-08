@@ -11,83 +11,19 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import AddToPhotosIcon from "@material-ui/icons/AddToPhotos";
 import EditIcon from "@material-ui/icons/Edit";
 import React, { ChangeEvent, FunctionComponent, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useEffectOnce } from "react-use";
-import { AlertType, useAlert } from "../../context/alert/AlertContext";
-import { useAuth } from "../../context/auth/AuthContext";
-import { useCars } from "../../context/cars/CarContext";
-import { chargerIcon } from "../layout/utils";
-
-const useStyles = makeStyles((theme) => ({
-  stationsWrapper: {
-    backgroundColor: "#f5f5f5",
-    minHeight: "100vh",
-    width: "100%",
-  },
-  topPanel: {
-    display: "flex",
-    justifyContent: "space-between",
-    margin: "1rem",
-  },
-
-  paper: {
-    marginTop: "2rem",
-    width: "100%",
-    height: "90vh",
-    display: "flex",
-    justifyContent: "space-around",
-  },
-  inner: {
-    padding: "1rem",
-  },
-  divider: {
-    margin: "1rem 0",
-  },
-  inputs: {
-    display: "flex",
-    justifyContent: "space-between",
-    margin: "1rem 0",
-  },
-  formControl: {
-    width: "50%",
-  },
-  select: {
-    width: "12rem",
-  },
-  button: {
-    width: "50%",
-  },
-  miniPluginWrapper: {
-    display: "flex",
-    flexDirection: "row",
-  },
-  miniPlugin: {
-    height: "3rem",
-  },
-  buttons: {
-    display: "flex",
-    justifyContent: "space-between",
-  },
-}));
+import { AlertType, useAlert } from "../../../context/alert/AlertContext";
+import { useAuth } from "../../../context/auth/AuthContext";
+import { useCars } from "../../../context/cars/CarContext";
+import { chargerIcon } from "../../layout/utils";
+import { useStyles } from "./utils";
 
 const AddVehicle: FunctionComponent = () => {
-  const classes = useStyles();
-
-  const { setAlert } = useAlert();
-
   const { updateCar, editedCar } = useCars();
-
-  const history = useHistory();
-
-  const { loadUser } = useAuth();
-
-  useEffectOnce(() => {
-    loadUser();
-  });
 
   const [state, setState] = useState({
     brand: editedCar?.brand || "",
@@ -96,6 +32,18 @@ const AddVehicle: FunctionComponent = () => {
     plugin: "",
     plugins: editedCar?.plugins || [],
     errors: false,
+  });
+
+  const classes = useStyles();
+
+  const { setAlert } = useAlert();
+
+  const history = useHistory();
+
+  const { loadUser } = useAuth();
+
+  useEffectOnce(() => {
+    loadUser();
   });
 
   const { brand, model, registration, plugins, errors, plugin } = state;

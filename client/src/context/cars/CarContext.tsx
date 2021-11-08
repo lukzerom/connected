@@ -78,7 +78,7 @@ const CarProvider = ({ children }: CarProviderType) => {
         history.push("/my-vehicles");
       });
     },
-    [state]
+    [state, history, setAlert]
   );
 
   const deleteCar = useCallback(
@@ -92,7 +92,7 @@ const CarProvider = ({ children }: CarProviderType) => {
         setAlert("Car deleted!", AlertType.SUCCESS);
       });
     },
-    [state]
+    [state, setAlert]
   );
 
   const addCar = useCallback(
@@ -111,11 +111,10 @@ const CarProvider = ({ children }: CarProviderType) => {
           history.push("/my-vehicles");
         })
         .catch((error) => {
-          console.log(error);
-          setAlert(error.msg, AlertType.ERROR);
+          setAlert(error.response.data.msg, AlertType.ERROR);
         });
     },
-    [state]
+    [state, setAlert, history]
   );
 
   const getCar = useCallback(

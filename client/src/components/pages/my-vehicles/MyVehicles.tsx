@@ -1,40 +1,14 @@
 import { Button, Divider, Grid, Typography } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { makeStyles } from "@material-ui/core/styles";
 import AddToPhotosIcon from "@material-ui/icons/AddToPhotos";
 import React, { FunctionComponent } from "react";
 import { Link } from "react-router-dom";
 import { useEffectOnce } from "react-use";
-import { useCars } from "../../context/cars/CarContext";
-import { VehicleType } from "../../types/Vehicle";
-import CarCard from "../layout/CarCard";
-
-const useStyles = makeStyles((theme) => ({
-  vehiclesWrapper: {
-    backgroundColor: "#f4f6ff",
-    minHeight: "100vh",
-    padding: "0 10vw",
-  },
-  topPanel: {
-    display: "flex",
-    justifyContent: "space-between",
-    margin: "1rem",
-  },
-  carContainer: {
-    display: "flex",
-  },
-  title: {
-    color: "#127681",
-  },
-  noVehicles: {
-    color: "#127681",
-    width: "100%",
-  },
-  loading: {
-    margin: "10rem auto",
-  },
-}));
+import { useCars } from "../../../context/cars/CarContext";
+import { VehicleType } from "../../../types/Vehicle";
+import CarCard from "../../layout/CarCard";
+import { useStyles } from "./utils";
 
 const MyVehicles: FunctionComponent = () => {
   const classes = useStyles();

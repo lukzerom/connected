@@ -82,7 +82,7 @@ const StationProvider: FunctionComponent<StationProviderType> = ({
         setState({ ...state, stations: response.data, loading: false });
       })
       .catch((error) => {
-        setAlert(error.res.msg, AlertType.ERROR);
+        setAlert(error.msg, AlertType.ERROR);
         setState({ ...state, loading: false });
       });
   };
@@ -94,7 +94,7 @@ const StationProvider: FunctionComponent<StationProviderType> = ({
         setState({ ...state, stationMapModal: response.data, loading: false });
       })
       .catch((error) => {
-        setAlert(error.res.msg, AlertType.ERROR);
+        setAlert(error.msg, AlertType.ERROR);
         setState({ ...state, loading: false });
       });
   };
@@ -110,7 +110,7 @@ const StationProvider: FunctionComponent<StationProviderType> = ({
         setState({ ...state, avaiableStations: response.data, loading: false });
       })
       .catch((error) => {
-        setAlert(error.res.msg, AlertType.ERROR);
+        setAlert(error.response.data.msg, AlertType.ERROR);
         setState({ ...state, loading: false });
       });
   };
@@ -127,7 +127,7 @@ const StationProvider: FunctionComponent<StationProviderType> = ({
         });
       })
       .catch((error) => {
-        setAlert(error.res.msg, AlertType.ERROR);
+        setAlert(error.response.data.msg, AlertType.ERROR);
         setState({ ...state, loading: false });
       });
   };
@@ -160,7 +160,7 @@ const StationProvider: FunctionComponent<StationProviderType> = ({
         setState({ ...state, userstations: response.data, loading: false });
       })
       .catch((error) => {
-        setAlert(error.res.msg, AlertType.ERROR);
+        setAlert(error.response.data.msg, AlertType.ERROR);
         setState({ ...state, loading: false });
       });
   };
@@ -192,7 +192,7 @@ const StationProvider: FunctionComponent<StationProviderType> = ({
         });
       })
       .catch((error) => {
-        setAlert(error.res.msg, AlertType.ERROR);
+        setAlert(error.response.data.msg, AlertType.ERROR);
         setState({ ...state, loading: false });
       });
   };
@@ -215,7 +215,7 @@ const StationProvider: FunctionComponent<StationProviderType> = ({
         });
       })
       .catch((error) => {
-        setAlert(error.res.msg, AlertType.ERROR);
+        setAlert(error.response.data.msg, AlertType.ERROR);
         setState({ ...state, loading: false });
       });
   };
@@ -234,7 +234,7 @@ const StationProvider: FunctionComponent<StationProviderType> = ({
         });
       })
       .catch((error) => {
-        setAlert(error.res.msg, AlertType.ERROR);
+        setAlert(error.response.data.msg, AlertType.ERROR);
         setState({ ...state, loading: false });
       });
   };

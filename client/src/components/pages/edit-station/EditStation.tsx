@@ -13,102 +13,79 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import AddCircleIcon from "@material-ui/icons/AddCircle";
+import EditIcon from "@material-ui/icons/Edit";
 import MapIcon from "@material-ui/icons/Map";
-import React, { ChangeEvent, FunctionComponent, useState } from "react";
+import React, {
+  ChangeEvent,
+  FunctionComponent,
+  useEffect,
+  useState,
+} from "react";
 import { useHistory } from "react-router-dom";
 import { useEffectOnce } from "react-use";
 import utf8 from "utf8";
-import { AlertType, useAlert } from "../../context/alert/AlertContext";
-import { useAuth } from "../../context/auth/AuthContext";
-import { useStations } from "../../context/stations/StationContext";
-import { Station } from "../../types/Station";
-import setAuthToken from "../../utils/setAuthToken";
-import AddStationMap from "../layout/AddStationMap";
+import { AlertType, useAlert } from "../../../context/alert/AlertContext";
+import { useAuth } from "../../../context/auth/AuthContext";
+import { useStations } from "../../../context/stations/StationContext";
+import { Station } from "../../../types/Station";
+import setAuthToken from "../../../utils/setAuthToken";
+import AddStationMap from "../../layout/AddStationMap";
+import { initialStation, useStyles } from "./utils";
 
-const defaultStation = {
-  name: "",
-  country: "",
-  city: "",
-  street: "",
-  streetNumber: "",
-  pictureUrl: "",
-  longitude: 0,
-  latitude: 0,
-  price: 0,
-  plugin: "",
-  extras: [],
-  drive: false,
-  bed: false,
-  bike: false,
-  coffee: false,
-  bus: false,
-  errors: false,
-};
+const EditStation: FunctionComponent = () => {
+  const [state, setState] = useState<Station>(initialStation);
 
-const useStyles = makeStyles((theme) => ({
-  stationsWrapper: {
-    backgroundColor: "#f5f5f5",
-    minHeight: "100vh",
-    width: "100%",
-  },
-  topPanel: {
-    display: "flex",
-    justifyContent: "space-between",
-    margin: "1rem",
-  },
-
-  paper: {
-    marginTop: "2rem",
-    width: "100%",
-    height: "90vh",
-    display: "flex",
-    justifyContent: "space-around",
-  },
-  inner: {
-    padding: "1rem",
-  },
-  divider: {
-    margin: "1rem 0",
-  },
-  inputs: {
-    display: "flex",
-    justifyContent: "space-between",
-    margin: "1rem 0",
-  },
-  formControl: {
-    width: "50%",
-  },
-  select: {
-    width: "10rem",
-  },
-  button: {
-    width: "50%",
-  },
-}));
-
-const AddStation: FunctionComponent = () => {
   const classes = useStyles();
-
   const { token } = useAuth();
   const { setAlert } = useAlert();
   const {
     getUserStations,
     markerPosition,
-    addStation,
+    setMarkerPosition,
+    editStation,
+    updateStation,
     getLatLang,
   } = useStations();
-
-  const history = useHistory();
 
   useEffectOnce(() => {
     getUserStations();
   });
 
-  const [state, setState] = useState<Station>(defaultStation);
+  const history = useHistory();
+
+  useEffect(() => {
+    if (editStation?.latitude && editStation?.longitude) {
+      setMarkerPosition([editStation?.latitude, editStation?.longitude]);
+    }
+  }, [editStation, setMarkerPosition]);
+
+  useEffect(() => {
+    if (editStation) {
+      setState({
+        id: editStation._id,
+        name: editStation.name,
+        country: editStation.country,
+        city: editStation.city,
+        street: editStation.street,
+        streetNumber: editStation.streetNumber,
+        pictureUrl: editStation.picture,
+        longitude: editStation.longitude,
+        latitude: editStation.latitude,
+        price: editStation.price,
+        plugin: editStation.plugin,
+        extras: [],
+        drive: editStation.extras?.includes("Drive"),
+        bed: editStation.extras?.includes("Bed"),
+        bike: editStation.extras?.includes("Bike"),
+        coffee: editStation.extras?.includes("Coffee"),
+        bus: editStation.extras?.includes("Bus"),
+        errors: false,
+      });
+    }
+  }, [editStation]);
 
   const {
+    id,
     name,
     country,
     city,
@@ -132,10 +109,10 @@ const AddStation: FunctionComponent = () => {
     });
   };
 
-  const onExtrasChange = (event: ChangeEvent<any>) => {
+  const onExtrasChange = (e: ChangeEvent<any>) => {
     setState({
       ...state,
-      [event.target.name]: event.target.checked,
+      [e.target.name]: e.target.checked,
     });
   };
 
@@ -156,24 +133,17 @@ const AddStation: FunctionComponent = () => {
     if (coffee) extras.push("Coffee");
     if (bus) extras.push("Bus");
 
-    if (
-      !name ||
-      !country ||
-      !city ||
-      !street ||
-      !streetNumber ||
-      !price ||
-      !plugin
-    ) {
+    if (!name || !country || !city || !street || !streetNumber || !plugin) {
       setState({ ...state, errors: true });
       return setAlert("Please provide required informations", AlertType.ERROR);
     }
 
     const station = {
+      id,
       name,
       country,
       city,
-      street: street,
+      street,
       streetNumber,
       picture: pictureUrl,
       price,
@@ -183,10 +153,28 @@ const AddStation: FunctionComponent = () => {
       additives: extras,
     };
 
-    addStation(station);
+    updateStation(station);
 
     history.push("/my-stations");
-    setState(defaultStation);
+
+    setState({
+      name: "",
+      country: "",
+      city: "",
+      street: "",
+      streetNumber: "",
+      pictureUrl: "",
+      longitude: 0,
+      latitude: 0,
+      price: 0,
+      plugin: "",
+      extras: [],
+      drive: false,
+      bed: false,
+      bike: false,
+      coffee: false,
+      bus: false,
+    });
   };
 
   return (
@@ -200,14 +188,13 @@ const AddStation: FunctionComponent = () => {
                   <Typography variant="h6">
                     Provide your station details
                   </Typography>
-
                   <Button
                     variant="contained"
                     color="primary"
                     onClick={handleSubmit}
-                    startIcon={<AddCircleIcon />}
+                    startIcon={<EditIcon />}
                   >
-                    Add station
+                    Save Changes
                   </Button>
                 </Box>
                 <Divider className={classes.divider} />
@@ -286,7 +273,6 @@ const AddStation: FunctionComponent = () => {
                     type="number"
                   />
                 </Box>
-
                 <Box className={classes.inputs}>
                   <FormControl
                     variant="outlined"
@@ -339,27 +325,37 @@ const AddStation: FunctionComponent = () => {
                 <Divider className={classes.divider} />
                 <Typography variant="h6">Extras</Typography>
                 <FormControlLabel
-                  control={<Checkbox name="bike" color="primary" />}
+                  control={
+                    <Checkbox name="bike" color="primary" checked={bike} />
+                  }
                   label="Bike rent"
                   onChange={onExtrasChange}
                 />
                 <FormControlLabel
-                  control={<Checkbox name="coffee" color="primary" />}
+                  control={
+                    <Checkbox name="coffee" color="primary" checked={coffee} />
+                  }
                   label="Coffee"
                   onChange={onExtrasChange}
                 />
                 <FormControlLabel
-                  control={<Checkbox name="bed" color="primary" />}
+                  control={
+                    <Checkbox name="bed" color="primary" checked={bed} />
+                  }
                   label="Bed"
                   onChange={onExtrasChange}
                 />
                 <FormControlLabel
-                  control={<Checkbox name="drive" color="primary" />}
+                  control={
+                    <Checkbox name="drive" color="primary" checked={drive} />
+                  }
                   label="Drive"
                   onChange={onExtrasChange}
                 />
                 <FormControlLabel
-                  control={<Checkbox name="bus" color="primary" />}
+                  control={
+                    <Checkbox name="bus" color="primary" checked={bus} />
+                  }
                   label="Bus station"
                   onChange={onExtrasChange}
                 />
@@ -376,4 +372,4 @@ const AddStation: FunctionComponent = () => {
   );
 };
 
-export default AddStation;
+export default EditStation;

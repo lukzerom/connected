@@ -11,85 +11,21 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import AddToPhotosIcon from "@material-ui/icons/AddToPhotos";
 import React, { ChangeEvent, FunctionComponent, useState } from "react";
-import { useHistory } from "react-router-dom";
-import { AlertType, useAlert } from "../../context/alert/AlertContext";
-import { useCars } from "../../context/cars/CarContext";
-import { VehicleType } from "../../types/Vehicle";
-import { chargerIcon } from "../layout/utils";
-
-const defaultVehicle: VehicleType = {
-  brand: "",
-  model: "",
-  registration: "",
-  plugin: "",
-  plugins: [],
-  errors: false,
-};
-
-const useStyles = makeStyles(() => ({
-  stationsWrapper: {
-    backgroundColor: "#f5f5f5",
-    minHeight: "100vh",
-    width: "100%",
-  },
-  topPanel: {
-    display: "flex",
-    justifyContent: "space-between",
-    margin: "1rem",
-  },
-
-  paper: {
-    marginTop: "2rem",
-    width: "100%",
-    height: "90vh",
-    display: "flex",
-    justifyContent: "space-around",
-  },
-  inner: {
-    padding: "1rem",
-  },
-  divider: {
-    margin: "1rem 0",
-  },
-  inputs: {
-    display: "flex",
-    justifyContent: "space-between",
-    margin: "1rem 0",
-  },
-  formControl: {
-    width: "50%",
-  },
-  select: {
-    width: "12rem",
-  },
-  button: {
-    width: "50%",
-  },
-  miniPluginWrapper: {
-    display: "flex",
-    flexDirection: "row",
-  },
-  miniPlugin: {
-    height: "3rem",
-  },
-  buttons: {
-    display: "flex",
-    justifyContent: "space-between",
-  },
-}));
+import { AlertType, useAlert } from "../../../context/alert/AlertContext";
+import { useCars } from "../../../context/cars/CarContext";
+import { VehicleType } from "../../../types/Vehicle";
+import { chargerIcon } from "../../layout/utils";
+import { defaultVehicle, useStyles } from "./utils";
 
 const AddVehicle: FunctionComponent = () => {
-  const classes = useStyles();
+  const [state, setState] = useState<VehicleType>(defaultVehicle);
 
+  const classes = useStyles();
   const { setAlert } = useAlert();
   const { addCar } = useCars();
-  const history = useHistory();
-
-  const [state, setState] = useState<VehicleType>(defaultVehicle);
 
   const { brand, model, registration, plugins, errors, plugin } = state;
 

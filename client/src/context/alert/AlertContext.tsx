@@ -47,8 +47,9 @@ export const AlertProvider = ({ children }: AlertProviderProps) => {
   );
 
   const setAlert = useCallback(
-    (msg: string, type: AlertType) => {
+    (msg: string = "Error :(", type: AlertType) => {
       const id = uuid.v4();
+
       setAlerts([...alerts, { msg, type, id }]);
     },
     [alerts]

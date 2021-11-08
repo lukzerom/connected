@@ -1,19 +1,12 @@
 import { Grid } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { useEffectOnce } from "react-use";
-import { useStations } from "../../context/stations/StationContext";
-import ChargerDetails from "../layout/ChargerDetails";
-import DatePickerDialog from "../layout/DatePickerDialog";
-import ProtectedMap from "../layout/ProtectedMap";
-import ReservationDialog from "../layout/ReservationDialog";
-
-const useStyles = makeStyles((theme) => ({
-  bg: {
-    backgroundColor: "#f4f6ff",
-    minHeight: "100vh",
-  },
-}));
+import { useStations } from "../../../context/stations/StationContext";
+import ChargerDetails from "../../layout/ChargerDetails";
+import DatePickerDialog from "../../layout/DatePickerDialog";
+import ProtectedMap from "../../layout/ProtectedMap";
+import ReservationDialog from "../../layout/ReservationDialog";
+import { useStyles } from "./utils";
 
 const ChargersMap: FunctionComponent = () => {
   const [dateFrom, setDateFrom] = useState(new Date().setMinutes(0));
@@ -23,6 +16,7 @@ const ChargersMap: FunctionComponent = () => {
   const [reservationModalOpen, setReservationModalOpen] = useState(false);
 
   const { getAvailableStations } = useStations();
+  const classes = useStyles();
 
   useEffectOnce(() => {
     getAvailableStations();
@@ -35,8 +29,6 @@ const ChargersMap: FunctionComponent = () => {
   const toggleReservationModal = useCallback(() => {
     setReservationModalOpen(!reservationModalOpen);
   }, [reservationModalOpen]);
-
-  const classes = useStyles();
 
   return (
     <Grid container direction="row">

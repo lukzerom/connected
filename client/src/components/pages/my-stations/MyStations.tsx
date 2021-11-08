@@ -1,33 +1,14 @@
 import { Button, Divider, Grid, Typography } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { makeStyles } from "@material-ui/core/styles";
 import AddToPhotosIcon from "@material-ui/icons/AddToPhotos";
 import React, { FunctionComponent } from "react";
 import { Link } from "react-router-dom";
 import { useEffectOnce } from "react-use";
-import { useStations } from "../../context/stations/StationContext";
-import { Station } from "../../types/Station";
-import UserStation from "../layout/UserStation";
-
-const useStyles = makeStyles(() => ({
-  stationsWrapper: {
-    backgroundColor: "#f4f6ff",
-    minHeight: "100vh",
-    padding: "0 10vw",
-  },
-  topPanel: {
-    display: "flex",
-    justifyContent: "space-between",
-    margin: "1rem",
-  },
-  title: {
-    color: "#127681",
-  },
-  loading: {
-    margin: "10rem auto",
-  },
-}));
+import { useStations } from "../../../context/stations/StationContext";
+import { Station } from "../../../types/Station";
+import UserStation from "../../layout/UserStation";
+import { useStyles } from "./utils";
 
 const MyStations: FunctionComponent = () => {
   const classes = useStyles();

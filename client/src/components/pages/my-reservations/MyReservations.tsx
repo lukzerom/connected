@@ -1,43 +1,14 @@
 import { Divider, Grid, Typography } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { makeStyles } from "@material-ui/core/styles";
-import React, { FunctionComponent, useEffect } from "react";
-import { useReservations } from "../../context/reservations/ReservationContext";
-import { ReservationType } from "../../types/Reservation";
-import MapDialog from "../layout/MapDialog";
-import ReservationCard from "../layout/ReservationCard";
-import ReservationCardStation from "../layout/ReservationCardStation";
-
-const useStyles = makeStyles((theme) => ({
-  vehiclesWrapper: {
-    backgroundColor: "#f4f6ff",
-    minHeight: "100vh",
-    padding: "0 10vw",
-  },
-  topPanel: {
-    display: "flex",
-    justifyContent: "space-between",
-    margin: "1rem",
-  },
-  carContainer: {
-    display: "flex",
-    justifyContent: "space-between",
-  },
-  card: {
-    margin: "1rem",
-  },
-  title: {
-    color: "#127681",
-  },
-  noReservations: {
-    color: "#127681",
-    marginTop: "50%",
-  },
-  loading: {
-    margin: "10rem auto",
-  },
-}));
+import React, { FunctionComponent } from "react";
+import { useEffectOnce } from "react-use";
+import { useReservations } from "../../../context/reservations/ReservationContext";
+import { ReservationType } from "../../../types/Reservation";
+import MapDialog from "../../layout/MapDialog";
+import ReservationCard from "../../layout/ReservationCard";
+import ReservationCardStation from "../../layout/ReservationCardStation";
+import { useStyles } from "./utils";
 
 const MyReservations: FunctionComponent = () => {
   const classes = useStyles();
@@ -50,10 +21,10 @@ const MyReservations: FunctionComponent = () => {
     loadingUserTrips,
   } = useReservations();
 
-  useEffect(() => {
+  useEffectOnce(() => {
     getUserReservationsAsDriver();
     getUserReservationsAsStation();
-  }, [getUserReservationsAsDriver, getUserReservationsAsStation]);
+  });
 
   return (
     <>

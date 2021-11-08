@@ -5,7 +5,6 @@ import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Grid from "@material-ui/core/Grid";
-import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
@@ -16,31 +15,14 @@ import React, {
   useState,
 } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { AlertType, useAlert } from "../../context/alert/AlertContext";
-import { useAuth } from "../../context/auth/AuthContext";
-import { UserType } from "../../types/User";
-
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
+import { AlertType, useAlert } from "../../../context/alert/AlertContext";
+import { useAuth } from "../../../context/auth/AuthContext";
+import { UserType } from "../../../types/User";
+import { initialUser, useStyles } from "./utils";
 
 const Register: FunctionComponent = () => {
+  const [user, setUser] = useState<UserType>(initialUser);
+
   const { setAlert } = useAlert();
   const { register, error, clearErrors, isAuthenticated } = useAuth();
   const classes = useStyles();
@@ -56,14 +38,6 @@ const Register: FunctionComponent = () => {
       clearErrors();
     }
   }, [error, isAuthenticated, history, setAlert, clearErrors]);
-
-  const [user, setUser] = useState<UserType>({
-    name: "",
-    surname: "",
-    email: "",
-    password: "",
-    phone: "",
-  });
 
   const { name, surname, email, password, phone } = user;
 

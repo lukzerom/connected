@@ -72,7 +72,7 @@ const ReservationsProvider: FunctionComponent<ReservationProviderType> = ({
         });
       })
       .catch((error) => {
-        setAlert(error.res.msg, AlertType.ERROR);
+        setAlert(error.msg, AlertType.ERROR);
         setState({
           ...state,
           loadingUserTrips: false,
@@ -91,7 +91,7 @@ const ReservationsProvider: FunctionComponent<ReservationProviderType> = ({
         });
       })
       .catch((error) => {
-        setAlert(error.res.msg, AlertType.ERROR);
+        setAlert(error.msg, AlertType.ERROR);
         setState({
           ...state,
           loadingUserStations: false,
@@ -128,7 +128,7 @@ const ReservationsProvider: FunctionComponent<ReservationProviderType> = ({
         }
       })
       .catch((error) => {
-        setAlert(error.res.msg, AlertType.ERROR);
+        setAlert(error.msg, AlertType.ERROR);
         setState({
           ...state,
           loadingUserStations: false,
@@ -149,7 +149,7 @@ const ReservationsProvider: FunctionComponent<ReservationProviderType> = ({
         });
       })
       .catch((error) => {
-        setAlert(error.res.msg, AlertType.ERROR);
+        setAlert(error.response.data.msg, AlertType.ERROR);
         setState({ ...state, loading: false });
       });
   };
@@ -177,7 +177,7 @@ const ReservationsProvider: FunctionComponent<ReservationProviderType> = ({
         });
       })
       .catch((error) => {
-        setAlert(error.res.msg, AlertType.ERROR);
+        setAlert(error.response.data.msg, AlertType.ERROR);
         setState({ ...state });
       });
   };
@@ -203,7 +203,7 @@ const ReservationsProvider: FunctionComponent<ReservationProviderType> = ({
         });
       })
       .catch((error) => {
-        setAlert(error.res.msg, AlertType.ERROR);
+        setAlert(error.response.data.msg, AlertType.ERROR);
         setState({ ...state, loading: false });
       });
   };

@@ -71,7 +71,7 @@ type CarCardProps = {
 const CarCard: FunctionComponent<CarCardProps> = ({ car }) => {
   const classes = useStyles();
 
-  const { deleteCar, setCar, getCars } = useCars();
+  const { deleteCar, setCar } = useCars();
 
   const handleDelete = (_id?: string) => {
     if (_id) deleteCar(_id);
