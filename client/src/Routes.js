@@ -4,6 +4,7 @@ import AddStation from "./components/pages/add-station/AddStation";
 import ChargersMap from "./components/pages/chargersmap/ChargersMap";
 import Dashboard from "./components/pages/dashboard/Dashboard";
 import EditStation from "./components/pages/edit-station/EditStation";
+import EditVehicle from "./components/pages/edit-vehicle/EditVehicle";
 import Login from "./components/pages/login/Login";
 import Main from "./components/pages/main/Main";
 import MyReservations from "./components/pages/my-reservations/MyReservations";
@@ -19,6 +20,7 @@ const routes = [
   { path: "/my-stations", component: MyStations, public: false },
   { path: "/add-station", component: AddStation, public: false },
   { path: "/edit-station", component: EditStation, public: false },
+  { path: "/edit-vehicle", component: EditVehicle, public: false },
   { path: "/my-reservations", component: MyReservations, public: false },
   { path: "/chargersmap", component: ChargersMap, public: false },
   { path: "/login", component: Login, public: true },

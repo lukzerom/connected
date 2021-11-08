@@ -190,6 +190,7 @@ const StationProvider: FunctionComponent<StationProviderType> = ({
           userstations: [response.data, ...state.userstations],
           loading: false,
         });
+        setAlert("Station added! ", AlertType.SUCCESS);
       })
       .catch((error) => {
         setAlert(error.response.data.msg, AlertType.ERROR);
@@ -213,6 +214,7 @@ const StationProvider: FunctionComponent<StationProviderType> = ({
           userstations: [...state.userstations],
           loading: false,
         });
+        setAlert("Station edited! ", AlertType.SUCCESS);
       })
       .catch((error) => {
         setAlert(error.response.data.msg, AlertType.ERROR);
@@ -229,9 +231,10 @@ const StationProvider: FunctionComponent<StationProviderType> = ({
         setState({
           ...state,
           userstations: state.userstations.filter(
-            (station) => station._id !== response.data._id
+            (station) => station._id !== id
           ),
         });
+        setAlert("Station deleted! ", AlertType.SUCCESS);
       })
       .catch((error) => {
         setAlert(error.response.data.msg, AlertType.ERROR);

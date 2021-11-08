@@ -15,12 +15,7 @@ import {
 } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import MapIcon from "@material-ui/icons/Map";
-import React, {
-  ChangeEvent,
-  FunctionComponent,
-  useEffect,
-  useState,
-} from "react";
+import React, { ChangeEvent, FunctionComponent, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useEffectOnce } from "react-use";
 import utf8 from "utf8";
@@ -53,13 +48,13 @@ const EditStation: FunctionComponent = () => {
 
   const history = useHistory();
 
-  useEffect(() => {
+  useEffectOnce(() => {
     if (editStation?.latitude && editStation?.longitude) {
       setMarkerPosition([editStation?.latitude, editStation?.longitude]);
     }
-  }, [editStation, setMarkerPosition]);
+  });
 
-  useEffect(() => {
+  useEffectOnce(() => {
     if (editStation) {
       setState({
         id: editStation._id,
@@ -82,7 +77,7 @@ const EditStation: FunctionComponent = () => {
         errors: false,
       });
     }
-  }, [editStation]);
+  });
 
   const {
     id,

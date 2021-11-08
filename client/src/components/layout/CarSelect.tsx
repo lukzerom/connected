@@ -3,7 +3,8 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import { makeStyles } from "@material-ui/core/styles";
-import React, { ChangeEvent, FunctionComponent, useEffect } from "react";
+import React, { ChangeEvent, FunctionComponent } from "react";
+import { useEffectOnce } from "react-use";
 import { useCars } from "../../context/cars/CarContext";
 import { useReservations } from "../../context/reservations/ReservationContext";
 import { VehicleType } from "../../types/Vehicle";
@@ -24,9 +25,9 @@ const CarSelect: FunctionComponent = () => {
   const { getCars, cars } = useCars();
   const { setReservationCar, carId } = useReservations();
 
-  useEffect(() => {
+  useEffectOnce(() => {
     getCars();
-  }, [getCars]);
+  });
 
   const handleChange = (e: ChangeEvent<any>) => {
     setReservationCar(e.target.value);

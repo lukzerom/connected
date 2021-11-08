@@ -13,8 +13,6 @@ type ReservationStateType = {
   userReservationsAsDriver: Array<ReservationType>;
   userReservationsAsStation: Array<ReservationType>;
   carId: string;
-  loadingUserStations: boolean;
-  loadingUserTrips: boolean;
   loading: boolean;
 };
 
@@ -41,8 +39,6 @@ const initialState = {
   userReservationsAsDriver: [],
   userReservationsAsStation: [],
   carId: "",
-  loadingUserStations: true,
-  loadingUserTrips: true,
   loading: true,
 };
 
@@ -68,14 +64,14 @@ const ReservationsProvider: FunctionComponent<ReservationProviderType> = ({
         setState({
           ...state,
           userReservationsAsDriver: response.data,
-          loadingUserTrips: false,
+          loading: false,
         });
       })
       .catch((error) => {
         setAlert(error.msg, AlertType.ERROR);
         setState({
           ...state,
-          loadingUserTrips: false,
+          loading: false,
         });
       });
   };
@@ -87,14 +83,14 @@ const ReservationsProvider: FunctionComponent<ReservationProviderType> = ({
         setState({
           ...state,
           userReservationsAsStation: response.data,
-          loadingUserStations: false,
+          loading: false,
         });
       })
       .catch((error) => {
         setAlert(error.msg, AlertType.ERROR);
         setState({
           ...state,
-          loadingUserStations: false,
+          loading: false,
         });
       });
   };
@@ -121,7 +117,7 @@ const ReservationsProvider: FunctionComponent<ReservationProviderType> = ({
               ...state.userReservationsAsDriver,
               response.data,
             ],
-            loadingUserStations: false,
+            loading: false,
           });
 
           setAlert("Station booked!", AlertType.SUCCESS);
@@ -131,7 +127,7 @@ const ReservationsProvider: FunctionComponent<ReservationProviderType> = ({
         setAlert(error.msg, AlertType.ERROR);
         setState({
           ...state,
-          loadingUserStations: false,
+          loading: false,
         });
       });
   };
@@ -143,10 +139,11 @@ const ReservationsProvider: FunctionComponent<ReservationProviderType> = ({
         setState({
           ...state,
           userReservationsAsDriver: state.userReservationsAsDriver.filter(
-            (reservation) => reservation._id !== response.data._id
+            (reservation) => reservation._id !== id
           ),
-          loadingUserStations: false,
+          loading: false,
         });
+        setAlert("Reservation deleted! ", AlertType.SUCCESS);
       })
       .catch((error) => {
         setAlert(error.response.data.msg, AlertType.ERROR);
@@ -175,6 +172,7 @@ const ReservationsProvider: FunctionComponent<ReservationProviderType> = ({
           ],
           loading: false,
         });
+        setAlert("Reservation confirmed! ", AlertType.SUCCESS);
       })
       .catch((error) => {
         setAlert(error.response.data.msg, AlertType.ERROR);
@@ -201,6 +199,7 @@ const ReservationsProvider: FunctionComponent<ReservationProviderType> = ({
                 : reservation
           ),
         });
+        setAlert("Reservation rejected! ", AlertType.SUCCESS);
       })
       .catch((error) => {
         setAlert(error.response.data.msg, AlertType.ERROR);
@@ -218,8 +217,6 @@ const ReservationsProvider: FunctionComponent<ReservationProviderType> = ({
         userReservationsAsDriver: state.userReservationsAsDriver,
         userReservationsAsStation: state.userReservationsAsStation,
         carId: state.carId,
-        loadingUserStations: state.loadingUserStations,
-        loadingUserTrips: state.loadingUserTrips,
         loading: state.loading,
         getUserReservationsAsDriver,
         getUserReservationsAsStation,

@@ -1,9 +1,12 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
 import { Redirect, Route } from "react-router-dom";
 import { useEffectOnce } from "react-use";
 import { useAuth } from "../../context/auth/AuthContext";
 
-const PrivateRoute = ({ component: Component, ...rest }) => {
+const PrivateRoute: FunctionComponent<any> = ({
+  component: Component,
+  ...rest
+}) => {
   const { isAuthenticated, loading, loadUser } = useAuth();
 
   useEffectOnce(() => {

@@ -18,12 +18,12 @@ const MyReservations: FunctionComponent = () => {
     getUserReservationsAsStation,
     userReservationsAsDriver,
     userReservationsAsStation,
-    loadingUserTrips,
+    loading,
   } = useReservations();
 
   useEffectOnce(() => {
-    getUserReservationsAsDriver();
     getUserReservationsAsStation();
+    getUserReservationsAsDriver();
   });
 
   return (
@@ -44,7 +44,7 @@ const MyReservations: FunctionComponent = () => {
             <Typography variant="h6" align="center" className={classes.title}>
               Reservation for your trip
             </Typography>
-            {loadingUserTrips ? (
+            {loading ? (
               <Typography variant="h6" align="center">
                 <CircularProgress color="primary" className={classes.loading} />
               </Typography>
@@ -77,7 +77,7 @@ const MyReservations: FunctionComponent = () => {
             <Typography variant="h6" align="center" className={classes.title}>
               Reservation of your stations
             </Typography>
-            {loadingUserTrips ? (
+            {loading ? (
               <Typography variant="h6" align="center">
                 <CircularProgress color="primary" className={classes.loading} />
               </Typography>
