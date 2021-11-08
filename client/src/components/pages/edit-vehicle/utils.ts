@@ -52,4 +52,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export { useStyles };
+const initialVehicle = {
+  brand: "",
+  model: "",
+  registration: "",
+  plugins: [],
+  plugin: "",
+  errors: false,
+};
+
+export { useStyles, initialVehicle };

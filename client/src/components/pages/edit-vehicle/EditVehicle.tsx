@@ -20,7 +20,7 @@ import { AlertType, useAlert } from "../../../context/alert/AlertContext";
 import { useAuth } from "../../../context/auth/AuthContext";
 import { useCars } from "../../../context/cars/CarContext";
 import { chargerIcon } from "../../layout/utils";
-import { useStyles } from "./utils";
+import { initialVehicle, useStyles } from "./utils";
 
 const AddVehicle: FunctionComponent = () => {
   const { updateCar, editedCar } = useCars();
@@ -73,14 +73,7 @@ const AddVehicle: FunctionComponent = () => {
     updateCar(car);
 
     history.push("/my-vehicles");
-    setState({
-      brand: "",
-      model: "",
-      registration: "",
-      plugins: [],
-      plugin: "",
-      errors: false,
-    });
+    setState(initialVehicle);
   };
 
   const handlePushPlugin = () => {
