@@ -44,14 +44,14 @@ const theme = createMuiTheme({
 const App = () => {
   return (
     <div className="App">
-      <MuiThemeProvider theme={theme}>
-        <AlertProvider>
-          <AuthProvider>
-            <MuiPickersUtilsProvider utils={MomentUtils}>
-              <ReservationsProvider>
-                <StationProvider>
-                  <CarProvider>
-                    <Router>
+      <Router>
+        <MuiThemeProvider theme={theme}>
+          <AlertProvider>
+            <AuthProvider>
+              <MuiPickersUtilsProvider utils={MomentUtils}>
+                <ReservationsProvider>
+                  <StationProvider>
+                    <CarProvider>
                       <Nav />
 
                       <Switch>
@@ -93,14 +93,14 @@ const App = () => {
                         <Route path="/register" component={Register} />
                       </Switch>
                       <Footer />
-                    </Router>
-                  </CarProvider>
-                </StationProvider>
-              </ReservationsProvider>
-            </MuiPickersUtilsProvider>
-          </AuthProvider>
-        </AlertProvider>
-      </MuiThemeProvider>
+                    </CarProvider>
+                  </StationProvider>
+                </ReservationsProvider>
+              </MuiPickersUtilsProvider>
+            </AuthProvider>
+          </AlertProvider>
+        </MuiThemeProvider>
+      </Router>
     </div>
   );
 };

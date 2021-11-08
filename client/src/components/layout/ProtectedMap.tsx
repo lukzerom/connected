@@ -15,8 +15,8 @@ const myIcon = L.icon({
 let animateflag = false;
 
 const ChargerMap = () => {
-  const [zoom, setZoom] = useState<number>(0);
-  const [position, setPosition] = useState<LatLngTuple>([0, 0]);
+  const [zoom, setZoom] = useState<number>(5);
+  const [position, setPosition] = useState<LatLngTuple>([50.711, 13.629]);
 
   const { setStation, avaiableStations } = useStations();
 

@@ -100,7 +100,7 @@ const AddVehicle: FunctionComponent = () => {
     });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!brand || !model || !registration || plugins?.length === 0) {
       setState({ ...state, errors: true });
       return setAlert("Please provide required informations", AlertType.ERROR);
@@ -114,9 +114,8 @@ const AddVehicle: FunctionComponent = () => {
       errors,
     };
 
-    addCar(car);
+    await addCar(car);
 
-    history.push("/my-vehicles");
     setState({
       brand: "",
       model: "",

@@ -6,8 +6,10 @@ import React, {
   useContext,
   useState,
 } from "react";
+import { useHistory } from "react-router-dom";
 import { Nullable } from "../../types";
 import { VehicleType } from "../../types/Vehicle";
+import { AlertType, useAlert } from "../alert/AlertContext";
 
 const initialState = {
   cars: [],
@@ -45,6 +47,10 @@ export const useCars = () => {
 const CarProvider = ({ children }: CarProviderType) => {
   const [state, setState] = useState<CarStateType>(initialState);
 
+  const { setAlert } = useAlert();
+
+  const history = useHistory();
+
   const getCars = useCallback(() => {
     axios.get("/api/cars").then((response) => {
       setState({ ...state, cars: response.data, loading: false });
@@ -68,6 +74,8 @@ const CarProvider = ({ children }: CarProviderType) => {
 
       axios.put(`/api/cars/${car.id}`, car, config).then(() => {
         setState({ ...state, cars: [...state.cars], loading: false });
+        setAlert("Car updated!", AlertType.SUCCESS);
+        history.push("/my-vehicles");
       });
     },
     [state]
@@ -78,9 +86,10 @@ const CarProvider = ({ children }: CarProviderType) => {
       axios.delete(`/api/cars/${id}`).then((response) => {
         setState({
           ...state,
-          cars: state.cars.filter((car) => car._id !== response.data.id),
+          cars: state.cars.filter((car) => car._id !== id),
           loading: false,
         });
+        setAlert("Car deleted!", AlertType.SUCCESS);
       });
     },
     [state]
@@ -94,9 +103,17 @@ const CarProvider = ({ children }: CarProviderType) => {
         },
       };
 
-      axios.post("/api/cars", car, config).then((response) => {
-        setState({ ...state, cars: [response.data, ...state.cars] });
-      });
+      axios
+        .post("/api/cars", car, config)
+        .then((response) => {
+          setState({ ...state, cars: [response.data, ...state.cars] });
+          setAlert("Car added!", AlertType.SUCCESS);
+          history.push("/my-vehicles");
+        })
+        .catch((error) => {
+          console.log(error);
+          setAlert(error.msg, AlertType.ERROR);
+        });
     },
     [state]
   );

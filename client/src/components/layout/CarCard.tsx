@@ -135,7 +135,7 @@ const CarCard: FunctionComponent<CarCardProps> = ({ car }) => {
                   size="small"
                   color="secondary"
                   className={classes.button}
-                  onClick={() => handleDelete(car.id)}
+                  onClick={() => handleDelete(car._id)}
                 >
                   Delete
                 </Button>
