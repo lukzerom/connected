@@ -47,7 +47,7 @@ const CarProvider = ({ children }: CarProviderType) => {
 
   const getCars = useCallback(() => {
     axios.get("/api/cars").then((response) => {
-      setState({ ...state, cars: response.data.payload, loading: false });
+      setState({ ...state, cars: response.data, loading: false });
     });
   }, [state]);
 
@@ -78,7 +78,7 @@ const CarProvider = ({ children }: CarProviderType) => {
       axios.delete(`/api/cars/${id}`).then((response) => {
         setState({
           ...state,
-          cars: state.cars.filter((car) => car._id !== response.data.payload),
+          cars: state.cars.filter((car) => car._id !== response.data.id),
           loading: false,
         });
       });
@@ -95,7 +95,7 @@ const CarProvider = ({ children }: CarProviderType) => {
       };
 
       axios.post("/api/cars", car, config).then((response) => {
-        setState({ ...state, cars: [response.data.payload, ...state.cars] });
+        setState({ ...state, cars: [response.data, ...state.cars] });
       });
     },
     [state]
@@ -104,7 +104,7 @@ const CarProvider = ({ children }: CarProviderType) => {
   const getCar = useCallback(
     (id: string) => {
       axios.get(`/api/cars/${id}`).then((response) => {
-        setState({ ...state, oneCar: response.data.payload, loading: false });
+        setState({ ...state, oneCar: response.data, loading: false });
       });
     },
     [state]

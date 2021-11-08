@@ -79,11 +79,11 @@ const AddVehicle: FunctionComponent = () => {
 
   const { setAlert } = useAlert();
 
-  const { loadUser } = useAuth();
-
   const { updateCar, editedCar } = useCars();
 
   const history = useHistory();
+
+  const { loadUser } = useAuth();
 
   useEffectOnce(() => {
     loadUser();

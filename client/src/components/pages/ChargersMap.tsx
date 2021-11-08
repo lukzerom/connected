@@ -2,7 +2,6 @@ import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { useEffectOnce } from "react-use";
-import { useAuth } from "../../context/auth/AuthContext";
 import { useStations } from "../../context/stations/StationContext";
 import ChargerDetails from "../layout/ChargerDetails";
 import DatePickerDialog from "../layout/DatePickerDialog";
@@ -25,10 +24,7 @@ const ChargersMap: FunctionComponent = () => {
 
   const { getAvailableStations } = useStations();
 
-  const { loadUser } = useAuth();
-
   useEffectOnce(() => {
-    loadUser();
     getAvailableStations();
   });
 

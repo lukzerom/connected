@@ -74,7 +74,7 @@ const StationProvider: FunctionComponent<StationProviderType> = ({
 }) => {
   const [state, setState] = useState<StationStateType>(initialState);
   const { setAlert } = useAlert();
-  console.log("state", state);
+
   const getStations = async () => {
     axios
       .get("/api/stations")

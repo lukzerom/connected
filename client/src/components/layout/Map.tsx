@@ -19,7 +19,7 @@ const ChargerMap: FunctionComponent = () => {
   useEffectOnce(() => {
     getStations();
   });
-  console.log(stations);
+
   return (
     <div className="map-container">
       <Map center={[50.270873, 16.25341]} zoom={5} scrollWheelZoom={false}>

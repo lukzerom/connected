@@ -86,7 +86,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         localStorage.setItem("token", response.data.token);
         setState({
           ...state,
-          ...response.data.payload,
+          ...response.data,
           isAuthenticated: true,
           loading: false,
         });
@@ -119,7 +119,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         localStorage.setItem("token", response.data.token);
         setState({
           ...state,
-          ...response.data.payload,
+          ...response.data,
           isAuthenticated: true,
           loading: false,
         });

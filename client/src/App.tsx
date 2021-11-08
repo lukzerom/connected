@@ -45,9 +45,9 @@ const App = () => {
   return (
     <div className="App">
       <MuiThemeProvider theme={theme}>
-        <AuthProvider>
-          <MuiPickersUtilsProvider utils={MomentUtils}>
-            <AlertProvider>
+        <AlertProvider>
+          <AuthProvider>
+            <MuiPickersUtilsProvider utils={MomentUtils}>
               <ReservationsProvider>
                 <StationProvider>
                   <CarProvider>
@@ -97,9 +97,9 @@ const App = () => {
                   </CarProvider>
                 </StationProvider>
               </ReservationsProvider>
-            </AlertProvider>
-          </MuiPickersUtilsProvider>
-        </AuthProvider>
+            </MuiPickersUtilsProvider>
+          </AuthProvider>
+        </AlertProvider>
       </MuiThemeProvider>
     </div>
   );

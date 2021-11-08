@@ -79,7 +79,6 @@ const CarCard: FunctionComponent<CarCardProps> = ({ car }) => {
 
   const handleEdit = (car: VehicleType) => {
     setCar(car);
-    getCars();
   };
 
   return (
