@@ -20,10 +20,8 @@ import { useHistory } from "react-router-dom";
 import { useEffectOnce } from "react-use";
 import utf8 from "utf8";
 import { AlertType, useAlert } from "../../../context/alert/AlertContext";
-import { useAuth } from "../../../context/auth/AuthContext";
 import { useStations } from "../../../context/stations/StationContext";
 import { Station } from "../../../types/Station";
-import setAuthToken from "../../../utils/setAuthToken";
 import AddStationMap from "../../layout/AddStationMap";
 import { defaultStation, useStyles } from "./utils";
 
@@ -31,8 +29,6 @@ const AddStation: FunctionComponent = () => {
   const [state, setState] = useState<Station>(defaultStation);
 
   const classes = useStyles();
-
-  const { token } = useAuth();
 
   const { setAlert } = useAlert();
 
@@ -88,7 +84,6 @@ const AddStation: FunctionComponent = () => {
   };
 
   const handleSubmit = () => {
-    setAuthToken(token);
     let extras = [];
 
     if (drive) extras.push("Drive");

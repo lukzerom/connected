@@ -1,3 +1,4 @@
+import cors from "cors";
 import express from "express";
 import path from "path";
 import { connectDB } from "./config/db";
@@ -17,6 +18,9 @@ connectDB();
 // Init middleware
 
 app.use(
+  cors({
+    origin: ["https://connected-95c49.web.app", "http://localhost:3000"],
+  }),
   express.json({
     inflate: false,
   })
@@ -45,3 +49,5 @@ if (process.env.NODE_ENV === "production") {
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+
+export default app;

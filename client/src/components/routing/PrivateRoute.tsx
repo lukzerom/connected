@@ -10,7 +10,9 @@ const PrivateRoute: FunctionComponent<any> = ({
   const { isAuthenticated, loading, loadUser } = useAuth();
 
   useEffectOnce(() => {
-    loadUser();
+    if (isAuthenticated && !loading) {
+      loadUser();
+    }
   });
 
   return (

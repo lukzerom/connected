@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, {
   createContext,
   FunctionComponent,
@@ -6,6 +5,7 @@ import React, {
   useContext,
   useState,
 } from "react";
+import { axios } from "../../axios";
 import { ReservationType } from "../../types/Reservation";
 import { AlertType, useAlert } from "../alert/AlertContext";
 

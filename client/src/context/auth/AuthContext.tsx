@@ -1,5 +1,5 @@
-import axios from "axios";
 import React, { createContext, ReactNode, useContext, useState } from "react";
+import { axios } from "../../axios";
 import { Nullable } from "../../types";
 import { UserType } from "../../types/User";
 import setAuthToken from "../../utils/setAuthToken";
@@ -49,22 +49,24 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     axios
       .get("/api/auth")
       .then((response) => {
+        console.log(response);
         if (response.data) {
           setState({
             ...state,
             isAuthenticated: true,
-            loading: false,
+
             user: response.data,
           });
         }
       })
       .catch((error) => {
+        console.log("weszlo blad");
         localStorage.removeItem("token");
         setState({
           ...state,
           token: null,
           isAuthenticated: false,
-          loading: false,
+
           user: null,
           error,
         });
@@ -82,8 +84,8 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
     axios
       .post("/api/users", formData, config)
-      .then((response) => {
-        localStorage.setItem("token", response.data.token);
+      .then(async (response) => {
+        await localStorage.setItem("token", response.data.token);
         setState({
           ...state,
           ...response.data,
@@ -91,8 +93,8 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
           loading: false,
         });
       })
-      .catch((error) => {
-        localStorage.removeItem("token");
+      .catch(async (error) => {
+        await localStorage.removeItem("token");
         setState({
           ...state,
           token: null,
@@ -130,9 +132,9 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
           ...state,
           token: null,
           isAuthenticated: false,
-          loading: false,
           user: null,
-          error: error.response.data.msg,
+          error: error.response?.data?.msg || "",
+          loading: false,
         });
       });
   };

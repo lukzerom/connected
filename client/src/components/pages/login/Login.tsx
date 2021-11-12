@@ -21,10 +21,11 @@ const Login = () => {
   const classes = useStyles();
   const { setAlert } = useAlert();
   const history = useHistory();
-  const { login, error, clearErrors, isAuthenticated } = useAuth();
+  const { login, error, clearErrors, isAuthenticated, token } = useAuth();
 
   useEffect(() => {
     if (isAuthenticated) {
+      console.log("weszlo", token);
       history.push("/");
     }
 
@@ -32,7 +33,7 @@ const Login = () => {
       setAlert(error, AlertType.ERROR);
       clearErrors();
     }
-  }, [error, isAuthenticated, history, clearErrors, setAlert]);
+  }, [error, isAuthenticated, history, clearErrors, setAlert, token]);
 
   const { email, password } = user;
 

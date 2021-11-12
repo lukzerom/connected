@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, {
   createContext,
   ReactNode,
@@ -7,6 +6,7 @@ import React, {
   useState,
 } from "react";
 import { useHistory } from "react-router-dom";
+import { axios } from "../../axios";
 import { Nullable } from "../../types";
 import { VehicleType } from "../../types/Vehicle";
 import { AlertType, useAlert } from "../alert/AlertContext";

@@ -15,9 +15,7 @@ import AddToPhotosIcon from "@material-ui/icons/AddToPhotos";
 import EditIcon from "@material-ui/icons/Edit";
 import React, { ChangeEvent, FunctionComponent, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useEffectOnce } from "react-use";
 import { AlertType, useAlert } from "../../../context/alert/AlertContext";
-import { useAuth } from "../../../context/auth/AuthContext";
 import { useCars } from "../../../context/cars/CarContext";
 import { chargerIcon } from "../../layout/utils";
 import { initialVehicle, useStyles } from "./utils";
@@ -39,12 +37,6 @@ const AddVehicle: FunctionComponent = () => {
   const { setAlert } = useAlert();
 
   const history = useHistory();
-
-  const { loadUser } = useAuth();
-
-  useEffectOnce(() => {
-    loadUser();
-  });
 
   const { brand, model, registration, plugins, errors, plugin } = state;
 

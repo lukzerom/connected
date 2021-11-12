@@ -1,0 +1,34 @@
+{
+  "files": {
+    "main.css": "/static/css/main.1d2d8670.chunk.css",
+    "main.js": "/static/js/main.10f20474.chunk.js",
+    "main.js.map": "/static/js/main.10f20474.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.cfae3202.js",
+    "runtime-main.js.map": "/static/js/runtime-main.cfae3202.js.map",
+    "static/js/2.902ceffe.chunk.js": "/static/js/2.902ceffe.chunk.js",
+    "static/js/2.902ceffe.chunk.js.map": "/static/js/2.902ceffe.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.9b09221bf538303ebd7e6dfe243c5554.js": "/precache-manifest.9b09221bf538303ebd7e6dfe243c5554.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.1d2d8670.chunk.css.map": "/static/css/main.1d2d8670.chunk.css.map",
+    "static/js/2.902ceffe.chunk.js.LICENSE.txt": "/static/js/2.902ceffe.chunk.js.LICENSE.txt",
+    "static/media/AMERICAN_STANDARD.png": "/static/media/AMERICAN_STANDARD.8f45112c.png",
+    "static/media/CHAdeMO.png": "/static/media/CHAdeMO.1e812789.png",
+    "static/media/DB_T.png": "/static/media/DB_T.0ab68cf5.png",
+    "static/media/EURO_STANDARD.png": "/static/media/EURO_STANDARD.04e8efc2.png",
+    "static/media/GB_T_DC.png": "/static/media/GB_T_DC.0da79fa8.png",
+    "static/media/Tesla_supercharger.png": "/static/media/Tesla_supercharger.de9d5222.png",
+    "static/media/Type2_Mennekes.png": "/static/media/Type2_Mennekes.b9c023a3.png",
+    "static/media/Type2_css_combo2.png": "/static/media/Type2_css_combo2.0dfcd106.png",
+    "static/media/bolt.svg": "/static/media/bolt.c1511873.svg",
+    "static/media/car.svg": "/static/media/car.9a12e482.svg",
+    "static/media/type1_CSS_Combo1.png": "/static/media/type1_CSS_Combo1.22806f45.png",
+    "static/media/type1_J1772.png": "/static/media/type1_J1772.ddf02561.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.cfae3202.js",
+    "static/js/2.902ceffe.chunk.js",
+    "static/css/main.1d2d8670.chunk.css",
+    "static/js/main.10f20474.chunk.js"
+  ]
+}
