@@ -25,7 +25,6 @@ const Login = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      console.log("weszlo", token);
       history.push("/");
     }
 

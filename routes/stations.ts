@@ -105,20 +105,19 @@ router.get("/getlatlang/:adress", auth, async (req: Request, res: Response) => {
   const { adress } = req.params;
 
   const URL = `https://maps.googleapis.com/maps/api/geocode/json?address=${adress}&key=${process.env.GOOGLE_API_KEY}`;
-  console.log(URL);
+
   axios
     .get(URL)
     .then((response) => {
       const geocode = response.data;
       const results = geocode.results[0];
       const latlang = results.geometry.location;
-      console.log(response);
+
       res.json(latlang);
     })
 
     .catch((error) => {
-      console.log(error);
-      // res.status(500).send(error);
+      res.status(500).send(error);
     });
 });
 

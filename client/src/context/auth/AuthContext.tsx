@@ -49,7 +49,6 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     axios
       .get("/api/auth")
       .then((response) => {
-        console.log(response);
         if (response.data) {
           setState({
             ...state,
@@ -60,7 +59,6 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         }
       })
       .catch((error) => {
-        console.log("weszlo blad");
         localStorage.removeItem("token");
         setState({
           ...state,
