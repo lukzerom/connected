@@ -26,3 +26,9 @@ Then , I decided to give myself a challenge and moved my application hosting fro
 - Virtual currency - Electrons - based on Blockchain technology 💰
 
 ## Cool Features
+
+The user can search for the coordinates of his station on the basis of data from the form. It is possible thanks to connecting the form to the Google Geolocation API which returns geographic coordinates on the basis of station details. The user can then adjust the pin's location by dragging it.
+
+<img width="1223" alt="Zrzut ekranu 2021-11-13 o 22 20 24" src="https://user-images.githubusercontent.com/55348672/141659500-9fa3b1a0-54b6-4a31-b140-fabbd6b1db80.png">
+
+
