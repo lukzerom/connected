@@ -1,57 +1,70 @@
 * {
-    margin: 0;
-    padding: 0;
-
+  margin: 0;
+  padding: 0;
 }
 
-
 .map-container {
-    width: 100%;
-    height: 100vh;
+  width: 100%;
+  height: 100vh;
 }
 
 .leaflet-container {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 .protected-map-container {
-    display: flex;
+  display: flex;
 }
 
 .charger-details {
-    background-color: #f5f5f5;
-    width: 100%;
-    height: 100vh;
-
+  background-color: #f5f5f5;
+  width: 100%;
+  height: 100vh;
 }
 
 .main {
-    height: 100vh;
-    background-color: #f4f6ff;
-    display: flex;
+  background-color: #f4f6ff;
+  display: flex;
 }
 
 .half {
-    margin: 5vh;
-    padding: 5vh;
-    width: 100%;
+  margin: 5vh;
+  padding: 5vh;
+  width: 100%;
 }
 
 .car {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .darkblue {
-    color: #10375c
+  color: #10375c;
 }
 
 .blue {
-    color: #127681
+  color: #127681;
 }
 
 .yellow {
-    color: #f3c623
+  color: #f3c623;
+}
+
+@media only screen and (max-width: 1025px) {
+  .main {
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    padding-top: 70px;
+  }
+
+  .half {
+    margin: 0;
+
+    padding: 0;
+  }
 }

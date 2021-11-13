@@ -31,7 +31,7 @@ const MyReservations: FunctionComponent = () => {
       <MapDialog />
       <Box className={classes.vehiclesWrapper}>
         <Grid container justify="center">
-          <Grid item xs={10} className={classes.topPanel}>
+          <Grid item xs={12} className={classes.topPanel}>
             <Typography variant="h4" className={classes.title}>
               My Reservations
             </Typography>
@@ -40,7 +40,7 @@ const MyReservations: FunctionComponent = () => {
 
         <Divider />
         <Grid container justify="center" className={classes.carContainer}>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <Typography variant="h6" align="center" className={classes.title}>
               Reservation for your trip
             </Typography>
@@ -73,7 +73,7 @@ const MyReservations: FunctionComponent = () => {
               </Box>
             )}
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <Typography variant="h6" align="center" className={classes.title}>
               Reservation of your stations
             </Typography>

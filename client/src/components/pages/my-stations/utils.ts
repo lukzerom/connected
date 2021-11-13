@@ -5,6 +5,9 @@ const useStyles = makeStyles(() => ({
     backgroundColor: "#f4f6ff",
     minHeight: "100vh",
     padding: "0 10vw",
+    ["@media (max-width:1024px)"]: {
+      padding: 0,
+    },
   },
   topPanel: {
     display: "flex",

@@ -43,7 +43,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const loadUser = async () => {
     if (localStorage.token) {
-      setAuthToken(localStorage.token);
+      await setAuthToken(localStorage.token);
     }
 
     axios
@@ -53,8 +53,8 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
           setState({
             ...state,
             isAuthenticated: true,
-
             user: response.data,
+            loading: false,
           });
         }
       })
@@ -64,6 +64,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
           ...state,
           token: null,
           isAuthenticated: false,
+          loading: false,
 
           user: null,
           error,

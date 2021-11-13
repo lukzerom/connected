@@ -16,12 +16,19 @@ const useStyles = makeStyles((theme) => ({
   card: {
     margin: "1rem 0",
     height: "10rem",
+    ["@media (max-width:600px)"]: {
+      height: "auto",
+    },
   },
   content: {
     display: "flex",
     flexDirection: "row",
     height: "80%",
     justifyContent: "space-between",
+    ["@media (max-width:600px)"]: {
+      flexDirection: "column",
+      height: "auto",
+    },
   },
 
   icon: {
@@ -50,6 +57,9 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     width: "100%",
+    ["@media (max-width:600px)"]: {
+      marginTop: "12px",
+    },
   },
 }));
 

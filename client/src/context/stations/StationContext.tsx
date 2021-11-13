@@ -211,7 +211,12 @@ const StationProvider: FunctionComponent<StationProviderType> = ({
       .then((response) => {
         setState({
           ...state,
-          userstations: [...state.userstations],
+          userstations: [
+            ...state.userstations.filter(
+              (filteredStation) => filteredStation._id !== station.id
+            ),
+            response.data,
+          ],
           loading: false,
         });
         setAlert("Station edited! ", AlertType.SUCCESS);

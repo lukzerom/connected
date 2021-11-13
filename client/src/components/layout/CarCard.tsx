@@ -83,11 +83,11 @@ const CarCard: FunctionComponent<CarCardProps> = ({ car }) => {
 
   return (
     <>
-      <Grid item xs={5}>
+      <Grid item xs={10} md={5}>
         <Card className={classes.root} variant="outlined">
           <CardContent>
             <Grid container className={classes.row}>
-              <Grid item xs={4}>
+              <Grid item xs={10} md={4}>
                 <DriveEtaIcon className={classes.icon} />
               </Grid>
               <Box>

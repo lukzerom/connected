@@ -2,6 +2,8 @@ import {
   Box,
   Button,
   Checkbox,
+  Dialog,
+  DialogContent,
   Divider,
   FormControl,
   FormControlLabel,
@@ -15,9 +17,15 @@ import {
 } from "@material-ui/core";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import MapIcon from "@material-ui/icons/Map";
-import React, { ChangeEvent, FunctionComponent, useState } from "react";
+import React, {
+  ChangeEvent,
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { useHistory } from "react-router-dom";
-import { useEffectOnce } from "react-use";
+import { useEffectOnce, useWindowSize } from "react-use";
 import utf8 from "utf8";
 import { AlertType, useAlert } from "../../../context/alert/AlertContext";
 import { useStations } from "../../../context/stations/StationContext";
@@ -26,20 +34,35 @@ import AddStationMap from "../../layout/AddStationMap";
 import { defaultStation, useStyles } from "./utils";
 
 const AddStation: FunctionComponent = () => {
+  const {
+    getUserStations,
+    markerPosition,
+    addStation,
+    setMarkerPosition,
+    editStation,
+    updateStation,
+    getLatLang,
+  } = useStations();
+
   const [state, setState] = useState<Station>(defaultStation);
+  const [mobile, setMobile] = useState(false);
+  const [mapDialogOpen, setMapDialogOpen] = useState(false);
 
   const classes = useStyles();
 
   const { setAlert } = useAlert();
 
-  const {
-    getUserStations,
-    markerPosition,
-    addStation,
-    getLatLang,
-  } = useStations();
+  const { width } = useWindowSize();
 
   const history = useHistory();
+
+  useEffect(() => {
+    if (width <= 1025) {
+      setMobile(true);
+    } else {
+      setMobile(false);
+    }
+  }, [width]);
 
   useEffectOnce(() => {
     getUserStations();
@@ -81,6 +104,9 @@ const AddStation: FunctionComponent = () => {
     const cleanAdress = utf8.encode(adress.replace("/", "+"));
 
     getLatLang(cleanAdress);
+    if (mobile) {
+      setMapDialogOpen(true);
+    }
   };
 
   const handleSubmit = () => {
@@ -125,13 +151,17 @@ const AddStation: FunctionComponent = () => {
     setState(defaultStation);
   };
 
+  const handleMapDialogClose = useCallback(() => {
+    setMapDialogOpen(false);
+  }, []);
+
   return (
     <Box className={classes.stationsWrapper}>
       <Grid container justify="center">
-        <Grid item xs={10}>
+        <Grid item xs={12} md={12}>
           <Grid container justify="center">
             <Paper className={classes.paper}>
-              <Grid item xs={5} className={classes.inner}>
+              <Grid item xs={12} md={5} className={classes.inner}>
                 <Box className={classes.inputs}>
                   <Typography variant="h6">
                     Provide your station details
@@ -168,6 +198,9 @@ const AddStation: FunctionComponent = () => {
                     value={country}
                     onChange={onChange}
                     variant="outlined"
+                    style={{
+                      marginTop: "12px",
+                    }}
                   />
                   <TextField
                     required
@@ -178,6 +211,9 @@ const AddStation: FunctionComponent = () => {
                     value={city}
                     onChange={onChange}
                     variant="outlined"
+                    style={{
+                      marginTop: "12px",
+                    }}
                   />
                 </Box>
                 <Box className={classes.inputs}>
@@ -190,6 +226,9 @@ const AddStation: FunctionComponent = () => {
                     value={street}
                     onChange={onChange}
                     variant="outlined"
+                    style={{
+                      marginTop: "12px",
+                    }}
                   />
                   <TextField
                     required
@@ -200,6 +239,9 @@ const AddStation: FunctionComponent = () => {
                     value={streetNumber}
                     onChange={onChange}
                     variant="outlined"
+                    style={{
+                      marginTop: "12px",
+                    }}
                   />
                 </Box>
                 <Box className={classes.inputs}>
@@ -210,6 +252,9 @@ const AddStation: FunctionComponent = () => {
                     value={pictureUrl}
                     onChange={onChange}
                     variant="outlined"
+                    style={{
+                      marginTop: "12px",
+                    }}
                   />
                   <TextField
                     required
@@ -220,6 +265,9 @@ const AddStation: FunctionComponent = () => {
                     onChange={onChange}
                     variant="outlined"
                     type="number"
+                    style={{
+                      marginTop: "12px",
+                    }}
                   />
                 </Box>
 
@@ -301,13 +349,35 @@ const AddStation: FunctionComponent = () => {
                 />
                 <Divider className={classes.divider} />
               </Grid>
-              <Grid item xs={5}>
-                <AddStationMap />
-              </Grid>
+              {!mobile && (
+                <Grid item xs={12} md={5}>
+                  <AddStationMap />
+                </Grid>
+              )}
+              {}
             </Paper>
           </Grid>
         </Grid>
       </Grid>
+      {mapDialogOpen && (
+        <Dialog open={mapDialogOpen} onClose={handleMapDialogClose}>
+          <DialogContent style={{ padding: 0 }}>
+            <div
+              style={{ width: "100vw", height: "100vh", textAlign: "center" }}
+            >
+              <AddStationMap />
+              <Button
+                variant="contained"
+                color="primary"
+                style={{ position: "fixed", bottom: "64px", zIndex: 10000 }}
+                onClick={handleMapDialogClose}
+              >
+                Set A Pin
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
     </Box>
   );
 };

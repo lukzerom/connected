@@ -5,6 +5,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#f5f5f5",
     minHeight: "100vh",
     width: "100%",
+    ["@media (max-width:1024px)"]: {
+      padding: 0,
+    },
   },
   topPanel: {
     display: "flex",
@@ -18,6 +21,9 @@ const useStyles = makeStyles((theme) => ({
     height: "90vh",
     display: "flex",
     justifyContent: "space-around",
+    ["@media (max-width:1024px)"]: {
+      height: "auto",
+    },
   },
   inner: {
     padding: "1rem",
@@ -29,6 +35,9 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "space-between",
     margin: "1rem 0",
+    ["@media (max-width:1024px)"]: {
+      flexDirection: "column",
+    },
   },
   formControl: {
     width: "50%",

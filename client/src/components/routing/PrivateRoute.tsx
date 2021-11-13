@@ -10,11 +10,8 @@ const PrivateRoute: FunctionComponent<any> = ({
   const { isAuthenticated, loading, loadUser } = useAuth();
 
   useEffectOnce(() => {
-    if (isAuthenticated && !loading) {
-      loadUser();
-    }
+    if (localStorage.token) loadUser();
   });
-
   return (
     <Route
       {...rest}

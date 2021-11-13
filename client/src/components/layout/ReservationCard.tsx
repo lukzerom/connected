@@ -19,6 +19,9 @@ const useStyles = makeStyles({
   root: {
     margin: "2rem",
     width: "100%",
+    ["@media (max-width:1024px)"]: {
+      margin: 0,
+    },
   },
 
   title: {
@@ -203,6 +206,7 @@ const ReservationCard: FunctionComponent<ReservationCardProps> = ({
                 variant="contained"
                 size="small"
                 onClick={() => handleMapModal(reservation.station)}
+                disabled
               >
                 See on map
               </Button>

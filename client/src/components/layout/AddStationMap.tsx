@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core/styles";
 import L from "leaflet";
-import React from "react";
+import React, { FunctionComponent } from "react";
 import { Map, Marker, TileLayer } from "react-leaflet";
 import bolt from "../../assets/bolt.svg";
 import { useStations } from "../../context/stations/StationContext";
@@ -16,7 +16,13 @@ const myIcon = L.icon({
   popupAnchor: [-3, -76],
 });
 
-const AddStationMap = () => {
+type AddStationMapProps = {
+  mobile?: boolean;
+};
+
+const AddStationMap: FunctionComponent<AddStationMapProps> = ({
+  mobile = false,
+}) => {
   const classes = useStyles();
 
   const { markerPosition, setMarkerPosition } = useStations();

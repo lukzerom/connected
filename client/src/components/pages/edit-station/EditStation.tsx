@@ -2,6 +2,8 @@ import {
   Box,
   Button,
   Checkbox,
+  Dialog,
+  DialogContent,
   Divider,
   FormControl,
   FormControlLabel,
@@ -13,11 +15,16 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import EditIcon from "@material-ui/icons/Edit";
 import MapIcon from "@material-ui/icons/Map";
-import React, { ChangeEvent, FunctionComponent, useState } from "react";
+import React, {
+  ChangeEvent,
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { useHistory } from "react-router-dom";
-import { useEffectOnce } from "react-use";
+import { useEffectOnce, useWindowSize } from "react-use";
 import utf8 from "utf8";
 import { AlertType, useAlert } from "../../../context/alert/AlertContext";
 import { useStations } from "../../../context/stations/StationContext";
@@ -27,8 +34,11 @@ import { initialStation, useStyles } from "./utils";
 
 const EditStation: FunctionComponent = () => {
   const [state, setState] = useState<Station>(initialStation);
-
+  const [mapDialogOpen, setMapDialogOpen] = useState(false);
+  const [mobile, setMobile] = useState(false);
   const classes = useStyles();
+
+  const { width } = useWindowSize();
 
   const { setAlert } = useAlert();
   const {
@@ -45,12 +55,6 @@ const EditStation: FunctionComponent = () => {
   });
 
   const history = useHistory();
-
-  useEffectOnce(() => {
-    if (editStation?.latitude && editStation?.longitude) {
-      setMarkerPosition([editStation?.latitude, editStation?.longitude]);
-    }
-  });
 
   useEffectOnce(() => {
     if (editStation) {
@@ -74,6 +78,12 @@ const EditStation: FunctionComponent = () => {
         bus: editStation.extras?.includes("Bus"),
         errors: false,
       });
+    }
+  });
+
+  useEffectOnce(() => {
+    if (editStation?.latitude && editStation?.longitude) {
+      setMarkerPosition([editStation?.latitude, editStation?.longitude]);
     }
   });
 
@@ -169,24 +179,36 @@ const EditStation: FunctionComponent = () => {
     });
   };
 
+  useEffect(() => {
+    if (width <= 1025) {
+      setMobile(true);
+    } else {
+      setMobile(false);
+    }
+  }, [width]);
+
+  const handleMapDialogClose = useCallback(() => {
+    setMapDialogOpen(false);
+  }, []);
+
   return (
     <Box className={classes.stationsWrapper}>
       <Grid container justify="center">
-        <Grid item xs={10}>
+        <Grid item xs={12} md={12}>
           <Grid container justify="center">
             <Paper className={classes.paper}>
-              <Grid item xs={5} className={classes.inner}>
+              <Grid item xs={12} md={5} className={classes.inner}>
                 <Box className={classes.inputs}>
                   <Typography variant="h6">
                     Provide your station details
                   </Typography>
+
                   <Button
                     variant="contained"
                     color="primary"
                     onClick={handleSubmit}
-                    startIcon={<EditIcon />}
                   >
-                    Save Changes
+                    Save details
                   </Button>
                 </Box>
                 <Divider className={classes.divider} />
@@ -211,6 +233,9 @@ const EditStation: FunctionComponent = () => {
                     value={country}
                     onChange={onChange}
                     variant="outlined"
+                    style={{
+                      marginTop: "12px",
+                    }}
                   />
                   <TextField
                     required
@@ -221,6 +246,9 @@ const EditStation: FunctionComponent = () => {
                     value={city}
                     onChange={onChange}
                     variant="outlined"
+                    style={{
+                      marginTop: "12px",
+                    }}
                   />
                 </Box>
                 <Box className={classes.inputs}>
@@ -229,10 +257,13 @@ const EditStation: FunctionComponent = () => {
                     error={errors && !street}
                     id="outlined-required"
                     label="Street Name"
-                    name="streetName"
+                    name="street"
                     value={street}
                     onChange={onChange}
                     variant="outlined"
+                    style={{
+                      marginTop: "12px",
+                    }}
                   />
                   <TextField
                     required
@@ -243,6 +274,9 @@ const EditStation: FunctionComponent = () => {
                     value={streetNumber}
                     onChange={onChange}
                     variant="outlined"
+                    style={{
+                      marginTop: "12px",
+                    }}
                   />
                 </Box>
                 <Box className={classes.inputs}>
@@ -253,6 +287,9 @@ const EditStation: FunctionComponent = () => {
                     value={pictureUrl}
                     onChange={onChange}
                     variant="outlined"
+                    style={{
+                      marginTop: "12px",
+                    }}
                   />
                   <TextField
                     required
@@ -263,8 +300,12 @@ const EditStation: FunctionComponent = () => {
                     onChange={onChange}
                     variant="outlined"
                     type="number"
+                    style={{
+                      marginTop: "12px",
+                    }}
                   />
                 </Box>
+
                 <Box className={classes.inputs}>
                   <FormControl
                     variant="outlined"
@@ -317,49 +358,61 @@ const EditStation: FunctionComponent = () => {
                 <Divider className={classes.divider} />
                 <Typography variant="h6">Extras</Typography>
                 <FormControlLabel
-                  control={
-                    <Checkbox name="bike" color="primary" checked={bike} />
-                  }
+                  control={<Checkbox name="bike" color="primary" />}
                   label="Bike rent"
                   onChange={onExtrasChange}
                 />
                 <FormControlLabel
-                  control={
-                    <Checkbox name="coffee" color="primary" checked={coffee} />
-                  }
+                  control={<Checkbox name="coffee" color="primary" />}
                   label="Coffee"
                   onChange={onExtrasChange}
                 />
                 <FormControlLabel
-                  control={
-                    <Checkbox name="bed" color="primary" checked={bed} />
-                  }
+                  control={<Checkbox name="bed" color="primary" />}
                   label="Bed"
                   onChange={onExtrasChange}
                 />
                 <FormControlLabel
-                  control={
-                    <Checkbox name="drive" color="primary" checked={drive} />
-                  }
+                  control={<Checkbox name="drive" color="primary" />}
                   label="Drive"
                   onChange={onExtrasChange}
                 />
                 <FormControlLabel
-                  control={
-                    <Checkbox name="bus" color="primary" checked={bus} />
-                  }
+                  control={<Checkbox name="bus" color="primary" />}
                   label="Bus station"
                   onChange={onExtrasChange}
                 />
                 <Divider className={classes.divider} />
               </Grid>
-              <Grid item xs={5}>
-                <AddStationMap />
-              </Grid>
+              {!mobile && (
+                <Grid item xs={12} md={5}>
+                  <AddStationMap />
+                </Grid>
+              )}
+              {}
             </Paper>
           </Grid>
         </Grid>
       </Grid>
+      {mapDialogOpen && (
+        <Dialog open={mapDialogOpen} onClose={handleMapDialogClose}>
+          <DialogContent style={{ padding: 0 }}>
+            <div
+              style={{ width: "100vw", height: "100vh", textAlign: "center" }}
+            >
+              <AddStationMap />
+              <Button
+                variant="contained"
+                color="primary"
+                style={{ position: "fixed", bottom: "64px", zIndex: 10000 }}
+                onClick={handleMapDialogClose}
+              >
+                Set A Pin
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
     </Box>
   );
 };
